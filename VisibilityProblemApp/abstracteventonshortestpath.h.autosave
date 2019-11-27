@@ -1,0 +1,35 @@
+#ifndef SHORTESTPATHMAP_H
+#define SHORTESTPATHMAP_H
+
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/intersections.h>
+#include <boost/optional.hpp>
+#include <boost/variant.hpp>
+
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
+typedef K::Point_2 Point;
+typedef K::Triangle_2 Triangle;
+typedef K::Segment_2 Segment;
+typedef K::Ray_2 Ray;
+typedef K::Intersect_2 Intersect_2;
+
+namespace SPV {
+    class EventOnShortestPath {
+    public:
+        EventOnShortestPath(Point fP, Point sP) : firstDefiningPoint(fP), secondDefiningPoint(sP) {}
+        Point getFirstDefiningPoint();
+        Point getSecondDefiningPoint();
+        Point getStartPointIntersection();
+        Point getEndPointIntersection();
+        void setStartPointIntersection(Point p);
+        void setEndPointIntersection(Point p);
+        virtual void calculateIntersection(Point segPoint1, Point segPoint2, bool startToEnd) = 0;
+    protected:
+        Point firstDefiningPoint;
+        Point secondDefiningPoint;
+        Point startPointIntersection;
+        Point endPointIntersection;
+    };
+}
+
+#endif // SHORTESTPATHMAP_H
