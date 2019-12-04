@@ -19,6 +19,7 @@ namespace SPV {
     public:
         PointOnShortestPath(ShortestPathEntry *entry);
         PointOnShortestPath(ShortestPathEntry *entry, PointOnShortestPath* pp);
+        ~PointOnShortestPath();
         Point getCurrentPoint();
         ShortestPathEntry* getCurrentEntry();
         PointOnShortestPath *getPreviousPoint();

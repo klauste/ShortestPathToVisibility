@@ -114,7 +114,7 @@ namespace SPV {
         const double minSquaredDistanceToStartPoint = 400;
         Polygon polygon;
         PolygonGraphic *polygonGraphicItem;
-        SPVShortestPath shortestPath;
+        ShortestPath shortestPath;
     };
 }
 

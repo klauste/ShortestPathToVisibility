@@ -77,6 +77,7 @@ SPV::PolygonTriangle* SPV::BaseEvents::handleIntersection(PolygonTriangle *start
     );
     newIntersection->setBelongsToStart(intersectionBelongsToStart);
     lastTriangleWithIntersection->getFace()->info().addEventIntersection(newIntersection);
+    eventIntersections.push_back(newIntersection);
     return lastTriangleWithIntersection;
 }
 

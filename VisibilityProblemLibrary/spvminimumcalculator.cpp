@@ -176,7 +176,7 @@ void SPV::MinimumCalculator::calculateMinimumBetween2Events (
         std::cout << "Couldn't find the event intersection, something went wrong" << std::endl;
         return;
     }
-    EventIntersection *oppositeSecondIntersection = boost::get<EventIntersection*>(result);
+    EventIntersection *oppositeFirstIntersection = boost::get<EventIntersection*>(result);
     oppositeSideTriangle = findTriangleWithIntersectionEvent(oppositeSideTriangle, secondIntersectionOnOppositeSide, goLeft);
     result = oppositeSideTriangle->getFace()->info().getEventIntersectionForIntersection(secondIntersectionOnOppositeSide);
     if (result.type() == typeid(bool)) {
@@ -184,7 +184,7 @@ void SPV::MinimumCalculator::calculateMinimumBetween2Events (
         std::cout << "Couldn't find the event intersection, something went wrong" << std::endl;
         return;
     }
-    EventIntersection *oppositeFirstIntersection = boost::get<EventIntersection*>(result);
+    EventIntersection *oppositeSecondIntersection = boost::get<EventIntersection*>(result);
 
     // First possibility: the last point on one of the shortest paths is the pivot point. In that case the minimum path is
     // either at event intersection 1 or 2
@@ -288,42 +288,42 @@ void SPV::MinimumCalculator::handleMinimaWithBothPathsFree(
     double distanceFromEnd = getDistanceSoFar(oppositeFirstIntersection, false);
     double sumOfDistances = distanceFromStart + distanceFromEnd;
     double totalDistance;
-    Point firstIntersectionOnLoS = getIntersectionPointOnLoS(firstIntersection, secondIntersection->getIntersection(), pivotPointIndex, true);
-    Point firstOppositeIntersectionOnLoS = getIntersectionPointOnLoS(oppositeFirstIntersection, oppositeFirstIntersection->getIntersection(), pivotPointIndex, false);
+    Point intersectionOnSecondLoS = getIntersectionPointOnLoS(firstIntersection, secondIntersection->getIntersection(), pivotPointIndex, true);
+    Point oppositeIntersectionOnSecondLoS = getIntersectionPointOnLoS(oppositeSecondIntersection, oppositeSecondIntersection->getIntersection(), pivotPointIndex, false);
 
-    double extraDistanceStartMoving = getDistanceToIntersectionPoint(firstIntersection, firstIntersectionOnLoS, true) +
-            getDistanceToIntersectionPoint(oppositeFirstIntersection, firstOppositeIntersectionOnLoS, false);
+    double extraDistanceOnSecondLoS = getDistanceToIntersectionPoint(firstIntersection, intersectionOnSecondLoS, true) +
+            getDistanceToIntersectionPoint(oppositeSecondIntersection, oppositeIntersectionOnSecondLoS, false);
 
-    Point secondIntersectionOnLoS = getIntersectionPointOnLoS(firstIntersection, firstIntersection->getIntersection(), pivotPointIndex, true);
-    Point secondOppositeIntersectionOnLoS = getIntersectionPointOnLoS(oppositeFirstIntersection, oppositeSecondIntersection->getIntersection(), pivotPointIndex, false);
-    double extraDistanceOppositeMoving = getDistanceToIntersectionPoint(firstIntersection, secondIntersectionOnLoS, true) +
-            getDistanceToIntersectionPoint(oppositeFirstIntersection, secondOppositeIntersectionOnLoS, false);
+    Point intersectionOnFirstLoS = getIntersectionPointOnLoS(firstIntersection, firstIntersection->getIntersection(), pivotPointIndex, true);
+    Point oppositeIntersectionOnFirstLoS = getIntersectionPointOnLoS(oppositeSecondIntersection, oppositeFirstIntersection->getIntersection(), pivotPointIndex, false);
+    double extraDistanceOnFirstLoS = getDistanceToIntersectionPoint(firstIntersection, intersectionOnFirstLoS, true) +
+            getDistanceToIntersectionPoint(oppositeSecondIntersection, oppositeIntersectionOnFirstLoS, false);
 
-    bool extraIsEqual = valuesAreEqual(extraDistanceStartMoving, extraDistanceOppositeMoving);
+    bool extraIsEqual = valuesAreEqual(extraDistanceOnSecondLoS, extraDistanceOnFirstLoS);
 
-    if (extraIsEqual || extraDistanceStartMoving < extraDistanceOppositeMoving) {
-        totalDistance = sumOfDistances + extraDistanceStartMoving;
+    if (extraIsEqual || extraDistanceOnSecondLoS < extraDistanceOnFirstLoS) {
+        totalDistance = sumOfDistances + extraDistanceOnSecondLoS;
         handleNewMinimum(
             totalDistance,
             firstIntersection,
             oppositeFirstIntersection,
-            firstIntersectionOnLoS,
-            firstOppositeIntersectionOnLoS,
+            intersectionOnSecondLoS,
+            oppositeIntersectionOnSecondLoS,
             secondIntersection->getIntersection(),
-            oppositeFirstIntersection->getIntersection(),
+            oppositeSecondIntersection->getIntersection(),
             pivotPointIndex
         );
     }
-    if (extraIsEqual || extraDistanceOppositeMoving < extraDistanceStartMoving) {
-        totalDistance = sumOfDistances + extraDistanceOppositeMoving;
+    if (extraIsEqual || extraDistanceOnFirstLoS < extraDistanceOnSecondLoS) {
+        totalDistance = sumOfDistances + extraDistanceOnFirstLoS;
         handleNewMinimum(
             totalDistance,
             firstIntersection,
             oppositeFirstIntersection,
-            secondIntersectionOnLoS,
-            secondOppositeIntersectionOnLoS,
+            intersectionOnFirstLoS,
+            oppositeIntersectionOnFirstLoS,
             firstIntersection->getIntersection(),
-            oppositeSecondIntersection->getIntersection(),
+            oppositeFirstIntersection->getIntersection(),
             pivotPointIndex
         );
     }
@@ -374,7 +374,7 @@ double SPV::MinimumCalculator::getDistanceToIntersectionPoint(EventIntersection 
     std::vector<Point> pathToLoS = ei->getPathToLineOfSight(fromStart);
     Point lastPointOnPath = pathToLoS.at(pathToLoS.size() - 1);
 
-    return CGAL::squared_distance(lastPointOnPath, intersectionPoint);
+    return sqrt(CGAL::squared_distance(lastPointOnPath, intersectionPoint));
 
 }
 

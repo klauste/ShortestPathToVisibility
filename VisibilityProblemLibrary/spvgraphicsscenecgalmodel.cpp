@@ -38,7 +38,7 @@ bool SPV::SPVGraphicsSceneCGALModel::shouldClosePolyline(const QPointF &currentP
 
 void SPV::SPVGraphicsSceneCGALModel::closePolyline(const QPointF &lastPointAdded) {
     polygon.push_back(Point(lastPointAdded.x(), lastPointAdded.y()));
-    polygon = Polygon();
+    //polygon = Polygon();
 
     /*polygon.push_back(Point(104, 493));
     polygon.push_back(Point(269,484));
@@ -74,7 +74,7 @@ void SPV::SPVGraphicsSceneCGALModel::closePolyline(const QPointF &lastPointAdded
     polygon.push_back(Point(198,336));
     polygon.push_back(Point(115,363));*/
 
-    polygon.push_back(Point(49,472));
+    /*polygon.push_back(Point(49,472));
     polygon.push_back(Point(108,401));
     polygon.push_back(Point(160,458));
     polygon.push_back(Point(245,353));
@@ -96,8 +96,14 @@ void SPV::SPVGraphicsSceneCGALModel::closePolyline(const QPointF &lastPointAdded
     polygon.push_back(Point(234,292));
     polygon.push_back(Point(173,350));
     polygon.push_back(Point(122,294));
-    polygon.push_back(Point(45,401));
-
+    polygon.push_back(Point(45,401));*/
+    /*polygon.push_back(Point(30.0, 80.0));
+    polygon.push_back(Point(30.0, 20.0));
+    polygon.push_back(Point(110.0, 20.0));
+    polygon.push_back(Point(110.0, 80.0));
+    polygon.push_back(Point(80.0, 80.0));
+    polygon.push_back(Point(70.0, 40.0));
+    polygon.push_back(Point(60.0, 80.0));*/
     if (polygon.orientation() == -1) {
         polygon.reverse_orientation();
     }

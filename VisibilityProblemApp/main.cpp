@@ -1,15 +1,9 @@
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Polygon_2.h>
 #include <iostream>
 #include <QApplication>
 #include <QRectF>
 #include <QGraphicsView>
-#include <CGAL/Qt/PolygonGraphicsItem.h>
 
-#include "SPVGraphicsScene.h"
-
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef K::Point_2 Point;
+#include "spvgraphicsscene.h"
 
 int main(int argc, char* argv[])
 {

@@ -44,7 +44,7 @@ namespace SPV {
             shortestPathTreeFromEnd = sptFromEnd;
             gU = GeometryUtil();
         }
-        void calculateBoundaryEvents();
+        std::vector<SPV::EventIntersection *> calculateBoundaryEvents();
 
     private:
         void calculateEventsBetween2PathEvents (

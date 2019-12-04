@@ -1,12 +1,12 @@
 #include "spvbendevents.h"
 
-void SPV::BendEvents::calculateBendEvents() {
+std::vector<SPV::EventIntersection *> SPV::BendEvents::calculateBendEvents() {
     std::vector<int> indices;
     CDT::Face_handle currentFace;
     EventOnShortestPath* spEvent;
 
     if (shortestPath.size() < 3) {
-        return;
+        return eventIntersections;
     }
 
     boost::variant<bool, SPV::EventIntersection*> result;
@@ -88,7 +88,7 @@ void SPV::BendEvents::calculateBendEvents() {
             // Throw exception?
             std::cout << "Couldn't find the event intersection, something went wrong" << std::endl;
             std::cout << shortestPath.at(0)->getPoint() <<std::endl;
-            return;
+            return eventIntersections;
         }
 
         EventIntersection *currentIntersection = boost::get<EventIntersection*>(result);
@@ -168,7 +168,7 @@ void SPV::BendEvents::calculateBendEvents() {
             // Throw exception?
             std::cout << "Couldn't find the event intersection, something went wrong" << std::endl;
             std::cout << shortestPath.at(0)->getPoint() <<std::endl;
-            return;
+            return eventIntersections;
         }
 
         EventIntersection *currentIntersection = boost::get<EventIntersection*>(result);
@@ -184,6 +184,7 @@ void SPV::BendEvents::calculateBendEvents() {
             goLeft
         );
     }
+    return eventIntersections;
 }
 
 void SPV::BendEvents:: calculateEventsBetween2PathEvents (
@@ -562,6 +563,7 @@ SPV::EventIntersection* SPV::BendEvents::handleCircleIntersection(
     newSpEvent->setHandled(fromStart);
     endTriangle = handleIntersection(endTriangle, nextTriangleEnd, newSpEvent, goLeft, true, fromStart, 3);
     pivotPointFace->info().addShortestPathEvent(newSpEvent);
+    eventsOnShortestPath.push_back(newSpEvent);
 
     return newEi;
 }
@@ -639,6 +641,7 @@ SPV::EventIntersection* SPV::BendEvents::handleAddingPointBendEvents(
                     newSpEvent->setHandled(fromStart);
                     endTriangle = handleIntersection(endTriangle, nextTriangleEnd, newSpEvent, goLeft, true, fromStart, 3);
                     pivotPointFace->info().addShortestPathEvent(newSpEvent);
+                    eventsOnShortestPath.push_back(newSpEvent);
                 }
             } else {
                 break;
@@ -693,6 +696,8 @@ SPV::EventIntersection* SPV::BendEvents::handleAddingPointBendEvents(
                     newSpEvent->setHandled(fromStart);
                     endTriangle = handleIntersection(endTriangle, nextTriangleEnd, newSpEvent, goLeft, true, fromStart, 3);
                     pivotPointFace->info().addShortestPathEvent(newSpEvent);
+                    eventsOnShortestPath.push_back(newSpEvent);
+                    eventsOnShortestPath.push_back(newSpEvent);
                 }
             } else {
                 break;
@@ -766,6 +771,7 @@ SPV::EventIntersection* SPV::BendEvents::handleLosingPointBendEvents(
                 newSpEvent->setHandled(fromStart);
                 endTriangle = handleIntersection(endTriangle, nextTriangleEnd, newSpEvent, goLeft, true, fromStart, 3);
                 pivotPointFace->info().addShortestPathEvent(newSpEvent);
+                eventsOnShortestPath.push_back(newSpEvent);
             }
         } else {
             break;
@@ -788,6 +794,7 @@ SPV::EventIntersection* SPV::BendEvents::createEventIntersection(Point intersect
     );
     ei->setBelongsToStart(fromStart);
     startTriangle->getFace()->info().addEventIntersection(ei);
+    eventIntersections.push_back(ei);
     return ei;
 }
 

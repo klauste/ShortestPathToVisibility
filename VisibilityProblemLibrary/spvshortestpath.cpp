@@ -1,6 +1,19 @@
 #include "spvshortestpath.h"
 
-void SPV::SPVShortestPath::initialize(const Polygon &p)
+SPV::ShortestPath::~ShortestPath()
+{
+    shortestPathTree.clear();
+    shortestPathTreeFromEnd.clear();
+    facesFromStartToEnd.clear();
+    pathEvents.clear();
+    eventsOnShortestPath.clear();
+    boundaryEventIntersections.clear();
+    bendEventIntersections.clear();
+    boundaryEvents.getEventsOnShortestPath().clear();
+    bendEvents.getEventsOnShortestPath().clear();
+}
+
+void SPV::ShortestPath::initialize(const Polygon &p)
 {
     polygon = p;
     cdt.insert_constraint(polygon.vertices_begin(), polygon.vertices_end(), true);
@@ -10,11 +23,11 @@ void SPV::SPVShortestPath::initialize(const Polygon &p)
     eventMap = EventMap(polygon, cdt);
 }
 
-const CDT& SPV::SPVShortestPath::getTriangulation() {
+const CDT& SPV::ShortestPath::getTriangulation() {
     return cdt;
 }
 
-const std::vector<SPV::ShortestPathEntry *>& SPV::SPVShortestPath::getSleevePath(int i) {
+const std::vector<SPV::ShortestPathEntry *>& SPV::ShortestPath::getSleevePath(int i) {
     if (i == 1) {
         return funnelLeftPath;
     }
@@ -26,7 +39,7 @@ const std::vector<SPV::ShortestPathEntry *>& SPV::SPVShortestPath::getSleevePath
     }
 }
 
-void SPV::SPVShortestPath::markDomains(
+void SPV::ShortestPath::markDomains(
         CDT& ct,
         CDT::Face_handle start,
         int index,
@@ -55,7 +68,7 @@ void SPV::SPVShortestPath::markDomains(
     }
 }
 
-void SPV::SPVShortestPath::markDomains(CDT& cdt) {
+void SPV::ShortestPath::markDomains(CDT& cdt) {
     for(CDT::All_faces_iterator it = cdt.all_faces_begin(); it != cdt.all_faces_end(); ++it){
         it->info().setNestingLevel(-1);
     }
@@ -71,7 +84,7 @@ void SPV::SPVShortestPath::markDomains(CDT& cdt) {
     }
 }
 
-bool SPV::SPVShortestPath::recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle) {
+bool SPV::ShortestPath::recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle) {
     bool endPointFoundOnPath = false;
     int previousIndex = facesFromStartToEnd.size() - 1;
     FaceOnPath *currentFaceOnPath = new FaceOnPath(currentFaceHandle);
@@ -108,7 +121,7 @@ bool SPV::SPVShortestPath::recursivelyfindEndPoint(TDS::Face_handle &currentFace
     return endPointFoundOnPath;
 }
 
-bool SPV::SPVShortestPath::setFacesFromStartToEndPoint() {
+bool SPV::ShortestPath::setFacesFromStartToEndPoint() {
     TDS::Face_handle currentFace;
 
     // Find the face containing the start point
@@ -128,7 +141,7 @@ bool SPV::SPVShortestPath::setFacesFromStartToEndPoint() {
     return recursivelyfindEndPoint(currentFace);
 }
 
-void SPV::SPVShortestPath::setPoint(int index, float x, float y) {
+void SPV::ShortestPath::setPoint(int index, float x, float y) {
     if (index == 0) {
         sPoint = Point(x, y);
         startPoint = new SPV::ShortestPathEntry(sPoint, 0);
@@ -139,7 +152,7 @@ void SPV::SPVShortestPath::setPoint(int index, float x, float y) {
     }
 }
 
-bool SPV::SPVShortestPath::calculateShortestPath() {
+bool SPV::ShortestPath::calculateShortestPath() {
     if (setFacesFromStartToEndPoint() == true) {
         FaceOnPath *currentFaceOnPath = facesFromStartToEnd.at(0);
         int lastIndex = facesFromStartToEnd.size() - 1;
@@ -227,16 +240,16 @@ bool SPV::SPVShortestPath::calculateShortestPath() {
     calculateShortestPathTree(true);
 
     boundaryEvents = BoundaryEvents(funnelTail, eventMap, shortestPathTree, shortestPathTreeFromEnd);
-    boundaryEvents.calculateBoundaryEvents();
+    boundaryEventIntersections = boundaryEvents.calculateBoundaryEvents();
     bendEvents = BendEvents(funnelTail, eventMap);
-    bendEvents.calculateBendEvents();
+    bendEventIntersections = bendEvents.calculateBendEvents();
     minimumCalculator = MinimumCalculator(funnelTail, eventMap);
     minimumCalculator.calculateMinima();
     std::vector<Minimum*> allMinima = minimumCalculator.getAllMinima();
     return false;
 }
 
-void SPV::SPVShortestPath::handleNextPoint(
+void SPV::ShortestPath::handleNextPoint(
     std::vector<ShortestPathEntry *> &backwardPath,
     std::vector<ShortestPathEntry *> &forwardPath,
     ShortestPathEntry *nextPoint,
@@ -318,19 +331,19 @@ void SPV::SPVShortestPath::handleNextPoint(
 }
 
 // y grows towards bottom of screen so adjust checks
-bool SPV::SPVShortestPath::isOnRightSide(Point p1, Point p2, Point p3) {
+bool SPV::ShortestPath::isOnRightSide(Point p1, Point p2, Point p3) {
     Line l = Line(p1, p2);
 
     return l.has_on_positive_side(p3);
 }
 
-bool SPV::SPVShortestPath::isOnLeftSide(Point p1, Point p2, Point p3) {
+bool SPV::ShortestPath::isOnLeftSide(Point p1, Point p2, Point p3) {
     Line l = Line(p1, p2);
 
     return l.has_on_negative_side(p3);
 }
 
-void SPV::SPVShortestPath::calculateShortestPathTree(bool startFromEnd) {
+void SPV::ShortestPath::calculateShortestPathTree(bool startFromEnd) {
     int oppositePointIndex, leftPointIndex, rightPointIndex;
     PointOnShortestPath* startPointOnTree;
     FaceOnPath *currentFaceOnPath;
@@ -394,7 +407,7 @@ void SPV::SPVShortestPath::calculateShortestPathTree(bool startFromEnd) {
     }
 }
 
-void SPV::SPVShortestPath::setShortestPathMapInfo(
+void SPV::ShortestPath::setShortestPathMapInfo(
    CDT::Face_handle currentFace,
    int neighborIndex,
    SPV::PointOnShortestPath* apex,
@@ -470,6 +483,7 @@ void SPV::SPVShortestPath::setShortestPathMapInfo(
                 );
 
                 endPoint->getCurrentEntry()->getFaceHandle()->info().addShortestPathEvent(region);
+                eventsOnShortestPath.push_back(region);
             }
 
             region->calculateIntersection(
@@ -491,7 +505,7 @@ void SPV::SPVShortestPath::setShortestPathMapInfo(
                  seg2
             );
             currentFace->info().addEventIntersection(eventIntersection);
-
+            pathEvents.push_back(eventIntersection);
         }
         endPoint = funnel.at(0);
         std::cout << "End point" << endPoint->getCurrentPoint() << std::endl;
@@ -541,6 +555,8 @@ void SPV::SPVShortestPath::setShortestPathMapInfo(
                          seg2
                     );
                     currentFace->info().addEventIntersection(eventIntersection);
+                    pathEvents.push_back(eventIntersection);
+                    eventsOnShortestPath.push_back(region);
                 } else {
                     delete region;
                 }
@@ -583,6 +599,7 @@ void SPV::SPVShortestPath::setShortestPathMapInfo(
                 setStartPointIntersection = true;
             }
             endPoint->getCurrentEntry()->getFaceHandle()->info().addShortestPathEvent(region);
+            eventsOnShortestPath.push_back(region);
         }
         region->calculateIntersection(
             seg1,
@@ -613,10 +630,11 @@ void SPV::SPVShortestPath::setShortestPathMapInfo(
              seg2
         );
         currentFace->info().addEventIntersection(eventIntersection);
+        pathEvents.push_back(eventIntersection);
     }
 }
 
-void SPV::SPVShortestPath::splitFunnel(
+void SPV::ShortestPath::splitFunnel(
     CDT::Face_handle currentFace,
     int neighborIndex,
     SPV::PointOnShortestPath* apex,
@@ -679,7 +697,7 @@ void SPV::SPVShortestPath::splitFunnel(
         }
     }
 
-    SPV::SPVShortestPath::predecessorInfo* info = findPredecessor(
+    SPV::ShortestPath::predecessorInfo* info = findPredecessor(
         nextPoint,
         apex,
         leftFunnel,
@@ -926,7 +944,7 @@ void SPV::SPVShortestPath::splitFunnel(
     }
 }
 
-SPV::SPVShortestPath::predecessorInfo* SPV::SPVShortestPath::findPredecessor(
+SPV::ShortestPath::predecessorInfo* SPV::ShortestPath::findPredecessor(
         Point p,
         SPV::PointOnShortestPath* apex,
         std::vector<SPV::PointOnShortestPath*> &leftFunnel,
@@ -934,7 +952,7 @@ SPV::SPVShortestPath::predecessorInfo* SPV::SPVShortestPath::findPredecessor(
 ) {
     int leftFunnelSize = leftFunnel.size();
     Point first, second;
-    SPV::SPVShortestPath::predecessorInfo* result = new SPV::SPVShortestPath::predecessorInfo();
+    SPV::ShortestPath::predecessorInfo* result = new SPV::ShortestPath::predecessorInfo();
 
     if (leftFunnel.size() > 1) {
         for (int i = leftFunnel.size() - 1; i > 0; i--) {
@@ -988,11 +1006,11 @@ SPV::SPVShortestPath::predecessorInfo* SPV::SPVShortestPath::findPredecessor(
     return result;
 }
 
-std::vector<SPV::PointOnShortestPath *> SPV::SPVShortestPath::getShorttestPathTree() {
+std::vector<SPV::PointOnShortestPath *> SPV::ShortestPath::getShorttestPathTree() {
     return shortestPathTreeFromEnd;
 }
 
-bool SPV::SPVShortestPath::shouldAddPathEventForEntries(ShortestPathEntry* endPoint, ShortestPathEntry* startPoint, bool startFromEnd) {
+bool SPV::ShortestPath::shouldAddPathEventForEntries(ShortestPathEntry* endPoint, ShortestPathEntry* startPoint, bool startFromEnd) {
     CDT::Face_handle currentFace = endPoint->getFaceHandle();
     bool foundShortestPathIndex = false;
     std::vector<unsigned> indices;

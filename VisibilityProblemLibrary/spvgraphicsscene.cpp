@@ -1,4 +1,4 @@
-#include "SPVGraphicsScene.h"
+#include "spvgraphicsscene.h"
 #include <QGraphicsSceneMouseEvent>
 #include <iostream>
 

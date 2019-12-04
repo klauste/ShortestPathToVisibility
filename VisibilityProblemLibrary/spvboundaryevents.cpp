@@ -1,13 +1,13 @@
 #include "spvboundaryevents.h"
 
-void SPV::BoundaryEvents::calculateBoundaryEvents() {
+std::vector<SPV::EventIntersection *> SPV::BoundaryEvents::calculateBoundaryEvents() {
     std::vector<int> indices;
 
     for (int i = 0; i < shortestPath.size(); i++) {
         std::cout << shortestPath.at(i)->getPoint() <<std::endl;
     }
     if (shortestPath.size() < 3) {
-        return;
+        return eventIntersections;
     }
 
     PolygonTriangle *firstTriangleStart = eventMap.getStartTriangle();
@@ -89,6 +89,7 @@ void SPV::BoundaryEvents::calculateBoundaryEvents() {
             goLeft
         );
     }
+    return eventIntersections;
 }
 
 void SPV::BoundaryEvents::calculateEventsBetween2PathEvents (
@@ -175,6 +176,7 @@ void SPV::BoundaryEvents::calculateEventsBetween2PathEvents (
                             );
                             ei->setBelongsToStart(vertexIsStart);
                             currentTriangle->getFace()->info().addEventIntersection(ei);
+                            eventIntersections.push_back(ei);
                         }
                     } else {
                         spEvent = new EventOnShortestPath(currentVertex, pivotPointOnShortestPath);
@@ -196,6 +198,7 @@ void SPV::BoundaryEvents::calculateEventsBetween2PathEvents (
                             );
                             ei->setBelongsToStart(vertexIsStart);
                             currentTriangle->getFace()->info().addEventIntersection(ei);
+                            eventIntersections.push_back(ei);
                         }
                     }
                     endTriangle = handleIntersection(endTriangle, nextEndTriangle, spEvent, goLeft, true, vertexIsStart);
@@ -203,6 +206,7 @@ void SPV::BoundaryEvents::calculateEventsBetween2PathEvents (
                         std::cout << endTriangle->getFace()->vertex(j)->point() << std::endl;
                     }
                     currentFace->info().addShortestPathEvent(spEvent);
+                    eventsOnShortestPath.push_back(spEvent);
                 }
             }
             currentTriangle = currentTriangle->getLeftTriangle();
@@ -244,6 +248,7 @@ void SPV::BoundaryEvents::calculateEventsBetween2PathEvents (
                             );
                             ei->setBelongsToStart(vertexIsStart);
                             currentTriangle->getFace()->info().addEventIntersection(ei);
+                            eventIntersections.push_back(ei);
                         }
                     } else {                        
                         spEvent = new EventOnShortestPath(currentVertex, pivotPointOnShortestPath);
@@ -265,10 +270,12 @@ void SPV::BoundaryEvents::calculateEventsBetween2PathEvents (
                             );
                             ei->setBelongsToStart(vertexIsStart);
                             currentTriangle->getFace()->info().addEventIntersection(ei);
+                            eventIntersections.push_back(ei);
                         }
                     }
                     endTriangle = handleIntersection(endTriangle, nextEndTriangle, spEvent, goLeft, true, vertexIsStart);
                     currentFace->info().addShortestPathEvent(spEvent);
+                    eventsOnShortestPath.push_back(spEvent);
                 }
             }
             currentTriangle = currentTriangle->getRightTriangle();

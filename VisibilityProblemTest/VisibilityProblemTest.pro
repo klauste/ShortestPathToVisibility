@@ -1,8 +1,13 @@
-QT += core gui
+QT += testlib
+QT -= gui
 
-CONFIG += link_prl
+CONFIG += qt console warn_on depend_includepath testcase
+CONFIG -= app_bundle
 
-greaterThan(QT_MAJOR_VERSION, 4) : QT += widgets
+TARGET = VisibilityProblemTest
+TEMPLATE = app
+
+SOURCES +=  tst_minimumtest.cpp
 
 macx: LIBS += -L$$OUT_PWD/../VisibilityProblemLibrary/ -lVisibilityProblemLibrary
 
@@ -25,6 +30,3 @@ DEPENDPATH += $$PWD/../../../../../../usr/local/Cellar/boost/1.68.0_1/include
 
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/include
-
-SOURCES += \
-    main.cpp

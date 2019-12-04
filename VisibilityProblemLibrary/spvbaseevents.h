@@ -34,8 +34,16 @@ typedef CDT::Face_circulator Face_circulator;
 
 namespace SPV {
     class BaseEvents {
+    public:
+        std::vector<EventOnShortestPath *> getEventsOnShortestPath()
+        {
+            return eventsOnShortestPath;
+        }
     protected:
         std::vector<ShortestPathEntry *> shortestPath;
+        std::vector<EventOnShortestPath *> eventsOnShortestPath;
+        std::vector<SPV::EventIntersection *> eventIntersections;
+
         SPV::EventMap eventMap;
         GeometryUtil gU;
 

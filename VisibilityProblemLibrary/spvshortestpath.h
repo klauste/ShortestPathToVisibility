@@ -49,9 +49,11 @@ struct FaceOnPath
 };
 
 namespace SPV {
-    class SPVShortestPath: public BaseEvents
+    class ShortestPath: public BaseEvents
     {
     public:
+        ShortestPath() {}
+        ~ShortestPath();
         void initialize(const Polygon &polygon);
         const CDT& getTriangulation();
         bool calculateShortestPath();
@@ -93,6 +95,11 @@ namespace SPV {
         std::vector<FaceOnPath *> facesFromStartToEnd;
         std::vector<SPV::PointOnShortestPath *> shortestPathTree;
         std::vector<SPV::PointOnShortestPath *> shortestPathTreeFromEnd;
+        std::vector<SPV::EventIntersection *> pathEvents;
+        std::vector<SPV::EventIntersection *> boundaryEventIntersections;
+        std::vector<SPV::EventIntersection *> bendEventIntersections;
+        std::vector<SPV::EventOnShortestPath *> eventsOnShortestPath;
+
 
         void splitFunnel(
                 CDT::Face_handle currentFace,

@@ -1,4 +1,8 @@
 #include "spvshortestpathtree.h"
+SPV::PointOnShortestPath::~PointOnShortestPath()
+{
+    delete currentPoint;
+}
 
 SPV::PointOnShortestPath::PointOnShortestPath(ShortestPathEntry *entry) {
     currentPoint = entry;

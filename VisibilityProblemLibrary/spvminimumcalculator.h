@@ -96,11 +96,11 @@ namespace SPV {
                 }
                 double distance = 0;
                 for (unsigned i = 0; i < pointsToLoS.size() - 1; i++) {
-                    distance = distance + CGAL::squared_distance(pointsToLoS.at(i), pointsToLoS.at(i + 1));
+                    distance = distance + sqrt(CGAL::squared_distance(pointsToLoS.at(i), pointsToLoS.at(i + 1)));
                 }
                 return distance;
             }
-            double currentMinimum = -1;
+            double currentMinimum = -1.0;
             bool handleMinimumAtPivotPoint(
                 EventIntersection *firstIntersection,
                 EventIntersection *secondIntersection,

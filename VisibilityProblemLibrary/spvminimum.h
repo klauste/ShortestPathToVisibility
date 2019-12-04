@@ -90,7 +90,7 @@ namespace SPV {
             return 0;
         }
 
-        void setDistance(unsigned d) {
+        void setDistance(double d) {
             distance = d;
         }
 

@@ -41,7 +41,7 @@ namespace SPV {
             shortestPath = sP;
             eventMap = eM;
         }
-        void calculateBendEvents();
+        std::vector<SPV::EventIntersection *> calculateBendEvents();
 
     private:
         void calculateEventsBetween2PathEvents (

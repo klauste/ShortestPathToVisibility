@@ -1,4 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    VisibilityProblemApp
+    VisibilityProblemApp \
+    VisibilityProblemLibrary \
+    VisibilityProblemTest
