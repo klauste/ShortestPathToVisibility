@@ -19,6 +19,11 @@ namespace SPV {
             rightPoint(r),
             rightPointPolygonVertex(rP) {}
 
+        SweptSegment* getClone()
+        {
+            return new SweptSegment(leftPoint, leftPointPolygonVertex, rightPoint, rightPointPolygonVertex);
+        }
+
         Point getLeftPoint()
         {
             return leftPoint;
@@ -38,7 +43,6 @@ namespace SPV {
         {
             return rightPointPolygonVertex;
         }
-
     private:
         Point leftPoint;
         bool leftPointPolygonVertex;

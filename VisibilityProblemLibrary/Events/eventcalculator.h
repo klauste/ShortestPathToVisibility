@@ -8,10 +8,12 @@
 #include "Models/event.h"
 #include "Models/pointonshortestpath.h"
 #include "Models/sweptsegment.h"
+#include "Utils/geometryutil.h"
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
 typedef K::Segment_2 Segment;
+typedef K::Line_2 Line;
 
 namespace SPV {
     class EventCalculator
@@ -23,17 +25,22 @@ namespace SPV {
 
         std::vector<Event *> calculateEvents();
 
+        // Move to private after testing
+        std::vector<SweptSegment *> getSegmentsForFinalPoint(bool forFirstPoint);
+        void setCurrentSegmentOrderFromLeftToRight(bool c)
+        {
+            currentSegmentOrderFromLeftToRight = c;
+        }
 
     private:
         std::vector<PointOnShortestPath *> shortestPath;
         std::vector<Event *> allEvents;
         void calculatePathAndBoundaryEvents();
         void calculateBendEvents();
-        bool currentSegmentOrderFromLeftToRight;
+        bool currentSegmentOrderFromLeftToRight = true;
         Event *currentEvent;
-        std::vector<SweptSegment *> getStartSideSegmentsForFirstPoint();
-        std::vector<SweptSegment *> getEndSideSegmentsForLastPoint();
         void addStartEvent();
+        GeometryUtil gU = GeometryUtil();
     };
 }
 
