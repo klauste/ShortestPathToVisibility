@@ -3,19 +3,17 @@
 #include <QRectF>
 #include <QGraphicsView>
 
-#include "spvgraphicsscene.h"
-
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
-    SPV::SPVGraphicsScene scene;
+    //SPV::SPVGraphicsScene scene;
     QRectF rect(0, 0, 600, 600);
 
-    scene.setSceneRect(rect);
-    QGraphicsView * view = new QGraphicsView(&scene);
-    view->setMouseTracking(true);
+    //scene.setSceneRect(rect);
+    //QGraphicsView * view = new QGraphicsView(&scene);
+    //view->setMouseTracking(true);
 
-    view->show();
+    //view->show();
 
     return app.exec();
 }

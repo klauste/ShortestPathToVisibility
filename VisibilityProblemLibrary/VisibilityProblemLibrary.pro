@@ -30,37 +30,30 @@ unix {
 }
 
 SOURCES += \
-    spvgraphicsscene.cpp\
-    spvgraphicsscenecgalmodel.cpp \
+    Models/pointonshortestpathtree.cpp \
+    Models/pointwithtriangulationinfo.cpp \
+    ShortestPath/shortestpathtreecalculator.cpp \
     spvshortestpath.cpp \
-    spvshortestpathtree.cpp \
     spvfaceinfo.cpp \
-    spventryonshortestpath.cpp \
-    spveventmap.cpp \
-    spvboundaryevents.cpp \
-    spvbendevents.cpp \
-    spvbaseevents.cpp \
-    spveventonshortestpath.cpp \
-    spvminimumcalculator.cpp \
-    spvminimumcalculatorminmax.cpp
+    ShortestPath/shortestpathcalculator.cpp \
+    Events/eventcalculator.cpp
 
 HEADERS +=  \
-    spvgraphicsscene.h \
-    spvgraphicsscenecgalmodel.h \
+    Models/event.h \
+    Models/pointonshortestpath.h \
+    Models/pointonshortestpathtree.h \
+    Models/pointwithtriangulationinfo.h \
+    Models/sweptsegment.h \
+    ShortestPath/shortestpathtreecalculator.h \
     spvshortestpath.h \
-    spvshortestpathtree.h \
     spvfaceinfo.h \
-    spventryonshortestpath.h \
-    spveventmap.h \
     spveventintersection.h \
     spvboundaryevents.h \
     spvgeometryutil.h \
-    spvbendevents.h \
-    spvbaseevents.h \
-    spveventonshortestpath.h \
-    spvminimum.h \
-    spvminimumcalculator.h \
-    spvminimumcalculatorminmax.h
+    ShortestPath/shortestpathcalculator.h \
+    Models/faceonshortestpath.h \
+    Utils/geometryutil.h \
+    Events/eventcalculator.h
 
 
 macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL

@@ -10,20 +10,13 @@
 #include <CGAL/Polygon_2.h>
 #include <vector>
 #include <iostream>
-#include "spvshortestpathtree.h"
 #include "spvfaceinfo.h"
-#include "spventryonshortestpath.h"
-#include "spveventintersection.h"
-#include "spveventmap.h"
 #include <CGAL/intersections.h>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
-#include "spvboundaryevents.h"
-#include "spvbendevents.h"
-#include "spvminimumcalculator.h"
 #include "spvgeometryutil.h"
-#include "spvminimum.h"
-#include "spvbaseevents.h"
+#include "ShortestPath/shortestpathcalculator.h"
+#include "ShortestPath/shortestpathtreecalculator.h"
 
 typedef K::Ray_2 Ray;
 typedef K::Intersect_2 Intersect_2;
@@ -49,72 +42,18 @@ struct FaceOnPath
 };
 
 namespace SPV {
-    class ShortestPath: public BaseEvents
+    class ShortestPath
     {
     public:
         ShortestPath() {}
-        ~ShortestPath();
         void initialize(const Polygon &polygon);
         const CDT& getTriangulation();
-        bool calculateShortestPath();
+        std::vector<PointOnShortestPath* > calculateShortestPath();
         void setPoint(int index, float x, float y);
-        const std::vector<ShortestPathEntry *>& getSleevePath(int i);
-        std::vector<SPV::PointOnShortestPath *> getShorttestPathTree();
-        void calculateShortestPathTree(bool startFromEnd);
-        std::vector<SPV::Minimum*> getMinima() {
-            return minimumCalculator.getAllMinima();
-        }
     private:
-        void setShortestPathMapInfo(
-                CDT::Face_handle currentFace,
-                int neighborIndex,
-                SPV::PointOnShortestPath* apex,
-                std::vector<SPV::PointOnShortestPath*> &funnel,
-                bool startFromEnd
-        );
-        struct predecessorInfo {
-            predecessorInfo() : isApex(false),
-                                isLastPointOnFunnel(false),
-                                onLeftFunnel(false),
-                                onRightFunnel(false),
-                                indexOnFunnel(-1) {}
-            bool isApex;
-            bool isLastPointOnFunnel;
-            bool onLeftFunnel;
-            bool onRightFunnel;
-            int indexOnFunnel;
-        };
-        std::vector<ShortestPathEntry *> funnelTail;
-        std::vector<ShortestPathEntry *> funnelLeftPath;
-        std::vector<ShortestPathEntry *> funnelRightPath;
-        ShortestPathEntry * startPoint;
         Point sPoint;
         Point ePoint;
-        ShortestPathEntry * endPoint;
         CDT cdt;
-        std::vector<FaceOnPath *> facesFromStartToEnd;
-        std::vector<SPV::PointOnShortestPath *> shortestPathTree;
-        std::vector<SPV::PointOnShortestPath *> shortestPathTreeFromEnd;
-        std::vector<SPV::EventIntersection *> pathEvents;
-        std::vector<SPV::EventIntersection *> boundaryEventIntersections;
-        std::vector<SPV::EventIntersection *> bendEventIntersections;
-        std::vector<SPV::EventOnShortestPath *> eventsOnShortestPath;
-
-
-        void splitFunnel(
-                CDT::Face_handle currentFace,
-                int neighborIndex,
-                SPV::PointOnShortestPath* apex,
-                std::vector<SPV::PointOnShortestPath*> &leftFunnel,
-                std::vector<SPV::PointOnShortestPath*> &rightFunnel,
-                bool startFromEnd
-        );
-        predecessorInfo* findPredecessor(
-                Point p,
-                SPV::PointOnShortestPath* apex,
-                std::vector<SPV::PointOnShortestPath*> &leftFunnel,
-                std::vector<SPV::PointOnShortestPath*> &rightFunnel
-        );
         void calculateTriangulation();
         void markDomains(CDT& ct,
                      CDT::Face_handle start,
@@ -123,31 +62,7 @@ namespace SPV {
         void markDomains(CDT& cdt);
         bool setFacesFromStartToEndPoint();
         bool recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle);
-        void handleNextPoint(
-                std::vector<ShortestPathEntry *> &backwardPath,
-                std::vector<ShortestPathEntry *> &forwardPath,
-                ShortestPathEntry *nextPoint,
-                bool isBackwardPathOnTheRight
-        );
-        bool isOnRightSide(Point p1, Point p2, Point p3);
-        bool isOnLeftSide(Point p1, Point p2, Point p3);
         Polygon polygon;
-        BoundaryEvents boundaryEvents;
-        BendEvents bendEvents;
-        MinimumCalculator minimumCalculator;
-        bool setEventIntersection(Point seg1, Point seg2, EventOnShortestPath* spEvent, bool startFromEnd);
-
-        /**
-         * This function checks if startPoint and endPoint are entries in the shortes path. If they are,
-         * a path event should be added and the function returns true. If not, false is returned
-         *
-         * @brief shouldAddPathEventForEntries
-         * @param endPoint
-         * @param startPoint
-         * @param startFromEnd
-         * @return
-         */
-        bool shouldAddPathEventForEntries(ShortestPathEntry* endPoint, ShortestPathEntry* startPoint, bool startFromEnd);
     };
 }
 #endif // SPVSHORTESTPATH_H
