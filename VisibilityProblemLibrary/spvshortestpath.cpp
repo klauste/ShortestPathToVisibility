@@ -80,9 +80,13 @@ std::vector<SPV::PointOnShortestPath*> SPV::ShortestPath::calculateShortestPath(
     sptcStart->setSweptSegmentsInShortestPath(spc->getStartFace());
     sptcEnd->setSweptSegmentsInShortestPath(spc->getEndFace());
 
-    delete sptcStart;
+    PathAndBoundaryEventCalculator *eC = new PathAndBoundaryEventCalculator(sP);
+    eC->calculatePathAndBoundaryEvents();
+    firstSegment = eC->getFirstEventSegment();
+    /*delete sptcStart;
     delete sptcEnd;
     delete spc;
+    delete eC;*/
     return sP;
 
 

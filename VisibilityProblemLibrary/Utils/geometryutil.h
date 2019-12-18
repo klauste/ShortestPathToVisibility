@@ -59,6 +59,7 @@ namespace SPV {
         }
 
         bool pointsAreEqual(Point p1, Point p2) {
+            double temp = p1.x() - p2.x();
             return (
                 abs(p1.x() - p2.x()) <= precision &&
                 abs(p1.y() - p2.y()) <= precision

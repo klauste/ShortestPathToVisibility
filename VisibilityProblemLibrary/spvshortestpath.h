@@ -14,9 +14,10 @@
 #include <CGAL/intersections.h>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
-#include "spvgeometryutil.h"
+#include "Utils/geometryutil.h"
 #include "ShortestPath/shortestpathcalculator.h"
 #include "ShortestPath/shortestpathtreecalculator.h"
+#include "Events/pathandboundaryeventcalculator.h"
 
 typedef K::Ray_2 Ray;
 typedef K::Intersect_2 Intersect_2;
@@ -50,7 +51,12 @@ namespace SPV {
         const CDT& getTriangulation();
         std::vector<PointOnShortestPath* > calculateShortestPath();
         void setPoint(int index, float x, float y);
+        EventSegment *getFirstEvent()
+        {
+            return firstSegment;
+        }
     private:
+        EventSegment *firstSegment;
         Point sPoint;
         Point ePoint;
         CDT cdt;
