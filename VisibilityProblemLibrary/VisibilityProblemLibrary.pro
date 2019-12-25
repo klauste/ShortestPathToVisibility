@@ -30,6 +30,7 @@ unix {
 }
 
 SOURCES += \
+    Events/bendeventcalculator.cpp \
     Events/pathandboundaryeventcalculator.cpp \
     Models/pointonshortestpathtree.cpp \
     Models/pointwithtriangulationinfo.cpp \

@@ -111,6 +111,28 @@ namespace SPV {
             return pointVector;
         }
 
+        boost::variant<std::vector<Point>, bool> getCirclelineIntersection(Point center, Point pOnCircle, Point lineFirstPoint, Point lineSecondPoint) {
+            Pt2 centerPoint = Pt2(center.x(), center.y());
+            Circ2 circle = Circ2(centerPoint, Segment(center, pOnCircle).squared_length());
+            CircLine line = CircLine(Pt2(lineFirstPoint.x(), lineFirstPoint.y()), Pt2(lineSecondPoint.x(), lineSecondPoint.y()));
+
+            std::vector<InterRes> result;
+            CGAL::intersection(circle, line, std::back_inserter(result));
+            if (result.empty()) {
+                return false;
+            }
+
+            std::vector<Point> pointVector;
+            for (unsigned i = 0; i < result.size(); i++) {
+                ResType pair = boost::get<ResType>(result.at(i));
+                pointVector.push_back(Point(CGAL::to_double(pair.first.x()), CGAL::to_double(pair.first.y())));
+            }
+            if (pointVector.empty()) {
+                return false;
+            }
+            return pointVector;
+        }
+
         // This function creates a polygon around Segment s given the precision and checks if Point
         // p is contained in that polygon
         bool isPointOnSegment(Segment s, Point p) {
@@ -136,6 +158,68 @@ namespace SPV {
             return supportingPolygon.has_on_bounded_side(p);
         }
 
+        bool isPerpendicularFootObstructedByEdge(Point segmentStart, Point segmentEnd, Point pivotPoint) {
+            Line lineFromStartToPp = Line(segmentStart, pivotPoint);
+            Line orthogonalLine = lineFromStartToPp.perpendicular(segmentStart);
+
+            if (orthogonalLine.has_on(segmentEnd)) {
+                return true;
+            }
+            return (orthogonalLine.has_on_positive_side(segmentEnd) == orthogonalLine.has_on_positive_side(pivotPoint));
+        }
+
+        bool isEdgeVisibleFromLastPoint(Point lastPointOnPath, Point edgeStart, Point edgeEnd, Point pivotPoint) {
+            Line lineFromLastPointToEdgeStart = Line(lastPointOnPath, edgeStart);
+
+            // The edge end point should not be on the line, but check anyway
+            if (lineFromLastPointToEdgeStart.has_on(edgeEnd)) {
+                return true;
+            }
+            return (lineFromLastPointToEdgeStart.has_on_positive_side(edgeEnd) == lineFromLastPointToEdgeStart.has_on_positive_side(pivotPoint));
+        }
+
+        bool isPerpendicularFootObstructedAtBoundaryVertex(Point lastPointOnPath, Point boundaryVertex, Point pivotPoint) {
+            Line lineFromStartToPp = Line(boundaryVertex, pivotPoint);
+            Line orthogonalLine = lineFromStartToPp.perpendicular(lastPointOnPath);
+
+            return (orthogonalLine.has_on_positive_side(boundaryVertex) == orthogonalLine.has_on_positive_side(pivotPoint));
+        }
+
+        bool isPerpendicularFootOnVertex(Point lastPointOnPath, Point boundaryVertex, Point pivotPoint) {
+            Line lineFromVertexToPp = Line(boundaryVertex, pivotPoint);
+            Point perpIntersection = getPerpendicularIntersectionPoint(lineFromVertexToPp, lastPointOnPath);
+
+            return pointsAreEqual(perpIntersection, boundaryVertex);
+        }
+
+        bool isEdgeWithStartPointOnCircleObstructingShortestPath(Point lastPointOnPath, Point edgeStart, Point edgeEnd, Point pivotPoint) {
+            Point centerPoint = Point((lastPointOnPath.x() + pivotPoint.x()) / 2, (lastPointOnPath.y() + pivotPoint.y()) / 2);
+            boost::variant<std::vector<Point>, bool> result = getCirclelineIntersection(centerPoint, edgeStart, edgeStart, edgeEnd);
+            Line lastPointToPivot = Line(lastPointOnPath, pivotPoint);
+
+            // If there are no intersections, there is no obstruction
+            if (result.type() == typeid(bool)) {
+                return false;
+            }
+
+            std::vector<Point> iSPoints = boost::get<std::vector<Point>>(result);
+
+            if (iSPoints.size() == 1) {
+                Point iPoint = iSPoints.at(0);
+                if (pointsAreEqual(iPoint, edgeStart)) {
+                    return false;
+                }
+
+                // If the intersection point is not the edge start point, the edge obstructs the view,
+                // if the intersection is in the same half plane as the edge start point
+                return (lastPointToPivot.has_on_positive_side(iPoint) == lastPointToPivot.has_on_positive_side(edgeStart));
+            }
+
+            // If two intersections are found, the edge obstructs the view if both of them are in the same half-plane
+            return (
+                lastPointToPivot.has_on_positive_side(iSPoints.at(0)) == lastPointToPivot.has_on_positive_side(iSPoints.at(1))
+            );
+        }
     private:
         double precision = 0.0001;
         std::pair<Point, Point> getPerpendicularCircleIntersections(Point centerPoint, Segment &s) {

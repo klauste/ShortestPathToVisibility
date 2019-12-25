@@ -32,12 +32,12 @@ void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
             SweptSegment *endSegment = segmentsOnEndSide.at(endSegmentIndex);
 
             if (startSegmentIndex == 0 && endSegmentIndex == 0) {
-                result = createPathEventSegment(startSegment, endSegment, currentPoint->getPoint());
+                result = createPathEventSegment(startSegment, endSegment, currentPoint);
             } else {
                 result = createBoundaryEventSegment(
                             startSegment,
                             endSegment,
-                            currentPoint->getPoint(),
+                            currentPoint,
                             result.startSideIsEndOfSegment,
                             result.endSideIsEndOfSegment
                 );
@@ -83,7 +83,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         bool secondStartPointIsVertex,
         Point secondEndPoint,
         bool secondEndPointIsVertex,
-        Point pivotPoint
+        PointOnShortestPath *pivotPoint
 )
 {
     LineOfSight *firstLineOfSight = new LineOfSight(
@@ -101,14 +101,14 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
 
     // Calculate the intersection with the start side segment
     boost::variant<Point, bool> startResult = gU.getIntersectionBetweenLineAndSegment(
-        Line(secondEndPoint, pivotPoint),
+        Line(secondEndPoint, pivotPoint->getPoint()),
         firstStartPoint,
         secondStartPoint
     );
 
     // Calculate the intersection with the end side segment
     boost::variant<Point, bool> endResult = gU.getIntersectionBetweenLineAndSegment(
-        Line(secondStartPoint, pivotPoint),
+        Line(secondStartPoint, pivotPoint->getPoint()),
         firstEndPoint,
         secondEndPoint
     );
@@ -162,7 +162,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
 SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoundaryEventCalculator::createPathEventSegment(
         SPV::SweptSegment* startSideSegment,
         SPV::SweptSegment* endSideSegment,
-        Point pivotPoint
+        PointOnShortestPath *pivotPoint
 ) {
     Point firstStartPoint, firstEndPoint, secondStartPoint, secondEndPoint;
     bool firstStartPointIsVertex, firstEndPointIsVertex, secondStartPointIsVertex, secondEndPointIsVertex;
@@ -205,7 +205,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
 SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoundaryEventCalculator::createBoundaryEventSegment(
     SweptSegment* startSideSegment,
     SweptSegment* endSideSegment,
-    Point pivotPoint,
+    PointOnShortestPath *pivotPoint,
     bool endOfStartSegmentReached,
     bool endOfEndSegmentReached
 )

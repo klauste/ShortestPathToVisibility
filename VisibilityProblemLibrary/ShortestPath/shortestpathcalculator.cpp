@@ -10,6 +10,7 @@ std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateSh
 
     int nextFaceIndex = currentFaceOnPath->nextFaceIndex;
     PointOnShortestPath *firstPoint = new PointOnShortestPath(startPoint);
+    firstPoint->setIndexOnShortestPath(0);
     PointOnShortestPath *lastPoint = new PointOnShortestPath(endPoint);
 
     funnelTail.push_back(firstPoint);
@@ -83,6 +84,7 @@ std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateSh
     // Add the last points to the funnelTail
     for (int i = 1; i < funnelLeftPath.size(); i++) {
         PointOnShortestPath* currentPoint = funnelLeftPath.at(i);
+        currentPoint->setIndexOnShortestPath(funnelTail.size());
         funnelTail.push_back(currentPoint);
     }
 
@@ -148,6 +150,7 @@ void SPV::ShortestPathCalculator::handleNextPoint(
             return;
         }
         currentEntry = forwardPath.at(i - 1);
+        currentEntry->setIndexOnShortestPath(funnelTail.size());
         funnelTail.push_back(currentEntry);
         forwardPath.pop_back();
     }

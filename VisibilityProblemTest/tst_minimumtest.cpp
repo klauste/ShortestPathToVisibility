@@ -1143,19 +1143,19 @@ void MinimumTest::simplePolygonTest14()
     shortestPath->setPoint(1, 19.0, 11.0);
     std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
     SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    QCOMPARE(eS->getPivotPoint(), Point(12,9));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(10.5,12));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.5714, 3.8571)), true);
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(9,12));
     QCOMPARE(loS->getPointOnEndSide(), Point(15.6, 5.4));
-    QCOMPARE(eS->getPivotPoint(), Point(12,9));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(9,12));
     QCOMPARE(loS->getPointOnEndSide(), Point(15.6, 5.4));
@@ -1166,7 +1166,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(11,9));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(15.8461, 5.7692)), true);
@@ -1177,7 +1177,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(10.8888, 8.5555)), true);
     QCOMPARE(loS->getPointOnEndSide(), Point(16, 6));
@@ -1188,7 +1188,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(10.7333, 7.9333)), true);
     QCOMPARE(loS->getPointOnEndSide(), Point(21, 5));
@@ -1199,7 +1199,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(10.5, 7));
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 7));
@@ -1210,7 +1210,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(10, 5));
     QCOMPARE(loS->getPointOnEndSide(), Point(18.25, 7.75));
@@ -1221,7 +1221,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(12, 5));
     QCOMPARE(loS->getPointOnEndSide(), Point(21, 9.5));
@@ -1232,7 +1232,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(13, 5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(21, 10.3333)), true);
@@ -1243,7 +1243,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(13.3333, 4.3333)), true);
     QCOMPARE(loS->getPointOnEndSide(), Point(21, 12));
@@ -1283,7 +1283,7 @@ void MinimumTest::simplePolygonTest15()
     std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
     SPV::EventSegment *eS = shortestPath->getFirstEvent();
 
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     SPV::LineOfSight * loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(13.6, 3.8));
     QCOMPARE(loS->getPointOnStartSide(), Point(19.75, 12));
@@ -1294,7 +1294,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), false);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(13.3333, 4.3333)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(21, 12));
@@ -1305,7 +1305,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(13, 5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(21, 10.3333)), true);
@@ -1316,7 +1316,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(12, 5));
     QCOMPARE(loS->getPointOnStartSide(), Point(18, 8));
@@ -1327,7 +1327,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(16,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(10, 5));
     QCOMPARE(loS->getPointOnStartSide(), Point(18.25, 7.75));
@@ -1338,7 +1338,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(10.5, 7));
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 7));
@@ -1349,7 +1349,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(10.7333, 7.9333)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(21, 5));
@@ -1360,7 +1360,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(10.8888, 8.5555)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(16, 6));
@@ -1371,7 +1371,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(6.5,12));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(15.8461, 5.7692)), true);
@@ -1382,14 +1382,14 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(12,9));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(9,12));
     QCOMPARE(loS->getPointOnStartSide(), Point(15.6, 5.4));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide() , Point(10.5,12));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14.5714, 3.8571)), true);
-    QCOMPARE(eS->getPivotPoint(), Point(12,9));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);*/
 }
@@ -1430,7 +1430,7 @@ void MinimumTest::simplePolygonTest16()
     std::vector<SPV::SweptSegment*> segments = eC->getSegmentsForFinalPoint(true);
 
     SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    QCOMPARE(eS->getPivotPoint(), Point(12,9));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(10.5,12));
     QCOMPARE(loS->getPointOnEndSide(), Point(14, 5));
@@ -1441,7 +1441,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), false);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(9,12));
     QCOMPARE(loS->getPointOnEndSide(), Point(16, 5));
@@ -1452,7 +1452,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(11,9));
     QCOMPARE(loS->getPointOnEndSide(), Point(17, 5));
@@ -1463,7 +1463,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(14, 7));
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 4.5));
@@ -1474,7 +1474,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14.6666, 8.3333)), true);
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 4));
@@ -1485,7 +1485,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(15, 9));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18.8182, 3.9091)), true);
@@ -1496,7 +1496,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(17, 7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18.6, 3.8)), true);
@@ -1507,7 +1507,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 8));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(17.4, 3.2)), true);
@@ -1518,7 +1518,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 6));
     QCOMPARE(loS->getPointOnEndSide(), Point(15, 2));
@@ -1529,7 +1529,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(15,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,4));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(19, 5.3333)), true);
     QCOMPARE(loS->getPointOnEndSide(), Point(12.375, 3.125));
@@ -1540,7 +1540,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(15,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,4));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(19, 4.5714)), true);
     QCOMPARE(loS->getPointOnEndSide(), Point(8.56, 3.08));
@@ -1551,7 +1551,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(9,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 4));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(7.3333, 4)), true);
@@ -1562,7 +1562,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(9,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(11.5, 3.5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(6.7273, 4.4545)), true);
@@ -1573,7 +1573,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(9,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide(), Point(11.25, 3.25));
     QCOMPARE(loS->getPointOnEndSide(), Point(6,5));
@@ -1621,7 +1621,7 @@ void MinimumTest::simplePolygonTest17()
 
     SPV::EventSegment *eS = shortestPath->getFirstEvent();
 
-    QCOMPARE(eS->getPivotPoint(), Point(9,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
     SPV::LineOfSight *loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(11.25, 3.25));
     QCOMPARE(loS->getPointOnStartSide(), Point(6,5));
@@ -1632,7 +1632,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), false);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(9,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(11.5, 3.5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(6.7273, 4.4545)), true);
@@ -1643,7 +1643,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(9,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 4));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(7.3333, 4)), true);
@@ -1654,7 +1654,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(15,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,4));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(19, 4.5714)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(8.56, 3.08));
@@ -1665,7 +1665,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(15,4));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,4));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(19, 5.3333)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(12.375, 3.125));
@@ -1676,7 +1676,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 6));
     QCOMPARE(loS->getPointOnStartSide(), Point(15, 2));
@@ -1687,7 +1687,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 8));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(17.4, 3.2)), true);
@@ -1698,7 +1698,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(17, 7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18.6, 3.8)), true);
@@ -1709,7 +1709,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(15, 9));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18.8182, 3.9091)), true);
@@ -1720,7 +1720,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.6666, 8.3333)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 4));
@@ -1731,7 +1731,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(18,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(18,5));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(14, 7));
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 4.5));
@@ -1742,7 +1742,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide() , Point(11,9));
     QCOMPARE(loS->getPointOnStartSide(), Point(17, 5));
@@ -1753,7 +1753,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(14,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,7));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(9,12));
     QCOMPARE(loS->getPointOnStartSide(), Point(16, 5));
@@ -1764,7 +1764,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 
     eS = eS->getSuccessor();
-    QCOMPARE(eS->getPivotPoint(), Point(12,9));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide() , Point(10.5,12));
     QCOMPARE(loS->getPointOnStartSide(), Point(14, 5));
@@ -1807,7 +1807,7 @@ void MinimumTest::simplePolygonTest18()
 
     SPV::EventSegment *eS = shortestPath->getFirstEvent();
     SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(15,8));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,8));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(17.6666, 12)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.3333,7)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1818,7 +1818,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14.5,7.5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14.5,7.5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(19,12)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14,7)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1829,7 +1829,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(13,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(13,7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14.5,7.5)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12,6.6666)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1840,7 +1840,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(13,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(13,7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(13.3333, 7.6666)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(11.5,4)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1851,7 +1851,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(13,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(13,7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(13.1724, 7.6897)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12,3)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1862,7 +1862,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.6154, 7.7692)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(15,3)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1873,7 +1873,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(11, 8)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(16,3)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1884,7 +1884,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.5, 6)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(17,3)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1895,7 +1895,7 @@ void MinimumTest::simplePolygonTest18()
 
     eS = eS->getSuccessor();
     loS = eS->getFirstLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.1538, 5.9231)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18,3)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -1937,7 +1937,7 @@ void MinimumTest::simplePolygonTest19()
 
     SPV::EventSegment *eS = shortestPath->getFirstEvent();
     SPV::LineOfSight *loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.1538, 5.9231)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18,3)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -1948,7 +1948,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.5, 6)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(17,3)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -1959,7 +1959,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(11, 8)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(16,3)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -1970,7 +1970,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14,5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.6154, 7.7692)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(15,3)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -1981,7 +1981,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(13,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(13,7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(13.1724, 7.6897)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12,3)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -1992,7 +1992,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(13,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(13,7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(13.3333, 7.6666)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(11.5,4)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -2003,7 +2003,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(13,7));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(13,7));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.5,7.5)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12,6.6666)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -2014,7 +2014,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(14.5,7.5));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14.5,7.5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(19,12)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14,7)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -2025,7 +2025,7 @@ void MinimumTest::simplePolygonTest19()
 
     eS = eS->getSuccessor();
     loS = eS->getSecondLineOfSightFromStart();
-    QCOMPARE(eS->getPivotPoint(), Point(15,8));
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,8));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(17.6666, 12)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14.3333,7)), true);
     loS = eS->getFirstLineOfSightFromStart();

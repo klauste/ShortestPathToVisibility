@@ -53,12 +53,12 @@ namespace SPV {
         EventSegmentCreationResult createPathEventSegment(
             SweptSegment* startSideSegment,
             SweptSegment* endSideSegment,
-            Point pivotPoint
+            PointOnShortestPath *pivotPoint
         );
         EventSegmentCreationResult createBoundaryEventSegment(
             SweptSegment* startSideSegment,
             SweptSegment* endSideSegment,
-            Point pivotPoint,
+            PointOnShortestPath *pivotPoint,
             bool endOfSegmentReached,
             bool endOfEndSegmentReached
         );
@@ -71,7 +71,7 @@ namespace SPV {
                 bool secondStartPointIsVertex,
                 Point secondEndPoint,
                 bool secondEndPointIsVertex,
-                Point pivotPoint
+                PointOnShortestPath *pivotPoint
         );
         std::vector<EventSegment *> allEventSegments;
         void calculateBendEvents();

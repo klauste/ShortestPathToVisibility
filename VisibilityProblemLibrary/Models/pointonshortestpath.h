@@ -50,6 +50,16 @@ namespace SPV {
         {
             segmentsFromEnd.push_back(s);
         }
+
+        unsigned getIndexOnShortestPath()
+        {
+            return indexOnShortestPath;
+        }
+
+        void setIndexOnShortestPath(unsigned iP)
+        {
+            indexOnShortestPath = 0;
+        }
     private:
         /**
          * Contains the coordinates of this point.
@@ -71,6 +81,8 @@ namespace SPV {
          * @brief segmentsFromEnd
          */
         std::vector<SweptSegment*> segmentsFromEnd;
+
+        unsigned indexOnShortestPath;
     };
 }
 

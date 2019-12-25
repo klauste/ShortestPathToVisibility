@@ -6,6 +6,7 @@
 #include <CGAL/Triangulation_face_base_with_info_2.h>
 #include <CGAL/Point_2.h>
 #include "Models/lineofsight.h"
+#include "Models/pointonshortestpath.h"
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
@@ -15,34 +16,55 @@ namespace SPV {
     class EventSegment
     {
     public:
-        EventSegment(LineOfSight *fL, LineOfSight *sL, Point pP) :
+        EventSegment(LineOfSight *fL, LineOfSight *sL, PointOnShortestPath *pP) :
             firstLineOfSightFromStart(fL),
             secondLineOfSightFromStart(sL),
             pivotPoint(pP)
         {}
 
-        EventSegment* createNewSuccessor(EventSegment *currentSegment, LineOfSight *splitLine)
+        EventSegment* clone()
         {
-            EventSegment *newSegment = new EventSegment(currentSegment->getFirstLineOfSightFromStart(), splitLine, currentSegment->getPivotPoint());
-            currentSegment->setFirstLineOfSightFromStart(splitLine);
-            if (currentSegment->hasPredecessor()) {
-                newSegment->setPredecessor(currentSegment->getPredecessor());
+            EventSegment *newSegment = new EventSegment(firstLineOfSightFromStart, secondLineOfSightFromStart, pivotPoint);
+            if (successorSet) {
+                newSegment->setSuccessor(successor);
             }
-            currentSegment->setPredecessor(newSegment);
-            newSegment->setSuccessor(currentSegment);
+            if (predecessorSet) {
+                newSegment->setPredecessor(predecessor);
+            }
+            newSegment->setStartSideLoSVisible(startSideLoSVisible);
+            newSegment->setStartSideOnPolygonEdge(startSideOnPolygonEdge);
+            newSegment->setEndSideLoSVisible(endSideLoSVisible);
+            newSegment->setEndSideOnPolygonEdge(endSideOnPolygonEdge);
+            newSegment->setIndexOfLastSPPointOnStartSide(indexOfLastSPPointOnStartSide);
+            newSegment->setIndexOfLastSPPointOnEndSide(indexOfLastSPPointOnEndSide);
+            for (unsigned i = 0; i < extraPointsOnStartSide.size(); i++) {
+                newSegment->addExtraPointsOnStartSide(extraPointsOnStartSide.at(i));
+            }
+
+            for (unsigned i = 0; i < extraPointsOnEndSide.size(); i++) {
+                newSegment->addExtraPointsOnEndSide(extraPointsOnEndSide.at(i));
+            }
+            return newSegment;
+        }
+
+        EventSegment* createNewSuccessor(LineOfSight *splitLine)
+        {
+            EventSegment *newSegment = clone();
+            newSegment->setFirstLineOfSightFromStart(splitLine);
+            setSecondLineOfSightFromStart(splitLine);
+            setSuccessor(newSegment);
+            newSegment->setPredecessor(this);
 
             return newSegment;
         }
 
-        EventSegment* createNewPredecessor(EventSegment *currentSegment, LineOfSight *splitLine)
+        EventSegment* createNewPredecessor(LineOfSight *splitLine)
         {
-            EventSegment *newSegment = new EventSegment(splitLine, currentSegment->getSecondLineOfSightFromStart(), currentSegment->getPivotPoint());
-            currentSegment->setSecondLineOfSightFromStart(splitLine);
-            if (currentSegment->hasSuccessor()) {
-                newSegment->setSuccessor(currentSegment->getSuccessor());
-            }
-            currentSegment->setSuccessor(newSegment);
-            newSegment->setPredecessor(currentSegment);
+            EventSegment *newSegment = clone();
+            newSegment->setSecondLineOfSightFromStart(splitLine);
+            setFirstLineOfSightFromStart(splitLine);
+            setPredecessor(newSegment);
+            newSegment->setSuccessor(this);
 
             return newSegment;
         }
@@ -74,9 +96,23 @@ namespace SPV {
             extraPointsOnStartSide.push_back(p);
         }
 
+        void removeExtraPointOnStartSide()
+        {
+            if (extraPointsOnStartSide.size() > 0) {
+                extraPointsOnStartSide.pop_back();
+            }
+        }
+
         void addExtraPointsOnEndSide(Point p)
         {
             extraPointsOnEndSide.push_back(p);
+        }
+
+        void removeExtraPointOnEndSide()
+        {
+            if (extraPointsOnEndSide.size() > 0) {
+                extraPointsOnEndSide.pop_back();
+            }
         }
 
         std::vector<Point> getExtraPointsOnStartSide()
@@ -119,6 +155,14 @@ namespace SPV {
             return startSideLoSVisible;
         }
 
+        bool isLoSVisible(bool onStartSide)
+        {
+            if (onStartSide) {
+                return startSideLoSVisible;
+            }
+            return endSideLoSVisible;
+        }
+
         void setEndSideLoSVisible(bool e)
         {
             endSideLoSVisible = e;
@@ -149,6 +193,14 @@ namespace SPV {
             return endSideOnPolygonEdge;
         }
 
+        bool isPathOnOnPolygonEdgeAtBeginning(bool onStartSide)
+        {
+            if (onStartSide) {
+                return startSideOnPolygonEdge;
+            }
+            return endSideOnPolygonEdge;
+        }
+
         LineOfSight* getFirstLineOfSightFromStart()
         {
             return firstLineOfSightFromStart;
@@ -169,7 +221,7 @@ namespace SPV {
             secondLineOfSightFromStart = sL;
         }
 
-        Point getPivotPoint()
+        PointOnShortestPath* getPivotPoint()
         {
              return pivotPoint;
         }
@@ -183,12 +235,28 @@ namespace SPV {
         {
             return predecessorSet;
         }
+
+        Point getSegmentStartPoint(bool onStartSide)
+        {
+            if (onStartSide) {
+                return firstLineOfSightFromStart->getPointOnStartSide();
+            }
+            return secondLineOfSightFromStart->getPointOnEndSide();
+        }
+
+        Point getSegmentEndPoint(bool onStartSide)
+        {
+            if (onStartSide) {
+                return secondLineOfSightFromStart->getPointOnStartSide();
+            }
+            return firstLineOfSightFromStart->getPointOnEndSide();
+        }
     private:
         EventSegment *predecessor;
         bool predecessorSet = false;
         EventSegment *successor;
         bool successorSet = false;
-        Point pivotPoint;
+        PointOnShortestPath *pivotPoint;
 
         unsigned indexOfLastSPPointOnStartSide;
         unsigned indexOfLastSPPointOnEndSide;
@@ -200,10 +268,10 @@ namespace SPV {
         // The second line of sight (as seen from the start point) delimiting this event segment
         LineOfSight *secondLineOfSightFromStart;
 
-        bool startSideLoSVisible;
-        bool endSideLoSVisible;
-        bool startSideOnPolygonEdge;
-        bool endSideOnPolygonEdge;
+        bool startSideLoSVisible = true;
+        bool endSideLoSVisible = true;
+        bool startSideOnPolygonEdge = false;
+        bool endSideOnPolygonEdge = false;
     };
 }
 

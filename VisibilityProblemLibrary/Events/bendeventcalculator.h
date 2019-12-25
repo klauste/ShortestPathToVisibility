@@ -14,7 +14,7 @@ namespace SPV {
         void calculateBendEvents();
 
     private:
-        void calculateEventsBetween2Events ();
+        void calculateEventsForCurrentEventSegment();
 
         /**
          * @brief getNextDegenerateBendEvent
@@ -24,21 +24,34 @@ namespace SPV {
          * @param onStartSide
          * @return
          */
-        boost::variant<Point, bool> getNextDegenerateBendEvent(
-            bool onStartSide
-        );
-        void handlePathOrBoundaryEvents(
-                bool onStartSide
-        );
-        void handleBendEventsWithPointAddition(
-                bool onStartSide
-        );
-        void handleBendEventsWithPointLoss(
-                bool onStartSide
-        );
+        boost::variant<Point, bool> getNextDegenerateBendEvent();
+        void handlePathOrBoundaryEvent();
+        void handleBoundaryEvent(EventSegment *previousEventSegment);
+        void handlePathEvent(EventSegment *previousEventSegment);
+        bool handleBendEventsWithPointAddition();
+        bool handleBendEventsWithPointLoss();
+        void addNewEventSegment(Point eventPoint);
+        void handleDegenerateBendEvent(Point eventPoint);
 
-        // This function checks if the shortest path to the line of sight in this event segment starts on the polygon edge
-        bool doesShortestPathStartOnEdge(bool onStartSide);
+        bool calculateEventsOnStartSide;
+        void setCurrentSegmentOrderFromLeftToRight();
+        Point getLastPointOnShortestPath(EventSegment *eS, bool onStartSide) {
+            std::vector<Point> extraPoints;
+            if (onStartSide) {
+                extraPoints = eS->getExtraPointsOnStartSide();
+                if (extraPoints.size() > 0) {
+                    return extraPoints.at(extraPoints.size() - 1);
+                }
+                return shortestPath.at(eS->getIndexOfLastSPPointOnStartSide())->getPoint();
+            }
+            extraPoints = eS->getExtraPointsOnEndSide();
+            if (extraPoints.size() > 0) {
+                return extraPoints.at(extraPoints.size() - 1);
+            }
+            return shortestPath.at(eS->getIndexOfLastSPPointOnEndSide())->getPoint();
+        }
+
+        void addPreviousSettingsToCurrentES(EventSegment *previousEventSegment, bool pointsOnly);
     };
 }
 
