@@ -56,9 +56,9 @@ namespace SPV {
             return indexOnShortestPath;
         }
 
-        void setIndexOnShortestPath(unsigned iP)
+        void setIndexOnShortestPath(unsigned i)
         {
-            indexOnShortestPath = 0;
+            indexOnShortestPath = i;
         }
     private:
         /**

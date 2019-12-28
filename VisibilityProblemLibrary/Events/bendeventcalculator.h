@@ -28,8 +28,8 @@ namespace SPV {
         void handlePathOrBoundaryEvent();
         void handleBoundaryEvent(EventSegment *previousEventSegment);
         void handlePathEvent(EventSegment *previousEventSegment);
-        bool handleBendEventsWithPointAddition();
-        bool handleBendEventsWithPointLoss();
+        bool handleBendEventWithPointAddition(bool checkSegmentStartOnly);
+        bool handleBendEventWithPointLoss(bool checkSegmentStartOnly);
         void addNewEventSegment(Point eventPoint);
         void handleDegenerateBendEvent(Point eventPoint);
 

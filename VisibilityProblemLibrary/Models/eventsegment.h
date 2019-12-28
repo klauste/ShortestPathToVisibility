@@ -54,6 +54,9 @@ namespace SPV {
             setSecondLineOfSightFromStart(splitLine);
             setSuccessor(newSegment);
             newSegment->setPredecessor(this);
+            if (newSegment->hasSuccessor()) {
+                newSegment->getSuccessor()->setPredecessor(newSegment);
+            }
 
             return newSegment;
         }
@@ -65,6 +68,9 @@ namespace SPV {
             setFirstLineOfSightFromStart(splitLine);
             setPredecessor(newSegment);
             newSegment->setSuccessor(this);
+            if (newSegment->hasPredecessor()) {
+                newSegment->getPredecessor()->setSuccessor(newSegment);
+            }
 
             return newSegment;
         }
@@ -251,6 +257,26 @@ namespace SPV {
             }
             return firstLineOfSightFromStart->getPointOnEndSide();
         }
+
+        bool bendEventsOnStartSideAreHandled()
+        {
+            return bendEventsOnStartSideHandled;
+        }
+
+        void setEventsOnStartSideHandled()
+        {
+            bendEventsOnStartSideHandled = true;
+        }
+
+        bool bendEventsOnEndSideAreHandled()
+        {
+            return bendEventsOnEndSideHandled;
+        }
+
+        void setEventsOnEndSideHandled()
+        {
+            bendEventsOnEndSideHandled = true;
+        }
     private:
         EventSegment *predecessor;
         bool predecessorSet = false;
@@ -272,6 +298,8 @@ namespace SPV {
         bool endSideLoSVisible = true;
         bool startSideOnPolygonEdge = false;
         bool endSideOnPolygonEdge = false;
+        bool bendEventsOnStartSideHandled = false;
+        bool bendEventsOnEndSideHandled = false;
     };
 }
 
