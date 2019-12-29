@@ -2344,6 +2344,11 @@ void MinimumTest::simplePolygonTest20()
         loS = eS->getSecondLineOfSightFromStart();
         QCOMPARE(loS->getPointOnStartSide(), Point(10.5, 2.5));
         QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(7.3333, 5.6666)), true);
+        QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
+        QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+        QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11.5,3.5)), true);
+        QCOMPARE(eS->getStartSideLoSVisible(), false);
+        QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
         QCOMPARE(eS->hasSuccessor(), false);
         QCOMPARE(eS->hasPredecessor(), true);
 }
