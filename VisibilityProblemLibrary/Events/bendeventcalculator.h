@@ -32,6 +32,7 @@ namespace SPV {
         bool handleBendEventWithPointLoss(bool checkSegmentStartOnly);
         void addNewEventSegment(Point eventPoint);
         void handleDegenerateBendEvent(Point eventPoint);
+        void handleSegmentToProtrudingVertex(EventSegment *previousEventSegment);
 
         bool calculateEventsOnStartSide;
         void setCurrentSegmentOrderFromLeftToRight();

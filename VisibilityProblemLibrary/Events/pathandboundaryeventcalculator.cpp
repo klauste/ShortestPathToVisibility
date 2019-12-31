@@ -193,7 +193,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         firstStartPoint,
         firstStartPointIsVertex,
         firstEndPoint,
-        firstStartPointIsVertex,
+        firstEndPointIsVertex,
         secondStartPoint,
         secondStartPointIsVertex,
         secondEndPoint,
@@ -211,7 +211,10 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
 )
 {
     Point firstStartPoint, firstEndPoint, secondStartPoint, secondEndPoint;
-    bool firstStartPointIsVertex, firstEndPointIsVertex, secondStartPointIsVertex, secondEndPointIsVertex;
+    bool firstStartPointIsVertex = false;
+    bool firstEndPointIsVertex = false;
+    bool secondStartPointIsVertex = false;
+    bool secondEndPointIsVertex = false;
     LineOfSight *loS = currentEventSegment->getSecondLineOfSightFromStart();
 
     // The intersections are already ordered from left to right, so no
@@ -257,7 +260,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         firstStartPoint,
         firstStartPointIsVertex,
         firstEndPoint,
-        firstStartPointIsVertex,
+        firstEndPointIsVertex,
         secondStartPoint,
         secondStartPointIsVertex,
         secondEndPoint,

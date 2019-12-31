@@ -16,7 +16,7 @@ void SPV::BendEventCalculator::calculateBendEvents()
     }
 
     // The last event segment is reached, now calculate the bend events on the end side
-    /*calculateEventsOnStartSide = false;
+    calculateEventsOnStartSide = false;
     allEventsHandled = false;
     while (!allEventsHandled) {
         calculateEventsForCurrentEventSegment();
@@ -25,7 +25,7 @@ void SPV::BendEventCalculator::calculateBendEvents()
         } else {
             allEventsHandled = true;
         }
-    }*/
+    }
 }
 
 void SPV::BendEventCalculator::calculateEventsForCurrentEventSegment ()
@@ -181,6 +181,7 @@ bool SPV::BendEventCalculator::handleBendEventWithPointAddition(bool checkSegmen
     Point segmentEnd;
     bool loSVisible;
     unsigned currentSPIndex;
+    Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
 
     if (calculateEventsOnStartSide) {
         currentSPIndex = currentEventSegment->getIndexOfLastSPPointOnStartSide();
@@ -215,10 +216,14 @@ bool SPV::BendEventCalculator::handleBendEventWithPointAddition(bool checkSegmen
     Line lineToCheck = Line(currentSPPoint, nextSPPoint);
 
     // If the line of sight is visible, get the intersection of the current segment
-    // with the perpendicular line
+    // with the line which is perpendicular at the pivot point
     if (loSVisible) {
-        Line perpendicularLine = lineToCheck.perpendicular(nextSPPoint);
-        result = gU.getIntersectionBetweenLineAndSegment(perpendicularLine, segmentStart, segmentEndWithDegenerateEvent);
+        Line perpendicularLine = lineToCheck.perpendicular(pivotPoint);
+        if (checkSegmentStartOnly) {
+            result = gU.getIntersectionBetweenLineAndLine(perpendicularLine, segmentStart, segmentEndWithDegenerateEvent);
+        } else {
+            result = gU.getIntersectionBetweenLineAndSegment(perpendicularLine, segmentStart, segmentEndWithDegenerateEvent);
+        }
         if (result.type() == typeid(Point)) {
             eventPoint = boost::get<Point>(result);
 
@@ -233,7 +238,11 @@ bool SPV::BendEventCalculator::handleBendEventWithPointAddition(bool checkSegmen
             }
         }
     } else {
-        result = gU.getIntersectionBetweenLineAndSegment(lineToCheck, segmentStart, segmentEndWithDegenerateEvent);
+        if (checkSegmentStartOnly) {
+            result = gU.getIntersectionBetweenLineAndLine(lineToCheck, segmentStart, segmentEndWithDegenerateEvent);
+        } else {
+            result = gU.getIntersectionBetweenLineAndSegment(lineToCheck, segmentStart, segmentEndWithDegenerateEvent);
+        }
         if (result.type() == typeid(Point)) {
             eventPoint = boost::get<Point>(result);
 
@@ -440,17 +449,25 @@ void SPV::BendEventCalculator::handleBoundaryEvent(EventSegment *previousEventSe
     Point edgeStart;
     Point edgeEnd;
     Point previousLastPointOnPath = getLastPointOnShortestPath(previousEventSegment, calculateEventsOnStartSide);
-
+    bool eventHandled = false;
     addPreviousSettingsToCurrentES(previousEventSegment, true);
-    // Check if the current segment start co-incides with a bend event where points are lost
-    // and/or points are added
-    handleBendEventWithPointLoss(true);
-    handleBendEventWithPointAddition(true);
 
     if (calculateEventsOnStartSide) {
         firstLos = currentEventSegment->getFirstLineOfSightFromStart();
         secondLos = currentEventSegment->getSecondLineOfSightFromStart();
         if (firstLos->isStartPointVertex()) {
+            eventHandled = true;
+            // If the end point on the previous segment was not vertex, this vertex is
+            // protruding into the polygon and we need to check the segment between
+            // the previous end point and the protruding vertex
+            if (!previousEventSegment->getSecondLineOfSightFromStart()->isStartPointVertex()) {
+                handleSegmentToProtrudingVertex(previousEventSegment);
+            } else {
+                // Check if the current segment start co-incides with a bend event where points are lost
+                // and/or points are added
+                handleBendEventWithPointLoss(true);
+                handleBendEventWithPointAddition(true);
+            }
             edgeStart = firstLos->getPointOnStartSide();
             edgeEnd = secondLos->getPointOnStartSide();
             if (gU.isPerpendicularFootOnVertex(previousLastPointOnPath, edgeStart, pivotPoint)) {
@@ -475,28 +492,132 @@ void SPV::BendEventCalculator::handleBoundaryEvent(EventSegment *previousEventSe
         firstLos = currentEventSegment->getSecondLineOfSightFromStart();
         secondLos = currentEventSegment->getFirstLineOfSightFromStart();
         if (firstLos->isEndPointVertex()) {
+            eventHandled = true;
+            // If the end point on the previous segment was not vertex, this vertex is
+            // protruding into the polygon and we need to check the segment between
+            // the previous end point and the protruding vertex
+            if (!previousEventSegment->getFirstLineOfSightFromStart()->isEndPointVertex()) {
+                handleSegmentToProtrudingVertex(previousEventSegment);
+            } else {
+                // Check if the current segment start co-incides with a bend event where points are lost
+                // and/or points are added
+                handleBendEventWithPointLoss(true);
+                handleBendEventWithPointAddition(true);
+            }
             edgeStart = firstLos->getPointOnEndSide();
             edgeEnd = secondLos->getPointOnEndSide();
             if (gU.isPerpendicularFootOnVertex(previousLastPointOnPath, edgeStart, pivotPoint)) {
-                currentEventSegment->setStartSideLoSVisible(
+                currentEventSegment->setEndSideLoSVisible(
                     gU.isEdgeWithStartPointOnCircleObstructingShortestPath(previousLastPointOnPath, edgeStart, edgeEnd, pivotPoint)
                 );
             } else {
                 bool pathIsObstructed = gU.isPerpendicularFootObstructedAtBoundaryVertex(previousLastPointOnPath, edgeStart, pivotPoint);
                 if (pathIsObstructed) {
                     if (gU.isEdgeVisibleFromLastPoint(previousLastPointOnPath, edgeStart, edgeEnd, pivotPoint)) {
-                        currentEventSegment->setStartSideLoSVisible(false);
+                        currentEventSegment->setEndSideLoSVisible(false);
                     } else {
-                        currentEventSegment->addExtraPointsOnStartSide(edgeStart);
+                        currentEventSegment->addExtraPointsOnEndSide(edgeStart);
                         bool isEdgeObstructing = gU.isPerpendicularFootObstructedByEdge(edgeStart, edgeEnd, pivotPoint);
-                        currentEventSegment->setStartSideLoSVisible(!isEdgeObstructing);
-                        currentEventSegment->setStartSideOnPolygonEdge(isEdgeObstructing);
+                        currentEventSegment->setEndSideLoSVisible(!isEdgeObstructing);
+                        currentEventSegment->setEndSideOnPolygonEdge(isEdgeObstructing);
                     }
                 }
             }
         }
     }
+    if (!eventHandled) {
+        // Check if the current segment start co-incides with a bend event where points are lost
+        // and/or points are added
+        handleBendEventWithPointLoss(true);
+        handleBendEventWithPointAddition(true);
+    }
 }
+
+void SPV::BendEventCalculator::handleSegmentToProtrudingVertex(EventSegment *previousEventSegment)
+{
+    Point edgeStart;
+    Point edgeEnd;
+    std::vector<Point> extraPoints;
+    unsigned indexOfLastSPPoint;
+    boost::variant<Point, bool> result;
+
+    if (calculateEventsOnStartSide) {
+        edgeStart = previousEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide();
+        edgeEnd = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide();
+        extraPoints = previousEventSegment->getExtraPointsOnStartSide();
+        indexOfLastSPPoint = previousEventSegment->getIndexOfLastSPPointOnStartSide();
+    } else {
+        edgeStart = previousEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide();
+        edgeEnd = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide();
+        extraPoints = previousEventSegment->getExtraPointsOnEndSide();
+        indexOfLastSPPoint = previousEventSegment->getIndexOfLastSPPointOnEndSide();
+    }
+
+    Point lastShortestPathPoint = shortestPath.at(indexOfLastSPPoint)->getPoint();
+
+    // Check if any points are lost in the segment
+    for (int i = extraPoints.size() - 1; i >= 0; i--) {
+        Line lineToCheck;
+        if (i == 0) {
+            lineToCheck = Line(extraPoints.at(i), lastShortestPathPoint);
+        } else {
+            lineToCheck = Line(extraPoints.at(i), extraPoints.at(i - 1));
+        }
+        result = gU.getIntersectionBetweenLineAndSegment(lineToCheck, edgeStart, edgeEnd);
+        if (result.type() == typeid(bool)) {
+            break;
+        } else {
+            edgeStart = boost::get<Point>(result);
+            if (calculateEventsOnStartSide) {
+                currentEventSegment->removeExtraPointOnStartSide();
+            } else {
+                currentEventSegment->removeExtraPointOnEndSide();
+            }
+        }
+    }
+
+    if (calculateEventsOnStartSide) {
+        extraPoints = currentEventSegment->getExtraPointsOnStartSide();
+    } else {
+        extraPoints = currentEventSegment->getExtraPointsOnEndSide();
+    }
+    if (extraPoints.size() > 0) {
+        return;
+    }
+
+    // Now check for points on the shortest path which might need adding
+    int nextSPIndex;
+    while (true) {
+        Line lineToCheck;
+        if (calculateEventsOnStartSide) {
+            nextSPIndex = indexOfLastSPPoint + 1;
+            if (nextSPIndex == shortestPath.size()) {
+                break;
+            }
+        } else {
+            nextSPIndex = indexOfLastSPPoint - 1;
+            if (nextSPIndex < 0) {
+                break;
+            }
+        }
+        lineToCheck = Line(lastShortestPathPoint, shortestPath.at(nextSPIndex)->getPoint());
+        result = gU.getIntersectionBetweenLineAndSegment(lineToCheck, edgeStart, edgeEnd);
+        if (result.type() == typeid(bool)) {
+            break;
+        } else {
+            edgeStart = boost::get<Point>(result);
+            indexOfLastSPPoint = nextSPIndex;
+            lastShortestPathPoint = shortestPath.at(indexOfLastSPPoint)->getPoint();
+            if (calculateEventsOnStartSide) {
+                currentEventSegment->setIndexOfLastSPPointOnStartSide(nextSPIndex);
+            } else {
+                currentEventSegment->setIndexOfLastSPPointOnEndSide(nextSPIndex);
+            }
+        }
+
+    }
+}
+
 
 void SPV::BendEventCalculator::addPreviousSettingsToCurrentES(EventSegment *previousEventSegment, bool pointsOnly)
 {

@@ -89,6 +89,18 @@ namespace SPV {
             return false;
         }
 
+        boost::variant<Point, bool> getIntersectionBetweenLineAndLine(Line l, Point p1, Point p2) {
+            Line newL = Line(p1, p2);
+
+            CGAL::cpp11::result_of<Intersect(Line, Line)>::type result = intersection(l, newL);
+            if (result) {
+                if (const Point* p = boost::get<Point>(&*result)) {
+                    return Point(p->x(), p->y());
+                }
+            }
+            return false;
+        }
+
         boost::variant<std::vector<Point>, bool> getCircleSegmentIntersection(Point center, Point pOnCircle, Point segStart, Point segEnd) {
             Pt2 centerPoint = Pt2(center.x(), center.y());
             Circ2 circle = Circ2(centerPoint, Segment(center, pOnCircle).squared_length());
