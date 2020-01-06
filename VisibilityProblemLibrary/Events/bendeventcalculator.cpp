@@ -338,6 +338,48 @@ void SPV::BendEventCalculator::handleDegenerateBendEvent(Point eventPoint)
     }
 }
 
+void SPV::BendEventCalculator::handleDegenerateBendEventForSegmentStart()
+{
+    // If this is a degenerate bend event added on the start side, there is nothing to do
+    if (calculateEventsOnStartSide && currentEventSegment->bendEventsOnStartSideAreHandled()) {
+        return;
+    }
+    // If this is a degenerate bend event added on the end side, there is nothing to do
+    if (!calculateEventsOnStartSide && currentEventSegment->bendEventsOnEndSideAreHandled()) {
+        return;
+    }
+    Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
+    Point segmentStartPoint = currentEventSegment->getSegmentStartPoint(calculateEventsOnStartSide);
+    Point segmentEndPoint = currentEventSegment->getSegmentEndPoint(calculateEventsOnStartSide);
+    Point lastVertexToLs = getLastPointOnShortestPath(currentEventSegment, calculateEventsOnStartSide);
+    Point centerPoint = Point((lastVertexToLs.x() + pivotPoint.x()) / 2, (lastVertexToLs.y() + pivotPoint.y()) / 2);
+    boost::variant<std::vector<Point>, bool> intersectionResult =
+        gU.getCircleLineIntersection(centerPoint, lastVertexToLs, segmentStartPoint, segmentEndPoint);
+
+    // No intersection found, return false
+    if (intersectionResult.type() == typeid(bool)) {
+        return;
+    }
+
+    std::vector<Point> circleIntersections = boost::get<std::vector<Point>>(intersectionResult);
+    bool foundIntersectionPoint = false;
+
+    for (unsigned i = 0; i < circleIntersections.size(); i++) {
+        // If the intersections are equal, don't handle them
+        if (gU.pointsAreEqual(segmentStartPoint, circleIntersections.at(i))) {
+            foundIntersectionPoint = true;
+            break;
+        }
+    }
+
+    if (foundIntersectionPoint) {
+        if (calculateEventsOnStartSide) {
+            currentEventSegment->setStartSideLoSVisible(!currentEventSegment->getStartSideLoSVisible());
+        } else {
+            currentEventSegment->setEndSideLoSVisible(!currentEventSegment->getEndSideLoSVisible());
+        }
+    }
+}
 
 /**
  * @brief getNextDegenerateBendEvent
@@ -438,6 +480,7 @@ void SPV::BendEventCalculator::handlePathOrBoundaryEvent()
         // and/or points are added
         handleBendEventWithPointLoss(true);
         handleBendEventWithPointAddition(true);
+        handleDegenerateBendEventForSegmentStart();
     }
 }
 
@@ -527,9 +570,10 @@ void SPV::BendEventCalculator::handleBoundaryEvent(EventSegment *previousEventSe
     }
     if (!eventHandled) {
         // Check if the current segment start co-incides with a bend event where points are lost
-        // and/or points are added
+        // and/or points are added or with a degenerate bend event
         handleBendEventWithPointLoss(true);
         handleBendEventWithPointAddition(true);
+        handleDegenerateBendEventForSegmentStart();
     }
 }
 
@@ -711,5 +755,6 @@ void SPV::BendEventCalculator::handlePathEvent(EventSegment *previousEventSegmen
         // and/or points are added
         handleBendEventWithPointLoss(true);
         handleBendEventWithPointAddition(true);
+        handleDegenerateBendEventForSegmentStart();
     }
 }

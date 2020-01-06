@@ -123,7 +123,7 @@ namespace SPV {
             return pointVector;
         }
 
-        boost::variant<std::vector<Point>, bool> getCirclelineIntersection(Point center, Point pOnCircle, Point lineFirstPoint, Point lineSecondPoint) {
+        boost::variant<std::vector<Point>, bool> getCircleLineIntersection(Point center, Point pOnCircle, Point lineFirstPoint, Point lineSecondPoint) {
             Pt2 centerPoint = Pt2(center.x(), center.y());
             Circ2 circle = Circ2(centerPoint, Segment(center, pOnCircle).squared_length());
             CircLine line = CircLine(Pt2(lineFirstPoint.x(), lineFirstPoint.y()), Pt2(lineSecondPoint.x(), lineSecondPoint.y()));
@@ -206,7 +206,7 @@ namespace SPV {
 
         bool isEdgeWithStartPointOnCircleObstructingShortestPath(Point lastPointOnPath, Point edgeStart, Point edgeEnd, Point pivotPoint) {
             Point centerPoint = Point((lastPointOnPath.x() + pivotPoint.x()) / 2, (lastPointOnPath.y() + pivotPoint.y()) / 2);
-            boost::variant<std::vector<Point>, bool> result = getCirclelineIntersection(centerPoint, edgeStart, edgeStart, edgeEnd);
+            boost::variant<std::vector<Point>, bool> result = getCircleLineIntersection(centerPoint, edgeStart, edgeStart, edgeEnd);
             Line lastPointToPivot = Line(lastPointOnPath, pivotPoint);
 
             // If there are no intersections, there is no obstruction
