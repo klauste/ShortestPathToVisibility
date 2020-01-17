@@ -87,6 +87,10 @@ std::vector<SPV::PointOnShortestPath*> SPV::ShortestPath::calculateShortestPath(
     delete sptcEnd;
     delete spc;
     delete eC;*/
+    delete spc;
+    delete sptcStart;
+    delete sptcEnd;
+    delete eC;
     return sP;
 
 
@@ -186,7 +190,7 @@ std::vector<SPV::PointOnShortestPath*> SPV::ShortestPath::calculateShortestPath(
     //return false;
 }
 
-void SPV::ShortestPath::setPoint(int index, float x, float y) {
+void SPV::ShortestPath::setPoint(int index, double x, double y) {
     if (index == 0) {
         sPoint = Point(x, y);
     }

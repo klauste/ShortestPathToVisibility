@@ -1,5 +1,5 @@
-#ifndef BASEEVENTCALCULATOR_H
-#define BASEEVENTCALCULATOR_H
+#ifndef BASECALCULATOR_H
+#define BASECALCULATOR_H
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Point_2.h>
 #include "Models/eventsegment.h"
@@ -14,8 +14,13 @@ typedef K::Segment_2 Segment;
 typedef K::Line_2 Line;
 
 namespace SPV {
-    class BaseEventCalculator
+    class BaseCalculator
     {
+    public:
+        EventSegment* getFirstEventSegment()
+        {
+            return firstEventSegment;
+        }
 
     protected:
         std::vector<PointOnShortestPath *> shortestPath;
@@ -33,6 +38,22 @@ namespace SPV {
             // then the segments are swept from left to right
             return gU.isOnRightSide(previousPoint, currentPoint, nextPoint);
         }
+
+        Point getLastPointOnShortestPath(EventSegment *eS, bool onStartSide) {
+            std::vector<Point> extraPoints;
+            if (onStartSide) {
+                extraPoints = eS->getExtraPointsOnStartSide();
+                if (extraPoints.size() > 0) {
+                    return extraPoints.at(extraPoints.size() - 1);
+                }
+                return shortestPath.at(eS->getIndexOfLastSPPointOnStartSide())->getPoint();
+            }
+            extraPoints = eS->getExtraPointsOnEndSide();
+            if (extraPoints.size() > 0) {
+                return extraPoints.at(extraPoints.size() - 1);
+            }
+            return shortestPath.at(eS->getIndexOfLastSPPointOnEndSide())->getPoint();
+        }
     };
 }
-#endif // BASEEVENTCALCULATOR_H
+#endif // BASECALCULATOR_H

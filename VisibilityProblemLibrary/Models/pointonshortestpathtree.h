@@ -14,7 +14,10 @@ namespace SPV {
     public:
         PointOnShortestPathTree(PointWithTriangulationInfo *p);
         PointOnShortestPathTree(PointWithTriangulationInfo *p, PointOnShortestPathTree* pt);
-        ~PointOnShortestPathTree();
+        ~PointOnShortestPathTree()
+        {
+            delete currentPoint;
+        }
         Point getPoint();
         PointWithTriangulationInfo* getPointWithTriangulationInfo();
         PointOnShortestPathTree *getPreviousPoint();

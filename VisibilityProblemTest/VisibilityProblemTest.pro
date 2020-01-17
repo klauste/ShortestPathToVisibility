@@ -7,7 +7,10 @@ CONFIG -= app_bundle
 TARGET = VisibilityProblemTest
 TEMPLATE = app
 
-SOURCES +=  tst_minimumtest.cpp
+SOURCES +=  \
+    bendeventtest.cpp \
+    main.cpp \
+    minsumtest.cpp
 
 macx: LIBS += -L$$OUT_PWD/../VisibilityProblemLibrary/ -lVisibilityProblemLibrary
 
@@ -30,3 +33,7 @@ DEPENDPATH += $$PWD/../../../../../../usr/local/Cellar/boost/1.68.0_1/include
 
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/include
+
+HEADERS += \
+    bendeventtest.h \
+    minsumtest.h

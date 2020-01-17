@@ -25,6 +25,11 @@ namespace SPV {
     {
     public:
         PointOnShortestPath(Point p) : point(p) {}
+        ~PointOnShortestPath()
+        {
+            segmentsFromStart.clear();
+            segmentsFromEnd.clear();
+        }
 
         Point getPoint()
         {
@@ -60,6 +65,26 @@ namespace SPV {
         {
             indexOnShortestPath = i;
         }
+
+        double getDistanceFromStartPoint()
+        {
+            return distanceFromStartPoint;
+        }
+
+        double getDistanceFromEndPoint()
+        {
+            return distanceFromEndPoint;
+        }
+
+        void setDistanceFromStartPoint(double d)
+        {
+            distanceFromStartPoint = d;
+        }
+
+        void setDistanceFromEndPoint(double d)
+        {
+            distanceFromEndPoint = d;
+        }
     private:
         /**
          * Contains the coordinates of this point.
@@ -83,6 +108,9 @@ namespace SPV {
         std::vector<SweptSegment*> segmentsFromEnd;
 
         unsigned indexOnShortestPath;
+
+        double distanceFromStartPoint;
+        double distanceFromEndPoint;
     };
 }
 

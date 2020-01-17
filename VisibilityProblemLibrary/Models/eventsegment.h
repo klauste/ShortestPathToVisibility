@@ -22,6 +22,12 @@ namespace SPV {
             pivotPoint(pP)
         {}
 
+        ~EventSegment()
+        {
+            delete firstLineOfSightFromStart;
+            delete secondLineOfSightFromStart;
+        }
+
         EventSegment* clone()
         {
             EventSegment *newSegment = new EventSegment(firstLineOfSightFromStart, secondLineOfSightFromStart, pivotPoint);
@@ -37,6 +43,12 @@ namespace SPV {
             newSegment->setEndSideOnPolygonEdge(endSideOnPolygonEdge);
             newSegment->setIndexOfLastSPPointOnStartSide(indexOfLastSPPointOnStartSide);
             newSegment->setIndexOfLastSPPointOnEndSide(indexOfLastSPPointOnEndSide);
+            if (distanceOnStartSideSet) {
+                newSegment->setDistanceToLastVertex(distanceToLastVertexOnStartSide, true);
+            }
+            if (distanceOnEndSideSet) {
+                newSegment->setDistanceToLastVertex(distanceToLastVertexOnEndSide, false);
+            }
             for (unsigned i = 0; i < extraPointsOnStartSide.size(); i++) {
                 newSegment->addExtraPointsOnStartSide(extraPointsOnStartSide.at(i));
             }
@@ -64,6 +76,7 @@ namespace SPV {
         EventSegment* createNewPredecessor(LineOfSight *splitLine)
         {
             EventSegment *newSegment = clone();
+            newSegment->setDistanceToLastVertex(distanceToLastVertexOnStartSide, true);
             newSegment->setSecondLineOfSightFromStart(splitLine);
             setFirstLineOfSightFromStart(splitLine);
             setPredecessor(newSegment);
@@ -277,6 +290,26 @@ namespace SPV {
         {
             bendEventsOnEndSideHandled = true;
         }
+
+        double getDistanceToLastVertex(bool onStartSide)
+        {
+            if (onStartSide) {
+                return distanceToLastVertexOnStartSide;
+            }
+            return distanceToLastVertexOnEndSide;
+        }
+
+        void setDistanceToLastVertex(double d, bool onStartSide)
+        {
+            if (onStartSide) {
+                distanceToLastVertexOnStartSide = d;
+                distanceOnStartSideSet = true;
+            } else {
+                distanceToLastVertexOnEndSide = d;
+                distanceOnEndSideSet = true;
+            }
+        }
+
     private:
         EventSegment *predecessor;
         bool predecessorSet = false;
@@ -300,6 +333,10 @@ namespace SPV {
         bool endSideOnPolygonEdge = false;
         bool bendEventsOnStartSideHandled = false;
         bool bendEventsOnEndSideHandled = false;
+        double distanceToLastVertexOnStartSide;
+        bool distanceOnStartSideSet = false;;
+        double distanceToLastVertexOnEndSide;
+        bool distanceOnEndSideSet = false;
     };
 }
 

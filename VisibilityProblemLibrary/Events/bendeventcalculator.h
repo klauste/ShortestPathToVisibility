@@ -1,20 +1,37 @@
 #ifndef BENDEVENTCALCULATOR_H
 #define BENDEVENTCALCULATOR_H
 
-#include "Events/baseeventcalculator.h"
+#include "basecalculator.h"
 
 namespace SPV {
-    class BendEventCalculator : public BaseEventCalculator {
+    class BendEventCalculator : public BaseCalculator {
     public:
         BendEventCalculator(EventSegment *fS, const std::vector<PointOnShortestPath* > &sP) {
             firstEventSegment = fS;
             shortestPath = sP;
+        }
+        ~BendEventCalculator()
+        {
+            EventSegment *nextSegment = firstEventSegment;
+            EventSegment *currentSegment = firstEventSegment;
+
+            bool allDestroyed = false;
+            while(!allDestroyed) {
+                currentSegment = nextSegment;
+                if (!currentSegment->hasSuccessor()) {
+                    allDestroyed = true;
+                } else {
+                    nextSegment = currentSegment->getSuccessor();
+                }
+            }
+            delete currentSegment;
         }
 
         void calculateBendEvents();
 
     private:
         void calculateEventsForCurrentEventSegment();
+        void setFirstEventEndSideDegenerateInformation();
 
         /**
          * @brief getNextDegenerateBendEvent
@@ -34,25 +51,10 @@ namespace SPV {
         void handleDegenerateBendEvent(Point eventPoint);
         void handleDegenerateBendEventForSegmentStart();
         void handleSegmentToProtrudingVertex(EventSegment *previousEventSegment);
+        void setDistanceToLastVertex();
 
         bool calculateEventsOnStartSide;
         void setCurrentSegmentOrderFromLeftToRight();
-        Point getLastPointOnShortestPath(EventSegment *eS, bool onStartSide) {
-            std::vector<Point> extraPoints;
-            if (onStartSide) {
-                extraPoints = eS->getExtraPointsOnStartSide();
-                if (extraPoints.size() > 0) {
-                    return extraPoints.at(extraPoints.size() - 1);
-                }
-                return shortestPath.at(eS->getIndexOfLastSPPointOnStartSide())->getPoint();
-            }
-            extraPoints = eS->getExtraPointsOnEndSide();
-            if (extraPoints.size() > 0) {
-                return extraPoints.at(extraPoints.size() - 1);
-            }
-            return shortestPath.at(eS->getIndexOfLastSPPointOnEndSide())->getPoint();
-        }
-
         void addPreviousSettingsToCurrentES(EventSegment *previousEventSegment, bool pointsOnly);
     };
 }

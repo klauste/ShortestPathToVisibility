@@ -8,6 +8,7 @@ void SPV::BendEventCalculator::calculateBendEvents()
 
     while (!allEventsHandled) {
         calculateEventsForCurrentEventSegment();
+        setDistanceToLastVertex();
         if (currentEventSegment->hasSuccessor()) {
             currentEventSegment = currentEventSegment->getSuccessor();
         } else {
@@ -18,14 +19,68 @@ void SPV::BendEventCalculator::calculateBendEvents()
     // The last event segment is reached, now calculate the bend events on the end side
     calculateEventsOnStartSide = false;
     allEventsHandled = false;
+
     while (!allEventsHandled) {
         calculateEventsForCurrentEventSegment();
+        setDistanceToLastVertex();
         if (currentEventSegment->hasPredecessor()) {
             currentEventSegment = currentEventSegment->getPredecessor();
         } else {
             allEventsHandled = true;
+            firstEventSegment = currentEventSegment;
         }
     }
+}
+
+void SPV::BendEventCalculator::setDistanceToLastVertex()
+{
+    EventSegment *previousSegment;
+    unsigned indexOfLastSPPoint, previousIndexOfSPPoint;
+    std::vector<Point> extraPoints, previousExtraPoints;
+    double totalDistance;
+    if (calculateEventsOnStartSide) {
+        if (!currentEventSegment->hasPredecessor()) {
+            currentEventSegment->setDistanceToLastVertex(0.0, true);
+            return;
+        }
+        previousSegment = currentEventSegment->getPredecessor();
+        indexOfLastSPPoint = currentEventSegment->getIndexOfLastSPPointOnStartSide();
+        previousIndexOfSPPoint = previousSegment->getIndexOfLastSPPointOnStartSide();
+        extraPoints = currentEventSegment->getExtraPointsOnStartSide();
+        previousExtraPoints = previousSegment->getExtraPointsOnStartSide();
+        totalDistance = shortestPath.at(indexOfLastSPPoint)->getDistanceFromStartPoint();
+    } else {
+        if (!currentEventSegment->hasSuccessor()) {
+            currentEventSegment->setDistanceToLastVertex(0.0, false);
+            return;
+        }
+        previousSegment = currentEventSegment->getSuccessor();
+        indexOfLastSPPoint = currentEventSegment->getIndexOfLastSPPointOnEndSide();
+        previousIndexOfSPPoint = previousSegment->getIndexOfLastSPPointOnEndSide();
+        extraPoints = currentEventSegment->getExtraPointsOnEndSide();
+        previousExtraPoints = previousSegment->getExtraPointsOnEndSide();
+        totalDistance = shortestPath.at(indexOfLastSPPoint)->getDistanceFromEndPoint();
+    }
+    if (indexOfLastSPPoint == previousIndexOfSPPoint && extraPoints.size() == previousExtraPoints.size()) {
+        currentEventSegment->setDistanceToLastVertex(
+            previousSegment->getDistanceToLastVertex(calculateEventsOnStartSide),
+            calculateEventsOnStartSide
+        );
+        return;
+    }
+
+    Point lastSpPoint = shortestPath.at(indexOfLastSPPoint)->getPoint();
+    for (unsigned i = 0; i < extraPoints.size(); i++) {
+        if (i == 0) {
+            totalDistance = totalDistance + sqrt(CGAL::squared_distance(lastSpPoint, extraPoints.at(i)));
+        } else {
+            totalDistance = totalDistance + sqrt(CGAL::squared_distance(extraPoints.at(i - 1), extraPoints.at(i)));
+        }
+    }
+    currentEventSegment->setDistanceToLastVertex(
+        totalDistance,
+        calculateEventsOnStartSide
+    );
 }
 
 void SPV::BendEventCalculator::calculateEventsForCurrentEventSegment ()
@@ -301,7 +356,7 @@ void SPV::BendEventCalculator::addNewEventSegment(Point eventPoint)
         segmentStartPoint = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide();
         segmentEndPoint = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide();
     }
-    boost::variant<bool, Point> result = gU.getIntersectionBetweenLineAndSegment(lOS, segmentStartPoint, segmentEndPoint);
+    boost::variant<bool, Point> result = gU.getIntersectionBetweenLineAndLine(lOS, segmentStartPoint, segmentEndPoint);
     if (result.type() == typeid(bool)) {
         // TODO: handle this as an exception
     }

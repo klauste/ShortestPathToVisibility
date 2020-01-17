@@ -66,6 +66,27 @@ namespace SPV {
             );
         }
 
+        bool valuesAreEqual(double d1, double d2) {
+            double diff = d1 - d2;
+
+            return (abs(diff) <= precision);
+        }
+
+        bool isLarger(double d1, double d2)
+        {
+            double diff = d1 -d2;
+
+            return diff > precision;
+        }
+
+        bool isLargerOrEqual(double d1, double d2)
+        {
+            if (valuesAreEqual(d1, d2)) {
+                return true;
+            }
+            return isLarger(d1, d2);
+        }
+
         Point getPerpendicularIntersectionPoint(Line l, Point p1) {
             Line p = l.perpendicular(p1);
             CGAL::cpp11::result_of<Intersect(Line, Line)>::type result = intersection(l, p);

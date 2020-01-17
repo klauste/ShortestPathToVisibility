@@ -10,7 +10,7 @@
 #include "Models/sweptsegment.h"
 #include "Utils/geometryutil.h"
 #include "Models/lineofsight.h"
-#include "Events/baseeventcalculator.h"
+#include "basecalculator.h"
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
@@ -18,7 +18,7 @@ typedef K::Segment_2 Segment;
 typedef K::Line_2 Line;
 
 namespace SPV {
-    class PathAndBoundaryEventCalculator : public BaseEventCalculator
+    class PathAndBoundaryEventCalculator : public BaseCalculator
     {
     public:
         PathAndBoundaryEventCalculator(const std::vector<PointOnShortestPath* > &sP) {
@@ -73,7 +73,6 @@ namespace SPV {
                 bool secondEndPointIsVertex,
                 PointOnShortestPath *pivotPoint
         );
-        std::vector<EventSegment *> allEventSegments;
         void calculateBendEvents();
         void addStartEvent();
         std::vector<SweptSegment*> getStartSegmentsForLoop(

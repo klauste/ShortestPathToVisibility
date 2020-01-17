@@ -50,7 +50,7 @@ namespace SPV {
         void initialize(const Polygon &polygon);
         const CDT& getTriangulation();
         std::vector<PointOnShortestPath* > calculateShortestPath();
-        void setPoint(int index, float x, float y);
+        void setPoint(int index, double x, double y);
         EventSegment *getFirstEvent()
         {
             return firstSegment;

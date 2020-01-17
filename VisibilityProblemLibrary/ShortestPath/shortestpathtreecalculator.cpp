@@ -48,9 +48,6 @@ void SPV::ShortestPathTreeCalculator::calculateAndAddSegment(
     Point rightTriangleEdgePoint
 )
 {
-    std::cout << "Calculate and Add Segment" << std::endl;
-    std::cout << "local apex" << apex->getPoint() << std::endl;
-
     PointOnShortestPath *currentPointOnSp = shortestPath.at(apex->getIndexOnShortestPath());
     Point leftIntersectionPoint = leftFunnelPoint->getPoint();
     bool leftPointIsVertex = true;
@@ -438,15 +435,6 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
     // neighborIndex in the currentFace.
     CDT::Face_handle nextFace = currentFace->neighbor(neighborIndex);
 
-    std::cout << "Apex: " << apex->getPoint() << std::endl;
-    std::cout << "Left Funnel: " << std::endl;
-    for (unsigned i =0; i < leftFunnel.size(); i++) {
-        std::cout <<leftFunnel.at(i)->getPoint() << std::endl;
-    }
-    std::cout << "Right Funnel: " << std::endl;
-    for (unsigned i =0; i < rightFunnel.size(); i++) {
-        std::cout <<rightFunnel.at(i)->getPoint() << std::endl;
-    }
     // Find the index of the left point, the right point and the index of the point not on the current funnel
     // i.e. Point v in https://graphics.stanford.edu/courses/cs268-09-winter/notes/handout7.pdf, page 6.
     triangulationIndexInformation *tI = getTriangulationIndexInformation(
@@ -455,7 +443,6 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
         nextFace
     );
 
-    std::cout << "next point: " << tI->nextPoint << std::endl;
     // End of recursion: nextFace is outside of the constrained triangulation
     if (!nextFace->info().inDomain()) {
         calculateSweptSegments(

@@ -1,9 +1,4 @@
 #include "Models/pointonshortestpathtree.h"
-SPV::PointOnShortestPathTree::~PointOnShortestPathTree()
-{
-    delete currentPoint;
-}
-
 SPV::PointOnShortestPathTree::PointOnShortestPathTree(PointWithTriangulationInfo *p) {
     currentPoint = p;
 }

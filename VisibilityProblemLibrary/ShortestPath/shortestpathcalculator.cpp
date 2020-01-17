@@ -88,8 +88,9 @@ std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateSh
         funnelTail.push_back(currentPoint);
     }
 
-    // After handling all the triangles between the start and end point,
-    // the funnel tail is the shortest path
+    // After handling all the triangles between the start and end point, the funnel tail is
+    // the shortest path. Set the distances for each point and return it.
+    setDistances();
     return funnelTail;
 }
 
@@ -174,6 +175,7 @@ void SPV::ShortestPathCalculator::setFacesFromStartToEndPoint() {
         if ( fit->info().inDomain() ) {
             currentFace = fit;
             Triangle t = triangulation.triangle(fit);
+
             if (t.has_on_bounded_side(startPoint)) {
                 break;
             }
@@ -217,4 +219,31 @@ bool SPV::ShortestPathCalculator::recursivelyfindEndPoint(TDS::Face_handle &curr
         facesFromStartToEnd.pop_back();
     }
     return endPointFoundOnPath;
+}
+
+void SPV::ShortestPathCalculator::setDistances()
+{
+    int i;
+    unsigned lastIndex = funnelTail.size() - 1;
+    double distanceToLastPoint, currentDistance;
+    for (i = 0; i <= lastIndex; i++) {
+        if (i == 0) {
+            funnelTail.at(i)->setDistanceFromStartPoint(0);
+        } else {
+            distanceToLastPoint = funnelTail.at(i - 1)->getDistanceFromStartPoint();
+            currentDistance = distanceToLastPoint +
+                sqrt(CGAL::squared_distance(funnelTail.at(i - 1)->getPoint(), funnelTail.at(i)->getPoint()));
+            funnelTail.at(i)->setDistanceFromStartPoint(currentDistance);
+        }
+    }
+    for (i = lastIndex; i >= 0; i--) {
+        if (i == lastIndex) {
+            funnelTail.at(i)->setDistanceFromEndPoint(0);
+        } else {
+            distanceToLastPoint = funnelTail.at(i + 1)->getDistanceFromEndPoint();
+            currentDistance = distanceToLastPoint +
+                sqrt(CGAL::squared_distance(funnelTail.at(i + 1)->getPoint(), funnelTail.at(i)->getPoint()));
+            funnelTail.at(i)->setDistanceFromEndPoint(currentDistance);
+        }
+    }
 }

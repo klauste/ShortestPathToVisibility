@@ -1,0 +1,21 @@
+#ifndef MINMAXCALCULATOR_H
+#define MINMAXCALCULATOR_H
+#include <vector>
+#include <CGAL/squared_distance_2.h>
+#include <math.h>
+#include "Models/eventsegment.h"
+#include "Models/minimum.h"
+#include "Minima/abstractmincalculator.h"
+
+namespace SPV {
+    class MinMaxCalculator : public AbstractMinimumCalculator {
+        public:
+            using AbstractMinimumCalculator::AbstractMinimumCalculator;
+            void calculateMinima();
+        private:
+            bool isMinimumInCurrentSegment();
+            void handleMinimum();
+            bool handleMinimumAtPivotPoint();
+    };
+}
+#endif // MINMAXCALCULATOR_H

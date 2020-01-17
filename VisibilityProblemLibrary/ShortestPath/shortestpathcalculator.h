@@ -8,6 +8,8 @@
 #include <CGAL/Segment_2.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Polygon_2.h>
+#include <CGAL/squared_distance_2.h>
+#include <math.h>
 #include <vector>
 #include <iostream>
 #include "Models/faceonshortestpath.h"
@@ -42,6 +44,13 @@ namespace SPV {
             startPoint = s;
             endPoint = e;
         }
+        ~ShortestPathCalculator()
+        {
+            funnelLeftPath.clear();
+            funnelRightPath.clear();
+            funnelTail.clear();
+        }
+
         void initialize(const Polygon &polygon);
 
         /**
@@ -135,6 +144,13 @@ namespace SPV {
                 PointOnShortestPath *nextPoint,
                 bool isBackwardPathOnTheRight
         );
+
+        /**
+         * Set the distance from the start and end point to this point on
+         * the shortest path.
+         * @brief setDistances
+         */
+        void setDistances();
     };
 }
 #endif // SHORTESTPATHCALCULATOR_H

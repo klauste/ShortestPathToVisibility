@@ -57,6 +57,11 @@ namespace SPV {
             }
         }
 
+        ~ShortestPathTreeCalculator()
+        {
+            shortestPathTree.clear();
+        }
+
         /**
          * Calculates the shortest path tree and map as described
          * in https://graphics.stanford.edu/courses/cs268-09-winter/notes/handout7.pdf.

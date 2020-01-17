@@ -1,68 +1,16 @@
-#include <QtTest>
+#include "bendeventtest.h"
 
-// add necessary includes here
-#include "spvshortestpath.h"
-#include "Events/pathandboundaryeventcalculator.h"
-#include "Events/bendeventcalculator.h"
-#include "Models/eventsegment.h"
-#include "Models/lineofsight.h"
-#include "Utils/geometryutil.h"
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Point_2.h>
-#include <CGAL/Polygon_2.h>
-#include <cmath>
-
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef K::Point_2 Point;
-typedef CGAL::Polygon_2<K> Polygon;
-
-class MinimumTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    MinimumTest();
-    ~MinimumTest();
-private:
-    Polygon polygon;
-    SPV::ShortestPath *shortestPath;
-    SPV::GeometryUtil gU = SPV::GeometryUtil();
-
-private slots:
-    void simplePolygonTest1();
-    void simplePolygonTest2();
-    void simplePolygonTest3();
-    void simplePolygonTest4();
-    void simplePolygonTest5();
-    void simplePolygonTest6();
-    void simplePolygonTest7();
-    void simplePolygonTest8();
-    void simplePolygonTest9();
-    void simplePolygonTest10();
-    void simplePolygonTest11();
-    void simplePolygonTest12();
-    void simplePolygonTest13();
-    void simplePolygonTest14();
-    void simplePolygonTest15();
-    void simplePolygonTest16();
-    void simplePolygonTest17();
-    void simplePolygonTest18();
-    void simplePolygonTest19();
-    void simplePolygonTest20();
-    void simplePolygonTest21();
-};
-
-MinimumTest::MinimumTest()
+BendEventTest::BendEventTest()
 {
 
 }
 
-MinimumTest::~MinimumTest()
+BendEventTest::~BendEventTest()
 {
 
 }
 
-void MinimumTest::simplePolygonTest1()
+void BendEventTest::simplePolygonTest1()
 {
     /*polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
@@ -85,7 +33,7 @@ void MinimumTest::simplePolygonTest1()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest2()
+void BendEventTest::simplePolygonTest2()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
@@ -109,7 +57,7 @@ void MinimumTest::simplePolygonTest2()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest3()
+void BendEventTest::simplePolygonTest3()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
@@ -131,7 +79,7 @@ void MinimumTest::simplePolygonTest3()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest4()
+void BendEventTest::simplePolygonTest4()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
@@ -181,7 +129,7 @@ void MinimumTest::simplePolygonTest4()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest5()
+void BendEventTest::simplePolygonTest5()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
@@ -231,7 +179,7 @@ void MinimumTest::simplePolygonTest5()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest6()
+void BendEventTest::simplePolygonTest6()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -362,7 +310,7 @@ void MinimumTest::simplePolygonTest6()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest7()
+void BendEventTest::simplePolygonTest7()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -493,7 +441,7 @@ void MinimumTest::simplePolygonTest7()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest8()
+void BendEventTest::simplePolygonTest8()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -692,7 +640,7 @@ void MinimumTest::simplePolygonTest8()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest9()
+void BendEventTest::simplePolygonTest9()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -892,7 +840,7 @@ void MinimumTest::simplePolygonTest9()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest10()
+void BendEventTest::simplePolygonTest10()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -944,7 +892,7 @@ void MinimumTest::simplePolygonTest10()
     segments.clear();*/
 }
 
-void MinimumTest::simplePolygonTest11()
+void BendEventTest::simplePolygonTest11()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -997,7 +945,7 @@ void MinimumTest::simplePolygonTest11()
     segments.clear();*/
 }
 
-void MinimumTest::simplePolygonTest12()
+void BendEventTest::simplePolygonTest12()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -1057,7 +1005,7 @@ void MinimumTest::simplePolygonTest12()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest13()
+void BendEventTest::simplePolygonTest13()
 {
     /*polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -1118,7 +1066,7 @@ void MinimumTest::simplePolygonTest13()
     delete shortestPath;*/
 }
 
-void MinimumTest::simplePolygonTest14()
+void BendEventTest::simplePolygonTest14()
 {
     polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -1452,7 +1400,7 @@ void MinimumTest::simplePolygonTest14()
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 }
 
-void MinimumTest::simplePolygonTest15()
+void BendEventTest::simplePolygonTest15()
 {
     polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -1782,7 +1730,7 @@ void MinimumTest::simplePolygonTest15()
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 }
 
-void MinimumTest::simplePolygonTest16()
+void BendEventTest::simplePolygonTest16()
 {
     polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -1971,7 +1919,7 @@ void MinimumTest::simplePolygonTest16()
     QCOMPARE(eS->hasPredecessor(), true);
 }
 
-void MinimumTest::simplePolygonTest17()
+void BendEventTest::simplePolygonTest17()
 {
     polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -2162,7 +2110,7 @@ void MinimumTest::simplePolygonTest17()
     QCOMPARE(eS->hasPredecessor(), true);
 }
 
-void MinimumTest::simplePolygonTest18()
+void BendEventTest::simplePolygonTest18()
 {
     polygon = Polygon();
     polygon.push_back(Point(16.0, 12.0));
@@ -2479,7 +2427,7 @@ void MinimumTest::simplePolygonTest18()
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 }
 
-void MinimumTest::simplePolygonTest19()
+void BendEventTest::simplePolygonTest19()
 {
     polygon = Polygon();
     polygon.push_back(Point(16.0, 12.0));
@@ -2796,7 +2744,7 @@ void MinimumTest::simplePolygonTest19()
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
 }
 
-void MinimumTest::simplePolygonTest20()
+void BendEventTest::simplePolygonTest20()
 {
     polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -3308,7 +3256,7 @@ void MinimumTest::simplePolygonTest20()
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 }
 
-void MinimumTest::simplePolygonTest21()
+void BendEventTest::simplePolygonTest21()
 {
     polygon = Polygon();
     polygon.push_back(Point(6.0, 12.0));
@@ -3817,7 +3765,3 @@ void MinimumTest::simplePolygonTest21()
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
 }
-
-QTEST_APPLESS_MAIN(MinimumTest)
-
-#include "tst_minimumtest.moc"

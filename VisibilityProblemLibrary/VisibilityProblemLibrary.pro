@@ -32,6 +32,8 @@ unix {
 SOURCES += \
     Events/bendeventcalculator.cpp \
     Events/pathandboundaryeventcalculator.cpp \
+    Minima/minmaxcalculator.cpp \
+    Minima/minsumcalculator.cpp \
     Models/pointonshortestpathtree.cpp \
     Models/pointwithtriangulationinfo.cpp \
     ShortestPath/shortestpathtreecalculator.cpp \
@@ -40,11 +42,14 @@ SOURCES += \
     ShortestPath/shortestpathcalculator.cpp
 
 HEADERS +=  \
-    Events/baseeventcalculator.h \
+    Minima/abstractmincalculator.h \
+    Minima/minmaxcalculator.h \
+    basecalculator.h \
     Events/bendeventcalculator.h \
     Events/pathandboundaryeventcalculator.h \
     Models/eventsegment.h \
     Models/lineofsight.h \
+    Models/minimum.h \
     Models/pointonshortestpath.h \
     Models/pointonshortestpathtree.h \
     Models/pointwithtriangulationinfo.h \
@@ -52,11 +57,10 @@ HEADERS +=  \
     ShortestPath/shortestpathtreecalculator.h \
     spvshortestpath.h \
     spvfaceinfo.h \
-    spveventintersection.h \
-    spvboundaryevents.h \
     ShortestPath/shortestpathcalculator.h \
     Models/faceonshortestpath.h \
-    Utils/geometryutil.h
+    Utils/geometryutil.h \
+    Minima/minsumcalculator.h
 
 
 macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL
