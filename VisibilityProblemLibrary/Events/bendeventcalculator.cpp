@@ -97,7 +97,7 @@ void SPV::BendEventCalculator::calculateEventsForCurrentEventSegment ()
     }
 
     if (
-            currentEventSegment->isPathOnOnPolygonEdgeAtBeginning(calculateEventsOnStartSide) &&
+            currentEventSegment->isPathOnPolygonEdgeAtBeginning(calculateEventsOnStartSide) &&
             !currentEventSegment->isLoSVisible(calculateEventsOnStartSide)
     ) {
         boost::variant<bool, Point> result = getNextDegenerateBendEvent();

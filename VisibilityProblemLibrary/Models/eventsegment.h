@@ -212,7 +212,7 @@ namespace SPV {
             return endSideOnPolygonEdge;
         }
 
-        bool isPathOnOnPolygonEdgeAtBeginning(bool onStartSide)
+        bool isPathOnPolygonEdgeAtBeginning(bool onStartSide)
         {
             if (onStartSide) {
                 return startSideOnPolygonEdge;

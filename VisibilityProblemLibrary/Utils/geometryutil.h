@@ -195,8 +195,10 @@ namespace SPV {
             Line lineFromStartToPp = Line(segmentStart, pivotPoint);
             Line orthogonalLine = lineFromStartToPp.perpendicular(segmentStart);
 
+            // If the end point on the segment is on the orthogonal line, then
+            // on the direct path to the LoS is visible
             if (orthogonalLine.has_on(segmentEnd)) {
-                return true;
+                return false;
             }
             return (orthogonalLine.has_on_positive_side(segmentEnd) == orthogonalLine.has_on_positive_side(pivotPoint));
         }

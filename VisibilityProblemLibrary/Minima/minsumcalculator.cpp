@@ -146,7 +146,7 @@ void SPV::MinSumCalculator::handleLocalMinimaWithOnePathBlocked()
     std::vector<std::pair<Point, Point>> minimumEdgeIntersections;
     std::vector<std::pair<Point, Point>> minimumIntersectionsOnLos;
     Point intersectionOnLos, obstructedEdgePoint1, obstructedEdgePoint2, freeEdgePoint1, freeEdgePoint2;
-    minimumEdgeIntersections.push_back(std::make_pair(getFurthestPointOnBoundary(true, true), getFurthestPointOnBoundary(true, false)));
+    minimumEdgeIntersections.push_back(std::make_pair(getFurthestPointOnBoundary(true, true), getFurthestPointOnBoundary(false, true)));
     if (startSideFree) {
         freeEdgePoint1 = firstIntersectionPointOnStartSide;
         freeEdgePoint2 = secondIntersectionPointOnStartSide;
