@@ -12,7 +12,6 @@ MinSumTest::~MinSumTest()
 
 void MinSumTest::minSumTest1()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
@@ -45,7 +44,6 @@ void MinSumTest::minSumTest1()
 
 void MinSumTest::minSumTest2()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
@@ -78,7 +76,7 @@ void MinSumTest::minSumTest2()
 
 void MinSumTest::minSumTest3()
 {
-    /*polygon.push_back(Point(3.0, 8.0));
+    polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
     polygon.push_back(Point(12.0, 2.0));
     polygon.push_back(Point(12.0, 8.0));
@@ -113,12 +111,12 @@ void MinSumTest::minSumTest3()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(9,5)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(3,2)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(12,6.5)), true);
-    QCOMPARE(min->getIsInDiscArea(), false);*/
+    QCOMPARE(min->getIsInDiscArea(), false);
 }
 
 void MinSumTest::minSumTest4()
 {
-    /*polygon.push_back(Point(3.0, 8.0));
+    polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
     polygon.push_back(Point(12.0, 2.0));
     polygon.push_back(Point(12.0, 8.0));
@@ -153,12 +151,11 @@ void MinSumTest::minSumTest4()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(8.2, 3.4)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(3,6)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(11,2)), true);
-    QCOMPARE(min->getIsInDiscArea(), false);*/
+    QCOMPARE(min->getIsInDiscArea(), false);
 }
 
 void MinSumTest::minSumTest5()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(0.0, 6.0));
     polygon.push_back(Point(4.0, 6.0));
@@ -209,7 +206,6 @@ void MinSumTest::minSumTest5()
 
 void MinSumTest::minSumTest6()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(0.0, 6.0));
     polygon.push_back(Point(4.0, 6.0));
@@ -261,7 +257,6 @@ void MinSumTest::minSumTest6()
 
 void MinSumTest::minSumTest7()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(0.0, 6.0));
     polygon.push_back(Point(4.0, 6.0));
@@ -313,7 +308,6 @@ void MinSumTest::minSumTest7()
 
 void MinSumTest::minSumTest8()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(0.0, 6.0));
     polygon.push_back(Point(4.0, 6.0));
@@ -365,7 +359,6 @@ void MinSumTest::minSumTest8()
 
 void MinSumTest::minSumTest9()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(0.0, 6.0));
     polygon.push_back(Point(4.0, 6.0));
@@ -404,7 +397,6 @@ void MinSumTest::minSumTest9()
 
 void MinSumTest::minSumTest10()
 {
-    return;
     polygon = Polygon();
     polygon.push_back(Point(0.0, 6.0));
     polygon.push_back(Point(4.0, 6.0));

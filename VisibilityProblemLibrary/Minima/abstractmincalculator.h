@@ -15,6 +15,7 @@ namespace SPV {
             firstEventSegment = fS;
         }
         virtual void calculateMinima() = 0;
+        virtual ~AbstractMinimumCalculator();
         std::vector<Minimum*> getAllMinima() {
             return allMinima;
         }

@@ -10,7 +10,9 @@ TEMPLATE = app
 SOURCES +=  \
     bendeventtest.cpp \
     main.cpp \
-    minsumtest.cpp
+    minmaxtest.cpp \
+    minsumtest.cpp \
+    shortestpathtest.cpp
 
 macx: LIBS += -L$$OUT_PWD/../VisibilityProblemLibrary/ -lVisibilityProblemLibrary
 
@@ -36,4 +38,6 @@ DEPENDPATH += /usr/local/include
 
 HEADERS += \
     bendeventtest.h \
-    minsumtest.h
+    minmaxtest.h \
+    minsumtest.h \
+    shortestpathtest.h

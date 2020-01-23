@@ -29,7 +29,7 @@ namespace SPV {
 
         // Move to private after testing
         std::vector<SweptSegment *> getSegmentsForFinalPoint(bool forFirstPoint);
-        void setCurrentSegmentOrderFromLeftToRightFromOutside(bool c)
+        void setCurrentSegmentOrderFromLeftToRight(bool c)
         {
             currentSegmentOrderFromLeftToRight = c;
         }

@@ -32,6 +32,7 @@ unix {
 SOURCES += \
     Events/bendeventcalculator.cpp \
     Events/pathandboundaryeventcalculator.cpp \
+    Minima/abstractmincalculator.cpp \
     Minima/minmaxcalculator.cpp \
     Minima/minsumcalculator.cpp \
     Models/pointonshortestpathtree.cpp \

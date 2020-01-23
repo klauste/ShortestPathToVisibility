@@ -20,17 +20,32 @@ void SPV::MinMaxCalculator::calculateMinima()
 
 bool SPV::MinMaxCalculator::isMinimumInCurrentSegment()
 {
-    Point secondIntersectionPointOnStartSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide();
-    Point firstIntersectionPointOnEndSide = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide();
+    Point firstPointOnStartSide = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide();
+    Point secondPointOnStartSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide();
+    Point firstPointOnEndSide = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide();
+    Point secondPointOnEndSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide();
     double distanceFromStart = currentEventSegment->getDistanceToLastVertex(true);
     double distanceFromEnd = currentEventSegment->getDistanceToLastVertex(false);
 
-    Point lOSIntersectionOnStartSide = getIntersectionPointOnLoS(secondIntersectionPointOnStartSide, true);
-    Point lOSIntersectionOnEndSide = getIntersectionPointOnLoS(firstIntersectionPointOnEndSide, false);
-    double extraDistanceStartSide = getDistanceToIntersectionPoint(lOSIntersectionOnStartSide, true);
-    double extraDistanceEndSide = getDistanceToIntersectionPoint(lOSIntersectionOnEndSide, false);
-    return (distanceFromStart + extraDistanceStartSide) >= distanceFromEnd &&
-            (distanceFromEnd + extraDistanceEndSide) >= distanceFromStart;
+    Point firstIntersectionOnStartSide = getIntersectionPointOnLoS(firstPointOnStartSide, true);
+    Point secondIntersectionOnStartSide = getIntersectionPointOnLoS(secondPointOnStartSide, true);
+    Point firstIntersectionOnEndSide = getIntersectionPointOnLoS(firstPointOnEndSide, false);
+    Point secondIntersectionOnEndSide = getIntersectionPointOnLoS(secondPointOnEndSide, false);
+
+    double extraDistanceStartSideFirstLoS = getDistanceToIntersectionPoint(firstIntersectionOnStartSide, true);
+    double extraDistanceStartSideSecondLoS = getDistanceToIntersectionPoint(secondIntersectionOnStartSide, true);
+    double extraDistanceEndSideFirstLoS = getDistanceToIntersectionPoint(firstIntersectionOnEndSide, false);
+    double extraDistanceEndSideSecondLoS = getDistanceToIntersectionPoint(secondIntersectionOnEndSide, false);
+
+    if (gU.valuesAreEqualHighPrecision(distanceFromStart + extraDistanceStartSideFirstLoS, distanceFromEnd + extraDistanceEndSideFirstLoS)) {
+        return true;
+    }
+
+    if (gU.valuesAreEqualHighPrecision(distanceFromStart + extraDistanceStartSideSecondLoS, distanceFromEnd + extraDistanceEndSideSecondLoS)) {
+        return true;
+    }
+    return (distanceFromStart + extraDistanceStartSideFirstLoS < distanceFromEnd + extraDistanceEndSideFirstLoS &&
+            distanceFromEnd + extraDistanceEndSideSecondLoS < distanceFromStart + extraDistanceStartSideSecondLoS);
 }
 
 void SPV::MinMaxCalculator::handleMinimum()
@@ -40,84 +55,86 @@ void SPV::MinMaxCalculator::handleMinimum()
 
     // If not try to find the minimum within the segment
     if (!minAtPivotPoint) {
-        Point firstIntersectionPointOnStartSide = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide();
-        Point secondIntersectionPointOnStartSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide();
-        Point firstIntersectionPointOnEndSide = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide();
-        Point secondIntersectionPointOnEndSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide();
-        Point loSIntersectionOnStartSide = getIntersectionPointOnLoS(firstIntersectionPointOnStartSide, true);
-        Point loSIntersectionOnEndSide = getIntersectionPointOnLoS(firstIntersectionPointOnEndSide, false);
-        double distanceFromStart = currentEventSegment->getDistanceToLastVertex(true);
-        double distanceFromEnd = currentEventSegment->getDistanceToLastVertex(false);
-        Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
-        double extraDistanceStartSide = getDistanceToIntersectionPoint(loSIntersectionOnStartSide, true);
-        double extraDistanceEndSide = getDistanceToIntersectionPoint(loSIntersectionOnEndSide, false);
-        if (gU.valuesAreEqual(distanceFromStart + extraDistanceStartSide, distanceFromEnd + extraDistanceEndSide)) {
-            handleNewGlobalMinimum(
-               distanceFromStart + extraDistanceStartSide,
-               getIntersectionPointOnLoS(secondIntersectionPointOnStartSide, true),
-               getIntersectionPointOnLoS(loSIntersectionOnEndSide, false),
-               firstIntersectionPointOnStartSide,
-               firstIntersectionPointOnEndSide
-            );
-            return;
-        }
+        findInnerMinimum(
+            currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide(),
+            currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide(),
+            currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide(),
+            currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide()
+        );
+    }
+}
 
-        double currentParameter = stepPrecision;
+void SPV::MinMaxCalculator::findInnerMinimum(
+        Point firstPointOnStartSide,
+        Point secondPointOnStartSide,
+        Point firstPointOnEndSide,
+        Point secondPointOnEndSide
+)
+{
+    double distanceFromStart = currentEventSegment->getDistanceToLastVertex(true);
+    double distanceFromEnd = currentEventSegment->getDistanceToLastVertex(false);
+    Point firstIntersectionOnStartSide = getIntersectionPointOnLoS(firstPointOnStartSide, true);
+    Point firstIntersectionOnEndSide = getIntersectionPointOnLoS(firstPointOnEndSide, false);
+    double extraDistanceStartSideAtFirstLoS = getDistanceToIntersectionPoint(firstIntersectionOnStartSide, true);
+    double extraDistanceEndSideAtFirstLoS = getDistanceToIntersectionPoint(firstIntersectionOnEndSide, false);
 
-        while (currentParameter < 1) {
-            double currentX = (1 - currentParameter) * firstIntersectionPointOnStartSide.x() + currentParameter * secondIntersectionPointOnStartSide.x();
-            double currentY = (1 - currentParameter) * firstIntersectionPointOnStartSide.y() + currentParameter * secondIntersectionPointOnStartSide.y();
-            Point intersectionPointOnStartSide = Point(currentX, currentY);
-            Line currentLine = Line(intersectionPointOnStartSide, pivotPoint);
+    // End of recursion: the points or the distances at the first LoS are the same.
+    if (
+        gU.valuesAreEqualHighPrecision(distanceFromStart + extraDistanceStartSideAtFirstLoS, distanceFromEnd + extraDistanceEndSideAtFirstLoS)
+    ) {
+        handleNewGlobalMinimum(
+           distanceFromStart + extraDistanceStartSideAtFirstLoS,
+           firstIntersectionOnStartSide,
+           firstIntersectionOnEndSide,
+           firstPointOnStartSide,
+           firstPointOnEndSide
+        );
+        return;
+    }
 
-            boost::variant<Point, bool> result = gU.getIntersectionBetweenLineAndSegment(currentLine, firstIntersectionPointOnEndSide, secondIntersectionPointOnEndSide);
+    Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
+    double middleX = 0.5 * (firstPointOnStartSide.x() + secondPointOnStartSide.x());
+    double middleY = 0.5 * (firstPointOnStartSide.y() + secondPointOnStartSide.y());
+    Point middlePointOnStartSide = Point(middleX, middleY);
+    Line currentLine = Line(middlePointOnStartSide, pivotPoint);
 
-            if (result.type() == typeid(bool)) {
-                // TODO throw an error
-                std::cout << "No intersection found on the other side";
-            } else {
-                Point intersectionPointOnEndSide = boost::get<Point>(result);
-                loSIntersectionOnStartSide = getIntersectionPointOnLoS(intersectionPointOnStartSide, true);
-                loSIntersectionOnEndSide = getIntersectionPointOnLoS(intersectionPointOnEndSide, false);
+    boost::variant<Point, bool> result = gU.getIntersectionBetweenLineAndSegment(
+                currentLine,
+                currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide(),
+                currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide()
+    );
 
-                extraDistanceStartSide = getDistanceToIntersectionPoint(loSIntersectionOnStartSide, true);
-                extraDistanceEndSide = getDistanceToIntersectionPoint(loSIntersectionOnEndSide, false);
-                if (gU.valuesAreEqual(distanceFromStart + extraDistanceStartSide, distanceFromEnd + extraDistanceEndSide)) {
-                    handleNewGlobalMinimum(
-                       distanceFromStart + extraDistanceStartSide,
-                       getIntersectionPointOnLoS(secondIntersectionPointOnStartSide, true),
-                       getIntersectionPointOnLoS(loSIntersectionOnEndSide, false),
-                       firstIntersectionPointOnStartSide,
-                       firstIntersectionPointOnEndSide
-                    );
-                    return;
-                }
-            }
-            currentParameter += stepPrecision;
-        }
+    if (result.type() == typeid(bool)) {
+        // TODO throw an error
+        std::cout << "No intersection found on the other side";
+    } else {
+        Point middlePointOnEndSide = boost::get<Point>(result);
+        Point middleIntersectionOnStartSide = getIntersectionPointOnLoS(middlePointOnStartSide, true);
+        Point middleIntersectionOnEndSide = getIntersectionPointOnLoS(middlePointOnEndSide, false);
 
-        // Check the second line of sight
-        loSIntersectionOnStartSide = getIntersectionPointOnLoS(secondIntersectionPointOnStartSide, true);
-        loSIntersectionOnEndSide = getIntersectionPointOnLoS(secondIntersectionPointOnEndSide, false);
-
-        extraDistanceStartSide = getDistanceToIntersectionPoint(loSIntersectionOnStartSide, true);
-        extraDistanceEndSide = getDistanceToIntersectionPoint(loSIntersectionOnEndSide, false);
-        if (gU.valuesAreEqual(distanceFromStart + extraDistanceStartSide, distanceFromEnd + extraDistanceEndSide)) {
-            handleNewGlobalMinimum(
-               distanceFromStart + extraDistanceStartSide,
-               getIntersectionPointOnLoS(secondIntersectionPointOnStartSide, true),
-               getIntersectionPointOnLoS(loSIntersectionOnEndSide, false),
-               firstIntersectionPointOnStartSide,
-               firstIntersectionPointOnEndSide
+        double middleDistanceStartSide = getDistanceToIntersectionPoint(middleIntersectionOnStartSide, true);
+        double middleDistanceEndSide = getDistanceToIntersectionPoint(middleIntersectionOnEndSide, false);
+        if (distanceFromStart + middleDistanceStartSide < distanceFromEnd + middleDistanceEndSide) {
+            findInnerMinimum(
+                middlePointOnStartSide,
+                secondPointOnStartSide,
+                middlePointOnEndSide,
+                secondPointOnEndSide
             );
         } else {
-            // TODO: throw an exception
+            findInnerMinimum(
+                firstPointOnStartSide,
+                middlePointOnStartSide,
+                firstPointOnEndSide,
+                middlePointOnEndSide
+            );
         }
     }
 }
+
 bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
 {
-    double totalDistance ;
+    double totalDistance, distanceOnOppositeSide;
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
     Point lastPointBeforeLoS = getLastPointOnShortestPath(currentEventSegment, true);
     Point oppositePointOnBoundary, oppositePointOnLoS;
@@ -125,9 +142,24 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
     // If the last point on the start side is equal to the pivot point, then the closest point
     // on the end side is on the second line of sight
     if (gU.pointsAreEqual(lastPointBeforeLoS, pivotPoint)) {
+        bool finalSegmentFound = false;
+        while (!finalSegmentFound) {
+            if (currentEventSegment->hasSuccessor()) {
+                Point nextPivotPoint = currentEventSegment->getSuccessor()->getPivotPoint()->getPoint();
+                if (gU.pointsAreEqual(pivotPoint, nextPivotPoint)) {
+                    currentEventSegment = currentEventSegment->getSuccessor();
+                } else {
+                    finalSegmentFound = true;
+                }
+            } else {
+                finalSegmentFound = true;
+            }
+        }
         oppositePointOnBoundary = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide();
         oppositePointOnLoS = getIntersectionPointOnLoS(oppositePointOnBoundary, false);
         totalDistance = currentEventSegment->getDistanceToLastVertex(true);
+        distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(false) +
+                getDistanceToIntersectionPoint(oppositePointOnLoS, false);
 
         handleNewGlobalMinimum(
             totalDistance,
@@ -138,18 +170,33 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
         );
         Minimum *min = allMinima.at(0);
         min->setIsInDiscArea(true);
-        min->setDiscRadius(totalDistance - currentEventSegment->getDistanceToLastVertex(false));
+        min->setDiscRadius(totalDistance - distanceOnOppositeSide);
         return true;
     }
 
-    lastPointBeforeLoS = getLastPointOnShortestPath(currentEventSegment, true);
+    lastPointBeforeLoS = getLastPointOnShortestPath(currentEventSegment, false);
 
     // If the last point on the end side is equal to the pivot point, then the closest point
     // on the start side is on the first line of sight
     if (gU.pointsAreEqual(lastPointBeforeLoS, pivotPoint)) {
+        bool finalSegmentFound = false;
+        while (!finalSegmentFound) {
+            if (currentEventSegment->hasPredecessor()) {
+                Point nextPivotPoint = currentEventSegment->getPredecessor()->getPivotPoint()->getPoint();
+                if (gU.pointsAreEqual(pivotPoint, nextPivotPoint)) {
+                    currentEventSegment = currentEventSegment->getPredecessor();
+                } else {
+                    finalSegmentFound = true;
+                }
+            } else {
+                finalSegmentFound = true;
+            }
+        }
         oppositePointOnBoundary = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide();
         oppositePointOnLoS = getIntersectionPointOnLoS(oppositePointOnBoundary, true);
         totalDistance = currentEventSegment->getDistanceToLastVertex(false);
+        distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(true) +
+                getDistanceToIntersectionPoint(oppositePointOnLoS, true);
 
         handleNewGlobalMinimum(
             totalDistance,
@@ -160,7 +207,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
         );
         Minimum *min = allMinima.at(0);
         min->setIsInDiscArea(true);
-        min->setDiscRadius(totalDistance - currentEventSegment->getDistanceToLastVertex(true));
+        min->setDiscRadius(totalDistance - distanceOnOppositeSide);
         return true;
     }
     return false;

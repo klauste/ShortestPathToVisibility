@@ -1,11 +1,12 @@
-#ifndef BENDEVENTTEST_H
-#define BENDEVENTTEST_H
+#ifndef MINMAXTEST_H
+#define MINMAXTEST_H
 #include <QtTest>
 
 // add necessary includes here
 #include "spvshortestpath.h"
 #include "Events/pathandboundaryeventcalculator.h"
 #include "Events/bendeventcalculator.h"
+#include "Minima/minmaxcalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"
 #include "Utils/geometryutil.h"
@@ -18,24 +19,36 @@ typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
 typedef CGAL::Polygon_2<K> Polygon;
 
-class BendEventTest : public QObject
+class MinMaxTest : public QObject
 {
     Q_OBJECT
 
 public:
-    BendEventTest();
-    ~BendEventTest();
+    MinMaxTest();
+    ~MinMaxTest();
 private:
     Polygon polygon;
     SPV::ShortestPath *shortestPath;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
 
 private slots:
-    void bendEventTest1();
-    void bendEventTest2();
-    void bendEventTest3();
-    void bendEventTest4();
-    void bendEventTest5();
-    void bendEventTest6();
+    void minMaxTest1();
+    void minMaxTest2();
+    void minMaxTest3();
+    void minMaxTest4();
+    void minMaxTest5();
+    void minMaxTest6();
+    void minMaxTest7();
+    void minMaxTest8();
+    void minMaxTest9();
+    void minMaxTest10();
+    void minMaxTest11();
+    void minMaxTest12();
+    void minMaxTest13();
+    void minMaxTest14();
+    void minMaxTest15();
+    void minMaxTest16();
+    void minMaxTest17();
+    void minMaxTest18();
 };
-#endif // BENDEVENTTEST_H
+#endif // MINMAXTEST_H

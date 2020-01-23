@@ -63,7 +63,7 @@ namespace SPV {
             return isInDiscArea;
         }
 
-        void setDiscRadius(unsigned r) {
+        void setDiscRadius(double r) {
             discRadius = r;
         }
 

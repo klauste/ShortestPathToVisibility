@@ -1,5 +1,5 @@
-#ifndef BENDEVENTTEST_H
-#define BENDEVENTTEST_H
+#ifndef SHORTESTPATHTEST_H
+#define SHORTESTPATHTEST_H
 #include <QtTest>
 
 // add necessary includes here
@@ -18,24 +18,31 @@ typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
 typedef CGAL::Polygon_2<K> Polygon;
 
-class BendEventTest : public QObject
+class ShortestPathTest : public QObject
 {
     Q_OBJECT
 
 public:
-    BendEventTest();
-    ~BendEventTest();
+    ShortestPathTest();
+    ~ShortestPathTest();
 private:
     Polygon polygon;
     SPV::ShortestPath *shortestPath;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
 
 private slots:
-    void bendEventTest1();
-    void bendEventTest2();
-    void bendEventTest3();
-    void bendEventTest4();
-    void bendEventTest5();
-    void bendEventTest6();
+    void shortestPathTest1();
+    void shortestPathTest2();
+    void shortestPathTest3();
+    void shortestPathTest4();
+    void shortestPathTest5();
+    void shortestPathTest6();
+    void shortestPathTest7();
+    void shortestPathTest8();
+    void shortestPathTest9();
+    void shortestPathTest10();
+    void shortestPathTest11();
+    void shortestPathTest12();
+    void shortestPathTest13();
 };
-#endif // BENDEVENTTEST_H
+#endif // SHORTESTPATHTEST_H

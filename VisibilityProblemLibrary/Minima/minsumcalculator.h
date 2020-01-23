@@ -12,10 +12,6 @@ namespace SPV {
     class MinSumCalculator : public AbstractMinimumCalculator {
     public:
         using AbstractMinimumCalculator::AbstractMinimumCalculator;
-        ~MinSumCalculator()
-        {
-            allMinima.clear();
-        }
         void calculateMinima();
 
     private:

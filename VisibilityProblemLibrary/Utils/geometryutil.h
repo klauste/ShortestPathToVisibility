@@ -72,6 +72,12 @@ namespace SPV {
             return (abs(diff) <= precision);
         }
 
+        bool valuesAreEqualHighPrecision(double d1, double d2) {
+            double diff = d1 - d2;
+
+            return (abs(diff) <= (precision * 0.01));
+        }
+
         bool isLarger(double d1, double d2)
         {
             double diff = d1 -d2;

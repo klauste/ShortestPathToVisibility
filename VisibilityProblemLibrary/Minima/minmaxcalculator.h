@@ -12,10 +12,17 @@ namespace SPV {
         public:
             using AbstractMinimumCalculator::AbstractMinimumCalculator;
             void calculateMinima();
+
         private:
             bool isMinimumInCurrentSegment();
             void handleMinimum();
             bool handleMinimumAtPivotPoint();
+            void findInnerMinimum(
+                    Point firstPointOnStartSide,
+                    Point secondPointOnStartSide,
+                    Point firstPointOnEndSide,
+                    Point secondPointOnEndSide
+            );
     };
 }
 #endif // MINMAXCALCULATOR_H
