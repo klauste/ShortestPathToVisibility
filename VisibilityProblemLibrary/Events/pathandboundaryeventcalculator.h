@@ -21,24 +21,32 @@ namespace SPV {
     class PathAndBoundaryEventCalculator : public BaseCalculator
     {
     public:
-        PathAndBoundaryEventCalculator(const std::vector<PointOnShortestPath* > &sP) {
-            shortestPath = sP;
+        PathAndBoundaryEventCalculator (const Polygon &p, Point s, Point e) :
+            BaseCalculator (p, s, e) {}
+        ~PathAndBoundaryEventCalculator()
+        {
+            EventSegment *nextSegment = firstEventSegment;
+            EventSegment *currentSegment = firstEventSegment;
+
+            bool allDestroyed = false;
+            while(!allDestroyed) {
+                currentSegment = nextSegment;
+                if (!currentSegment->hasSuccessor()) {
+                    allDestroyed = true;
+                } else {
+                    nextSegment = currentSegment->getSuccessor();
+                }
+            }
+            delete currentSegment;
         }
 
-        void calculateEvents();
-
         // Move to private after testing
-        std::vector<SweptSegment *> getSegmentsForFinalPoint(bool forFirstPoint);
+        std::vector<std::shared_ptr<SweptSegment>> getSegmentsForFinalPoint(bool forFirstPoint);
         void setCurrentSegmentOrderFromLeftToRight(bool c)
         {
             currentSegmentOrderFromLeftToRight = c;
         }
         void calculatePathAndBoundaryEvents();
-
-        EventSegment* getFirstEventSegment()
-        {
-            return firstEventSegment;
-        }
     private:
         struct EventSegmentCreationResult {
             EventSegmentCreationResult () {}
@@ -51,14 +59,14 @@ namespace SPV {
             bool endSideIsEndOfSegment;
         };
         EventSegmentCreationResult createPathEventSegment(
-            SweptSegment* startSideSegment,
-            SweptSegment* endSideSegment,
-            PointOnShortestPath *pivotPoint
+            std::shared_ptr<SweptSegment> startSideSegment,
+            std::shared_ptr<SweptSegment> endSideSegment,
+            std::shared_ptr<PointOnShortestPath> pivotPoint
         );
         EventSegmentCreationResult createBoundaryEventSegment(
-            SweptSegment* startSideSegment,
-            SweptSegment* endSideSegment,
-            PointOnShortestPath *pivotPoint,
+            std::shared_ptr<SweptSegment> startSideSegment,
+            std::shared_ptr<SweptSegment> endSideSegment,
+            std::shared_ptr<PointOnShortestPath> pivotPoint,
             bool endOfSegmentReached,
             bool endOfEndSegmentReached
         );
@@ -71,19 +79,16 @@ namespace SPV {
                 bool secondStartPointIsVertex,
                 Point secondEndPoint,
                 bool secondEndPointIsVertex,
-                PointOnShortestPath *pivotPoint
+                std::shared_ptr<PointOnShortestPath> pivotPoint
         );
-        void calculateBendEvents();
-        void addStartEvent();
-        std::vector<SweptSegment*> getStartSegmentsForLoop(
-            const std::vector<SweptSegment* > &segments,
+        std::vector<std::shared_ptr<SweptSegment>> getStartSegmentsForLoop(
+            const std::vector<std::shared_ptr<SweptSegment>> &segments,
             unsigned i
         );
-        std::vector<SweptSegment*> getEndSegmentsForLoop(
-            const std::vector<SweptSegment* > &segments,
+        std::vector<std::shared_ptr<SweptSegment>> getEndSegmentsForLoop(
+            const std::vector<std::shared_ptr<SweptSegment>> &segments,
             unsigned i
         );
-        void addSegment(SweptSegment *leftSegment, SweptSegment *rightSegment);
     };
 }
 

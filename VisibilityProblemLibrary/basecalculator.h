@@ -7,6 +7,7 @@
 #include "Models/sweptsegment.h"
 #include "Utils/geometryutil.h"
 #include "Models/lineofsight.h"
+#include "ShortestPath/shortestpathtreecalculator.h"
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
@@ -17,13 +18,23 @@ namespace SPV {
     class BaseCalculator
     {
     public:
+        BaseCalculator(const Polygon &p, const Point s, Point e) {
+            std::unique_ptr<ShortestPathTreeCalculator> spt = std::unique_ptr<ShortestPathTreeCalculator>(new ShortestPathTreeCalculator(p, s, e));
+            shortestPath = spt->getShortestPath();
+        }
+
         EventSegment* getFirstEventSegment()
         {
             return firstEventSegment;
         }
 
+        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath()
+        {
+            return shortestPath;
+        }
+
     protected:
-        std::vector<PointOnShortestPath *> shortestPath;
+        std::vector<std::shared_ptr<PointOnShortestPath>> shortestPath;
         bool currentSegmentOrderFromLeftToRight = true;
         EventSegment *currentEventSegment;
         EventSegment *firstEventSegment;

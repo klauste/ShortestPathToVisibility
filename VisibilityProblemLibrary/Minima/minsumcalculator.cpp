@@ -2,6 +2,7 @@
 
 void SPV::MinSumCalculator::calculateMinima()
 {
+    calculateEvents();
     bool allSegmentsHandled = false;
     currentEventSegment = firstEventSegment;
 
@@ -303,7 +304,7 @@ Point SPV::MinSumCalculator::getFurthestPointOnBoundary(bool onStartSide, bool f
     bool hasNeighbor = false;
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
     Point currentPoint, otherPotentialPoint;
-    LineOfSight *loS, *neighborLoS;
+    std::shared_ptr<LineOfSight> loS, neighborLoS;
 
     if (firstLoS) {
         loS = currentEventSegment->getFirstLineOfSightFromStart();

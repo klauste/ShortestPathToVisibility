@@ -15,7 +15,8 @@
 #include "Models/faceonshortestpath.h"
 #include "Models/pointwithtriangulationinfo.h"
 #include "Utils/geometryutil.h"
-#include "spvfaceinfo.h"
+#include "ShortestPath/faceinfo.h"
+#include "ShortestPath/triangulation.h"
 #include "Models/pointonshortestpath.h"
 
 typedef K::Ray_2 Ray;
@@ -38,31 +39,19 @@ namespace SPV {
     class ShortestPathCalculator
     {
     public:
-        ShortestPathCalculator(const Polygon &p, const CDT &t, Point s, Point e) {
+        ShortestPathCalculator(const Polygon &p, Point s, Point e) {
+            triangulationCalculator = Triangulation(p);
             polygon = p;
-            triangulation = t;
+            triangulation = triangulationCalculator.getTriangulation();
             startPoint = s;
             endPoint = e;
         }
-        ~ShortestPathCalculator()
+
+        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath()
         {
-            funnelLeftPath.clear();
-            funnelRightPath.clear();
-            funnelTail.clear();
+            calculateShortestPath();
+            return shortestPath;
         }
-
-        void initialize(const Polygon &polygon);
-
-        /**
-         * Calculates the shortest path between startPoint and endPoint
-         * in the given polygon. The function implements the algorithm
-         * described by Wolgang Mulzer in
-         * https://page.mi.fu-berlin.de/mulzer/notes/alggeo/polySP.pdf
-         *
-         * @brief calculateShortestPath
-         * @return the shortest path
-         */
-        std::vector<PointOnShortestPath *> calculateShortestPath();
 
         CDT::Face_handle getStartFace()
         {
@@ -75,12 +64,17 @@ namespace SPV {
 
             return facesFromStartToEnd.at(lastIndex)->faceHandle;
         }
-    private:
-        Polygon polygon;
-        CDT triangulation;
-        Point startPoint;
-        Point endPoint;
-        GeometryUtil gU;
+    protected:
+        /**
+         * Calculates the shortest path between startPoint and endPoint
+         * in the given polygon. The function implements the algorithm
+         * described by Wolgang Mulzer in
+         * https://page.mi.fu-berlin.de/mulzer/notes/alggeo/polySP.pdf
+         *
+         * @brief calculateShortestPath
+         * @return the shortest path
+         */
+        void calculateShortestPath();
 
         /**
          * Stores the triangulation faces through which the shortest
@@ -89,7 +83,20 @@ namespace SPV {
          *
          * @brief facesFromStartToEnd
          */
-        std::vector<FaceOnShortestPath *> facesFromStartToEnd;
+        std::vector<std::shared_ptr<FaceOnShortestPath>> facesFromStartToEnd;
+
+        /**
+         * @brief shortestPath
+         */
+        std::vector<std::shared_ptr<PointOnShortestPath>> shortestPath;
+
+        Point startPoint;
+        Point endPoint;
+        GeometryUtil gU;
+    private:
+        Polygon polygon;
+        CDT triangulation;
+        Triangulation triangulationCalculator;
 
         /**
          * This function sets facesFromStartToEnd
@@ -110,23 +117,16 @@ namespace SPV {
         bool recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle);
 
         /**
-         * Contains the tail to the funnel
-         *
-         * @brief funnelTail
-         */
-        std::vector<PointOnShortestPath *> funnelTail;
-
-        /**
          * Contains the left part of the funnel
          * @brief funnelLeftPath
          */
-        std::vector<PointOnShortestPath *> funnelLeftPath;
+        std::vector<std::shared_ptr<PointOnShortestPath>> funnelLeftPath;
 
         /**
          * Contains the right part of the funnel
          * @brief funnelRightPath
          */
-        std::vector<PointOnShortestPath *> funnelRightPath;
+        std::vector<std::shared_ptr<PointOnShortestPath>> funnelRightPath;
 
         /**
          * Handle the next point in a triangle on the path from the start to the end
@@ -139,9 +139,9 @@ namespace SPV {
          * @param isBackwardPathOnTheRight
          */
         void handleNextPoint(
-                std::vector<PointOnShortestPath *> &backwardPath,
-                std::vector<PointOnShortestPath *> &forwardPath,
-                PointOnShortestPath *nextPoint,
+                std::vector<std::shared_ptr<PointOnShortestPath>> &backwardPath,
+                std::vector<std::shared_ptr<PointOnShortestPath>> &forwardPath,
+                std::shared_ptr<PointOnShortestPath> nextPoint,
                 bool isBackwardPathOnTheRight
         );
 

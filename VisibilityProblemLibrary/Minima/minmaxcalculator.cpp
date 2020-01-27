@@ -2,6 +2,7 @@
 
 void SPV::MinMaxCalculator::calculateMinima()
 {
+    calculateEvents();
     bool minimumFound = false;
     currentEventSegment = firstEventSegment;
 
@@ -168,7 +169,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
             currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide(),
             oppositePointOnBoundary
         );
-        Minimum *min = allMinima.at(0);
+        auto min = allMinima.at(0);
         min->setIsInDiscArea(true);
         min->setDiscRadius(totalDistance - distanceOnOppositeSide);
         return true;
@@ -205,7 +206,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
             oppositePointOnBoundary,
             currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide()
         );
-        Minimum *min = allMinima.at(0);
+        auto min = allMinima.at(0);
         min->setIsInDiscArea(true);
         min->setDiscRadius(totalDistance - distanceOnOppositeSide);
         return true;

@@ -1,16 +1,33 @@
 #include "ShortestPath/shortestpathtreecalculator.h"
 
+void SPV::ShortestPathTreeCalculator::calculateShortestPath()
+{
+    ShortestPathCalculator::calculateShortestPath();
+
+    rootAtEndPoint = false;
+    rootPoint = std::make_shared<PointWithTriangulationInfo>(startPoint);
+    currentPointOnShortestPathIndex = 0;
+    setSweptSegmentsInShortestPath(facesFromStartToEnd.at(0)->faceHandle);
+    shortestPathTree.clear();
+
+    rootAtEndPoint = true;
+    rootPoint = std::make_shared<PointWithTriangulationInfo>(endPoint);
+    currentPointOnShortestPathIndex = shortestPath.size() - 1;
+    setSweptSegmentsInShortestPath(facesFromStartToEnd.back()->faceHandle);
+    shortestPathTree.clear();
+}
+
 void SPV::ShortestPathTreeCalculator::setSweptSegmentsInShortestPath(CDT::Face_handle firstFace) {
     int oppositePointIndex, leftPointIndex, rightPointIndex;
 
-    SPV::PointOnShortestPathTree *startPointOnTree = new SPV::PointOnShortestPathTree(rootPoint);
+    std::shared_ptr<PointOnShortestPathTree> startPointOnTree = std::make_shared<PointOnShortestPathTree>(rootPoint);
 
     addPointToShortestPathTree(startPointOnTree);
 
     // add all points in the start triangle
     for (int i = 0; i < 3; i++) {
-        SPV::PointOnShortestPathTree * trianglePoint = new SPV::PointOnShortestPathTree(
-            new PointWithTriangulationInfo(firstFace, i),
+        std::shared_ptr<PointOnShortestPathTree> trianglePoint = std::make_shared<PointOnShortestPathTree>(
+            std::make_shared<PointWithTriangulationInfo>(firstFace, i),
             startPointOnTree
         );
         addPointToShortestPathTree(trianglePoint);
@@ -21,8 +38,8 @@ void SPV::ShortestPathTreeCalculator::setSweptSegmentsInShortestPath(CDT::Face_h
     // a point by calling the neighbour function with the index, the opposite point has
     // in the current triangle face.
     for (oppositePointIndex = 0; oppositePointIndex < 3; oppositePointIndex++) {
-        std::vector<PointOnShortestPathTree*> leftFunnel;
-        std::vector<PointOnShortestPathTree*> rightFunnel;
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> leftFunnel;
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> rightFunnel;
 
         leftPointIndex = firstFace->ccw(oppositePointIndex);
         rightPointIndex = firstFace->cw(oppositePointIndex);
@@ -41,14 +58,14 @@ void SPV::ShortestPathTreeCalculator::setSweptSegmentsInShortestPath(CDT::Face_h
 }
 
 void SPV::ShortestPathTreeCalculator::calculateAndAddSegment(
-    PointOnShortestPathTree* apex,
-    PointOnShortestPathTree* leftFunnelPoint,
-    PointOnShortestPathTree* rightFunnelPoint,
+    std::shared_ptr<PointOnShortestPathTree> apex,
+    std::shared_ptr<PointOnShortestPathTree> leftFunnelPoint,
+    std::shared_ptr<PointOnShortestPathTree> rightFunnelPoint,
     Point leftTriangleEdgePoint,
     Point rightTriangleEdgePoint
 )
 {
-    PointOnShortestPath *currentPointOnSp = shortestPath.at(apex->getIndexOnShortestPath());
+    auto currentPointOnSp = shortestPath.at(apex->getIndexOnShortestPath());
     Point leftIntersectionPoint = leftFunnelPoint->getPoint();
     bool leftPointIsVertex = true;
     Point rightIntersectionPoint = rightFunnelPoint->getPoint();
@@ -106,7 +123,7 @@ void SPV::ShortestPathTreeCalculator::calculateAndAddSegment(
         return;
     }
 
-    SweptSegment *newSegment = new SweptSegment(
+    auto newSegment = std::make_shared<SweptSegment>(
                 leftIntersectionPoint,
                 leftPointIsVertex,
                 rightIntersectionPoint,
@@ -122,16 +139,16 @@ void SPV::ShortestPathTreeCalculator::calculateAndAddSegment(
 
 void SPV::ShortestPathTreeCalculator::calculateSweptSegments(
    CDT::Face_handle currentFace,
-   SPV::PointOnShortestPathTree* apex,
-   std::vector<SPV::PointOnShortestPathTree*> &leftFunnel,
-   std::vector<SPV::PointOnShortestPathTree*> &rightFunnel,
-   SPV::ShortestPathTreeCalculator::triangulationIndexInformation *tI
+   std::shared_ptr<PointOnShortestPathTree> apex,
+   std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
+   std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel,
+   std::shared_ptr<ShortestPathTreeCalculator::triangulationIndexInformation> tI
 ) {
     Point leftTriangleEdgePoint = currentFace->vertex(tI->leftPointIndex)->point();
     Point rightTriangleEdgePoint = currentFace->vertex(tI->rightPointIndex)->point();
-    PointOnShortestPathTree *currentApex;
-    PointOnShortestPathTree *currentLeftFunnelPoint;
-    PointOnShortestPathTree *currentRightFunnelPoint;
+    std::shared_ptr<PointOnShortestPathTree> currentApex;
+    std::shared_ptr<PointOnShortestPathTree> currentLeftFunnelPoint;
+    std::shared_ptr<PointOnShortestPathTree> currentRightFunnelPoint;
     int i;
 
     // Calculate the swept segments on the left funnel (if any)
@@ -175,17 +192,17 @@ void SPV::ShortestPathTreeCalculator::calculateSweptSegments(
 
 void SPV::ShortestPathTreeCalculator::splitFunnelAtApex(
         CDT::Face_handle nextFace,
-        SPV::PointOnShortestPathTree *apex,
-        std::vector<SPV::PointOnShortestPathTree*> &leftFunnel,
-        std::vector<SPV::PointOnShortestPathTree*> &rightFunnel,
-        triangulationIndexInformation *indexInfo
+        std::shared_ptr<PointOnShortestPathTree> apex,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel,
+        std::shared_ptr<triangulationIndexInformation> indexInfo
 )
 {
-    PointOnShortestPathTree *nextPointOnTree = new SPV::PointOnShortestPathTree(
-        new PointWithTriangulationInfo(nextFace, indexInfo->nextPointIndex)
+    auto nextPointOnTree = std::make_shared<PointOnShortestPathTree>(
+        std::make_shared<PointWithTriangulationInfo>(nextFace, indexInfo->nextPointIndex)
     );
-    std::vector<PointOnShortestPathTree* > newSplitFunnelRight;
-    std::vector<PointOnShortestPathTree* > newSplitFunnelLeft;
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> newSplitFunnelRight;
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> newSplitFunnelLeft;
 
     addPointToShortestPathTree(nextPointOnTree);
 
@@ -212,13 +229,13 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtApex(
 
 void SPV::ShortestPathTreeCalculator::handleTriangleBeyondLastEdge(
         CDT::Face_handle currentFace,
-        SPV::PointOnShortestPathTree *apex,
-        SPV::PointOnShortestPathTree *firstPointOnTree,
+        std::shared_ptr<PointOnShortestPathTree> apex,
+        std::shared_ptr<PointOnShortestPathTree> firstPointOnTree,
         bool lastPointOnLeftFunnel
 ) {
     if (currentFace->info().inDomain()) {
-        std::vector<SPV::PointOnShortestPathTree*> firstFunnel;
-        std::vector<SPV::PointOnShortestPathTree*> secondFunnel;
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> firstFunnel;
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> secondFunnel;
         firstFunnel.push_back(firstPointOnTree);
 
         // Calling the function with this argument will result in the following:
@@ -226,13 +243,13 @@ void SPV::ShortestPathTreeCalculator::handleTriangleBeyondLastEdge(
         // firstPointOnTree -> rightPointIndex
         // next point -> nexPointIndex
         // This is important to remember when splitting further
-        triangulationIndexInformation *indexInfo = getTriangulationIndexInformation(
+        auto indexInfo = getTriangulationIndexInformation(
             apex->getPoint(),
             firstPointOnTree->getPoint(),
             currentFace
         );
-        SPV::PointOnShortestPathTree* secondPointOnTree = new SPV::PointOnShortestPathTree(
-            new PointWithTriangulationInfo(currentFace, indexInfo->nextPointIndex),
+        std::shared_ptr<PointOnShortestPathTree> secondPointOnTree = std::make_shared<PointOnShortestPathTree>(
+            std::make_shared<PointWithTriangulationInfo>(currentFace, indexInfo->nextPointIndex),
             apex
         );
         addPointToShortestPathTree(secondPointOnTree);
@@ -276,20 +293,19 @@ void SPV::ShortestPathTreeCalculator::handleTriangleBeyondLastEdge(
                 false
             );
         }
-        delete indexInfo;
     }
 }
 
 void SPV::ShortestPathTreeCalculator::splitFunnelAtLastPoint(
         CDT::Face_handle nextFace,
-        SPV::PointOnShortestPathTree *apex,
-        std::vector<SPV::PointOnShortestPathTree*> &leftFunnel,
-        std::vector<SPV::PointOnShortestPathTree*> &rightFunnel,
+        std::shared_ptr<PointOnShortestPathTree> apex,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel,
         bool nextPointOnLeftFunnel,
-        triangulationIndexInformation *indexInfo
+        std::shared_ptr<triangulationIndexInformation> indexInfo
 )
 {
-    SPV::PointOnShortestPathTree* newApex;
+    std::shared_ptr<PointOnShortestPathTree> newApex;
     unsigned neigborIndex;
     CDT::Face_handle faceBeyondSplittingEdge;
 
@@ -302,8 +318,8 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtLastPoint(
         neigborIndex = indexInfo->rightPointIndex;
     }
 
-    SPV::PointOnShortestPathTree* nextPointOnTree = new SPV::PointOnShortestPathTree(
-        new PointWithTriangulationInfo(nextFace, indexInfo->nextPointIndex),
+    auto nextPointOnTree = std::make_shared<PointOnShortestPathTree>(
+        std::make_shared<PointWithTriangulationInfo>(nextFace, indexInfo->nextPointIndex),
         newApex
     );
     addPointToShortestPathTree(nextPointOnTree);
@@ -349,19 +365,19 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtLastPoint(
 
 void SPV::ShortestPathTreeCalculator::splitFunnelAtMidPoint(
         CDT::Face_handle nextFace,
-        SPV::PointOnShortestPathTree* apex,
-        std::vector<SPV::PointOnShortestPathTree*> &leftFunnel,
-        std::vector<SPV::PointOnShortestPathTree*> &rightFunnel,
+        std::shared_ptr<PointOnShortestPathTree> apex,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel,
         bool nextPointOnLeftFunnel,
-        triangulationIndexInformation *indexInfo,
+        std::shared_ptr<triangulationIndexInformation> indexInfo,
         unsigned newApexIndex
 ) {
-    std::vector<SPV::PointOnShortestPathTree*> funnelToApexIndex;
-    std::vector<SPV::PointOnShortestPathTree*> funnelWithNextPoint;
-    std::vector<SPV::PointOnShortestPathTree*> funnelAfterApexIndex;
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> funnelToApexIndex;
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> funnelWithNextPoint;
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> funnelAfterApexIndex;
     unsigned i;
 
-    SPV::PointOnShortestPathTree* newApex;
+    std::shared_ptr<PointOnShortestPathTree> newApex;
 
     if (nextPointOnLeftFunnel) {
         for (i = 0; i <= newApexIndex; i++) {
@@ -381,8 +397,8 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtMidPoint(
         newApex = rightFunnel.at(newApexIndex);
     }
 
-    SPV::PointOnShortestPathTree *nextPointOnTree = new SPV::PointOnShortestPathTree(
-        new PointWithTriangulationInfo(nextFace, indexInfo->nextPointIndex),
+    auto nextPointOnTree = std::make_shared<PointOnShortestPathTree>(
+        std::make_shared<PointWithTriangulationInfo>(nextFace, indexInfo->nextPointIndex),
         newApex
     );
 
@@ -427,9 +443,9 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtMidPoint(
 void SPV::ShortestPathTreeCalculator::splitFunnel(
     CDT::Face_handle currentFace,
     int neighborIndex,
-    SPV::PointOnShortestPathTree* apex,
-    std::vector<SPV::PointOnShortestPathTree*> &leftFunnel,
-    std::vector<SPV::PointOnShortestPathTree*> &rightFunnel
+    std::shared_ptr<PointOnShortestPathTree> apex,
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
+    std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel
 ) {
     // The next face is the triangle face opposite the vertex which has
     // neighborIndex in the currentFace.
@@ -437,7 +453,7 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
 
     // Find the index of the left point, the right point and the index of the point not on the current funnel
     // i.e. Point v in https://graphics.stanford.edu/courses/cs268-09-winter/notes/handout7.pdf, page 6.
-    triangulationIndexInformation *tI = getTriangulationIndexInformation(
+    auto tI = getTriangulationIndexInformation(
         leftFunnel.back()->getPoint(),
         rightFunnel.back()->getPoint(),
         nextFace
@@ -452,14 +468,13 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
             rightFunnel,
             tI
         );
-        delete tI;
         return;
     }
 
     int leftFunnelSize = leftFunnel.size();
     int rightFunnelSize = rightFunnel.size();
 
-    predecessorInfo* info = findPredecessor(
+    auto info = findPredecessor(
         tI->nextPoint,
         apex,
         leftFunnel,
@@ -477,8 +492,6 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
             info->onLeftFunnel,
             tI
         );
-        delete info;
-        delete tI;
         return;
     }
 
@@ -491,8 +504,6 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
             rightFunnel,
             tI
         );
-        delete info;
-        delete tI;
         return;
     }
 
@@ -506,19 +517,17 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
         tI,
         info->indexOnFunnel
     );
-    delete info;
-    delete tI;
 }
 
-SPV::ShortestPathTreeCalculator::predecessorInfo* SPV::ShortestPathTreeCalculator::findPredecessor(
+std::shared_ptr<SPV::ShortestPathTreeCalculator::predecessorInfo> SPV::ShortestPathTreeCalculator::findPredecessor(
         Point p,
-        SPV::PointOnShortestPathTree* apex,
-        std::vector<SPV::PointOnShortestPathTree*> &leftFunnel,
-        std::vector<SPV::PointOnShortestPathTree*> &rightFunnel
+        std::shared_ptr<PointOnShortestPathTree> apex,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
+        std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel
 ) {
     int leftFunnelSize = leftFunnel.size();
     Point first, second;
-    predecessorInfo* result = new predecessorInfo();
+    auto result = std::make_shared<predecessorInfo>();
 
     if (leftFunnel.size() > 1) {
         for (int i = leftFunnel.size() - 1; i > 0; i--) {
@@ -572,12 +581,12 @@ SPV::ShortestPathTreeCalculator::predecessorInfo* SPV::ShortestPathTreeCalculato
     return result;
 }
 
-SPV::ShortestPathTreeCalculator::triangulationIndexInformation* SPV::ShortestPathTreeCalculator::getTriangulationIndexInformation(
+std::shared_ptr<SPV::ShortestPathTreeCalculator::triangulationIndexInformation> SPV::ShortestPathTreeCalculator::getTriangulationIndexInformation(
         Point leftPoint,
         Point rightPoint,
         CDT::Face_handle faceHandle
 ) {
-    triangulationIndexInformation* tI = new triangulationIndexInformation();
+    auto tI = std::make_shared<triangulationIndexInformation>();
 
     // Find the index of the left point, the right point and the index of the point not on the current funnel
     // i.e. Point v in https://graphics.stanford.edu/courses/cs268-09-winter/notes/handout7.pdf, page 6.

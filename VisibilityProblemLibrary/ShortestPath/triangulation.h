@@ -1,5 +1,5 @@
-#ifndef SPVSHORTESTPATH_H
-#define SPVSHORTESTPATH_H
+#ifndef TRIANGULATION_H
+#define TRIANGULATION_H
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 
@@ -10,17 +10,11 @@
 #include <CGAL/Polygon_2.h>
 #include <vector>
 #include <iostream>
-#include "spvfaceinfo.h"
+#include "ShortestPath/faceinfo.h"
 #include <CGAL/intersections.h>
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
-#include "Utils/geometryutil.h"
-#include "ShortestPath/shortestpathcalculator.h"
-#include "ShortestPath/shortestpathtreecalculator.h"
-#include "Events/pathandboundaryeventcalculator.h"
 
-typedef K::Ray_2 Ray;
-typedef K::Intersect_2 Intersect_2;
 typedef CGAL::Exact_predicates_inexact_constructions_kernel       K;
 typedef CGAL::Triangulation_vertex_base_2<K>                      Vb;
 typedef CGAL::Triangulation_face_base_with_info_2<SPV::FaceInfo,K>    Fbb;
@@ -43,24 +37,15 @@ struct FaceOnPath
 };
 
 namespace SPV {
-    class ShortestPath
+    class Triangulation
     {
     public:
-        ShortestPath() {}
-        void initialize(const Polygon &polygon);
+        Triangulation() {}
+        Triangulation(const Polygon &p) : polygon(p) {}
         const CDT& getTriangulation();
-        std::vector<PointOnShortestPath* > calculateShortestPath();
-        void setPoint(int index, double x, double y);
-        EventSegment *getFirstEvent()
-        {
-            return firstSegment;
-        }
     private:
-        EventSegment *firstSegment;
-        Point sPoint;
-        Point ePoint;
+        Polygon polygon;
         CDT cdt;
-        void calculateTriangulation();
         void markDomains(CDT& ct,
                      CDT::Face_handle start,
                      int index,
@@ -68,7 +53,6 @@ namespace SPV {
         void markDomains(CDT& cdt);
         bool setFacesFromStartToEndPoint();
         bool recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle);
-        Polygon polygon;
     };
 }
-#endif // SPVSHORTESTPATH_H
+#endif // TRIANGULATION_H

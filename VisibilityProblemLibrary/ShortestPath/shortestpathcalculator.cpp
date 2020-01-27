@@ -1,27 +1,28 @@
 #include "ShortestPath/shortestpathcalculator.h"
 
-std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateShortestPath() {
+void SPV::ShortestPathCalculator::calculateShortestPath() {
     setFacesFromStartToEndPoint();
 
-    FaceOnShortestPath *currentFaceOnPath = facesFromStartToEnd.at(0);
+    std::vector<std::shared_ptr<PointOnShortestPath>> forwardVector;
+    auto currentFaceOnPath = facesFromStartToEnd.at(0);
     unsigned lastIndex = facesFromStartToEnd.size() - 1;
     CDT::Face_handle currentFaceHandle = currentFaceOnPath->faceHandle;
     CDT::Face_handle lastFace = facesFromStartToEnd.at(lastIndex)->faceHandle;
 
     int nextFaceIndex = currentFaceOnPath->nextFaceIndex;
-    PointOnShortestPath *firstPoint = new PointOnShortestPath(startPoint);
+    auto firstPoint = std::make_shared<PointOnShortestPath>(startPoint);
     firstPoint->setIndexOnShortestPath(0);
-    PointOnShortestPath *lastPoint = new PointOnShortestPath(endPoint);
+    auto lastPoint = std::make_shared<PointOnShortestPath>(endPoint);
 
-    funnelTail.push_back(firstPoint);
+    shortestPath.push_back(firstPoint);
 
     int vertexIndex = currentFaceHandle->ccw(nextFaceIndex);
-    PointOnShortestPath *leftPoint = new PointOnShortestPath(currentFaceHandle->vertex(vertexIndex)->point());
+    auto leftPoint = std::make_shared<PointOnShortestPath>(currentFaceHandle->vertex(vertexIndex)->point());
     funnelLeftPath.push_back(firstPoint);
     funnelLeftPath.push_back(leftPoint);
 
     vertexIndex = currentFaceHandle->cw(nextFaceIndex);
-    PointOnShortestPath *rightPoint = new PointOnShortestPath(currentFaceHandle->vertex(vertexIndex)->point());
+    std::shared_ptr<PointOnShortestPath> rightPoint = std::make_shared<PointOnShortestPath>(currentFaceHandle->vertex(vertexIndex)->point());
     funnelRightPath.push_back(firstPoint);
     funnelRightPath.push_back(rightPoint);
 
@@ -34,20 +35,19 @@ std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateSh
 
         // The next point to be handled is the one which is different from the left or right point
         vertexIndex = currentFaceHandle->ccw(nextFaceIndex);
-        std::vector<PointOnShortestPath *> forwardVector;
-        PointOnShortestPath *nextPoint = new PointOnShortestPath(currentFaceHandle->vertex(vertexIndex)->point());
+        auto nextPoint = std::make_shared<PointOnShortestPath>(currentFaceHandle->vertex(vertexIndex)->point());
 
         // If the next shortest path point is the same as the left point, set the next point to the right point
         if (nextPoint->getPoint() == leftPoint->getPoint()) {
             startOnLeftPath = false;
             vertexIndex = currentFaceHandle->cw(nextFaceIndex);
-            delete nextPoint;
-            nextPoint = new PointOnShortestPath(currentFaceHandle->vertex(vertexIndex)->point());
+            nextPoint = std::make_shared<PointOnShortestPath>(currentFaceHandle->vertex(vertexIndex)->point());
             rightPoint = nextPoint;
         } else {
             leftPoint = nextPoint;
         }
 
+        forwardVector.clear();
         // Check if nextPoint is part of the right or left sleeve
         if (startOnLeftPath) {
             // Add the elements from end to front to forwardVector
@@ -73,7 +73,7 @@ std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateSh
     }
 
     // Handle the last point
-    std::vector<PointOnShortestPath *> forwardVector;
+    forwardVector.clear();
     for (int i = funnelRightPath.size() - 1; i >= 0; i--) {
         forwardVector.push_back(funnelRightPath.at(i));
         funnelRightPath.pop_back();
@@ -81,26 +81,25 @@ std::vector<SPV::PointOnShortestPath *> SPV::ShortestPathCalculator::calculateSh
 
     handleNextPoint(funnelLeftPath, forwardVector, lastPoint, false);
 
-    // Add the last points to the funnelTail
+    // Add the last points to the shortestPath
     for (int i = 1; i < funnelLeftPath.size(); i++) {
-        PointOnShortestPath* currentPoint = funnelLeftPath.at(i);
-        currentPoint->setIndexOnShortestPath(funnelTail.size());
-        funnelTail.push_back(currentPoint);
+        std::shared_ptr<PointOnShortestPath> currentPoint = funnelLeftPath.at(i);
+        currentPoint->setIndexOnShortestPath(shortestPath.size());
+        shortestPath.push_back(currentPoint);
     }
 
-    // After handling all the triangles between the start and end point, the funnel tail is
-    // the shortest path. Set the distances for each point and return it.
     setDistances();
-    return funnelTail;
+    funnelLeftPath.clear();
+    funnelRightPath.clear();
 }
 
 void SPV::ShortestPathCalculator::handleNextPoint(
-    std::vector<PointOnShortestPath *> &backwardPath,
-    std::vector<PointOnShortestPath *> &forwardPath,
-    PointOnShortestPath *nextPoint,
+    std::vector<std::shared_ptr<PointOnShortestPath>> &backwardPath,
+    std::vector<std::shared_ptr<PointOnShortestPath>> &forwardPath,
+    std::shared_ptr<PointOnShortestPath> nextPoint,
     bool isBackwardPathOnTheRight
 ) {
-    PointOnShortestPath* currentEntry;
+    std::shared_ptr<PointOnShortestPath> currentEntry;
     unsigned backwardPathSize = backwardPath.size();
 
     // If the backward path consists only of the apex or of no point, just add the next point
@@ -151,8 +150,8 @@ void SPV::ShortestPathCalculator::handleNextPoint(
             return;
         }
         currentEntry = forwardPath.at(i - 1);
-        currentEntry->setIndexOnShortestPath(funnelTail.size());
-        funnelTail.push_back(currentEntry);
+        currentEntry->setIndexOnShortestPath(shortestPath.size());
+        shortestPath.push_back(currentEntry);
         forwardPath.pop_back();
     }
 
@@ -187,7 +186,7 @@ void SPV::ShortestPathCalculator::setFacesFromStartToEndPoint() {
 bool SPV::ShortestPathCalculator::recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle) {
     bool endPointFoundOnPath = false;
     int previousIndex = facesFromStartToEnd.size() - 1;
-    FaceOnShortestPath *currentFaceOnPath = new FaceOnShortestPath(currentFaceHandle);
+    auto currentFaceOnPath = std::make_shared<FaceOnShortestPath>(currentFaceHandle);
 
     currentFaceOnPath->nextFaceIndex = -1;
     facesFromStartToEnd.push_back(currentFaceOnPath);
@@ -224,26 +223,26 @@ bool SPV::ShortestPathCalculator::recursivelyfindEndPoint(TDS::Face_handle &curr
 void SPV::ShortestPathCalculator::setDistances()
 {
     int i;
-    unsigned lastIndex = funnelTail.size() - 1;
+    unsigned lastIndex = shortestPath.size() - 1;
     double distanceToLastPoint, currentDistance;
     for (i = 0; i <= lastIndex; i++) {
         if (i == 0) {
-            funnelTail.at(i)->setDistanceFromStartPoint(0);
+            shortestPath.at(i)->setDistanceFromStartPoint(0);
         } else {
-            distanceToLastPoint = funnelTail.at(i - 1)->getDistanceFromStartPoint();
+            distanceToLastPoint = shortestPath.at(i - 1)->getDistanceFromStartPoint();
             currentDistance = distanceToLastPoint +
-                sqrt(CGAL::squared_distance(funnelTail.at(i - 1)->getPoint(), funnelTail.at(i)->getPoint()));
-            funnelTail.at(i)->setDistanceFromStartPoint(currentDistance);
+                sqrt(CGAL::squared_distance(shortestPath.at(i - 1)->getPoint(), shortestPath.at(i)->getPoint()));
+            shortestPath.at(i)->setDistanceFromStartPoint(currentDistance);
         }
     }
     for (i = lastIndex; i >= 0; i--) {
         if (i == lastIndex) {
-            funnelTail.at(i)->setDistanceFromEndPoint(0);
+            shortestPath.at(i)->setDistanceFromEndPoint(0);
         } else {
-            distanceToLastPoint = funnelTail.at(i + 1)->getDistanceFromEndPoint();
+            distanceToLastPoint = shortestPath.at(i + 1)->getDistanceFromEndPoint();
             currentDistance = distanceToLastPoint +
-                sqrt(CGAL::squared_distance(funnelTail.at(i + 1)->getPoint(), funnelTail.at(i)->getPoint()));
-            funnelTail.at(i)->setDistanceFromEndPoint(currentDistance);
+                sqrt(CGAL::squared_distance(shortestPath.at(i + 1)->getPoint(), shortestPath.at(i)->getPoint()));
+            shortestPath.at(i)->setDistanceFromEndPoint(currentDistance);
         }
     }
 }

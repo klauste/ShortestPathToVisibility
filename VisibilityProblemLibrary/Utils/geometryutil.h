@@ -45,21 +45,7 @@ namespace SPV {
             return l.has_on_negative_side(p3);
         }
 
-        // y grows towards bottom of screen so adjust checks
-        bool isOnRightSideOfPerpendicularLine(Line l, Point p1, Point p2) {
-            Line p = l.perpendicular(p1);
-
-            return p.has_on_negative_side(p2);
-        }
-
-        bool isOnLeftSideOfPerpendicularLine(Line l, Point p1, Point p2) {
-            Line p = l.perpendicular(p1);
-
-            return l.has_on_positive_side(p2);
-        }
-
         bool pointsAreEqual(Point p1, Point p2) {
-            double temp = p1.x() - p2.x();
             return (
                 abs(p1.x() - p2.x()) <= precision &&
                 abs(p1.y() - p2.y()) <= precision

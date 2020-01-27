@@ -36,22 +36,22 @@ namespace SPV {
             return point;
         }
 
-        std::vector<SweptSegment*> getSegmentsFromStart()
+        std::vector<std::shared_ptr<SweptSegment>> getSegmentsFromStart()
         {
             return segmentsFromStart;
         }
 
-        std::vector<SweptSegment*> getSegmentsFromEnd()
+        std::vector<std::shared_ptr<SweptSegment>> getSegmentsFromEnd()
         {
             return segmentsFromEnd;
         }
 
-        void addSegmentFromStart(SweptSegment* s)
+        void addSegmentFromStart(std::shared_ptr<SweptSegment> s)
         {
             segmentsFromStart.push_back(s);
         }
 
-        void addSegmentFromEnd(SweptSegment* s)
+        void addSegmentFromEnd(std::shared_ptr<SweptSegment> s)
         {
             segmentsFromEnd.push_back(s);
         }
@@ -98,14 +98,14 @@ namespace SPV {
          * found in the start point's shortest path map
          * @brief segmentsFromStart
          */
-        std::vector<SweptSegment*> segmentsFromStart;
+        std::vector<std::shared_ptr<SweptSegment>> segmentsFromStart;
 
         /**
          * The segments swept by the line of sight through this point
          * found in th end point's shortest path map
          * @brief segmentsFromEnd
          */
-        std::vector<SweptSegment*> segmentsFromEnd;
+        std::vector<std::shared_ptr<SweptSegment>> segmentsFromEnd;
 
         unsigned indexOnShortestPath;
 

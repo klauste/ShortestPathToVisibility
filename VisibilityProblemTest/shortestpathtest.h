@@ -3,12 +3,12 @@
 #include <QtTest>
 
 // add necessary includes here
-#include "spvshortestpath.h"
 #include "Events/pathandboundaryeventcalculator.h"
-#include "Events/bendeventcalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"
 #include "Utils/geometryutil.h"
+#include "ShortestPath/shortestpathcalculator.h"
+#include "ShortestPath/shortestpathtreecalculator.h"
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Point_2.h>
 #include <CGAL/Polygon_2.h>
@@ -27,8 +27,10 @@ public:
     ~ShortestPathTest();
 private:
     Polygon polygon;
-    SPV::ShortestPath *shortestPath;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
+    std::vector<std::shared_ptr<SPV::SweptSegment>> sweptSegments;
+    SPV::ShortestPathTreeCalculator *shortestPathCalculator;
+    SPV::PathAndBoundaryEventCalculator *pathAndBoundaryCalculator;
 
 private slots:
     void shortestPathTest1();

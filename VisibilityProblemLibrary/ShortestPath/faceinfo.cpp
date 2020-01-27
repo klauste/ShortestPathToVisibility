@@ -1,4 +1,4 @@
-#include "spvfaceinfo.h"
+#include "ShortestPath/faceinfo.h"
 SPV::FaceInfo::FaceInfo() {
     hasShortestPathEvents = false;
 }

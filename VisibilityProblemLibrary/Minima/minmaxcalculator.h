@@ -10,7 +10,8 @@
 namespace SPV {
     class MinMaxCalculator : public AbstractMinimumCalculator {
         public:
-            using AbstractMinimumCalculator::AbstractMinimumCalculator;
+            MinMaxCalculator (const Polygon &p, Point s, Point e) :
+                AbstractMinimumCalculator (p, s, e) {}
             void calculateMinima();
 
         private:

@@ -3,9 +3,6 @@
 #include <QtTest>
 
 // add necessary includes here
-#include "spvshortestpath.h"
-#include "Events/pathandboundaryeventcalculator.h"
-#include "Events/bendeventcalculator.h"
 #include "Minima/minsumcalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"
@@ -28,7 +25,7 @@ public:
     ~MinSumTest();
 private:
     Polygon polygon;
-    SPV::ShortestPath *shortestPath;
+    SPV::MinSumCalculator *minSumCalculator;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
 
 private slots:

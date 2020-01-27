@@ -1,7 +1,8 @@
 #include "Events/bendeventcalculator.h"
 
-void SPV::BendEventCalculator::calculateBendEvents()
+void SPV::BendEventCalculator::calculateEvents()
 {
+    calculatePathAndBoundaryEvents();
     currentEventSegment = firstEventSegment;
     calculateEventsOnStartSide = true;
     bool allEventsHandled = false;
@@ -342,7 +343,7 @@ bool SPV::BendEventCalculator::handleBendEventWithPointAddition(bool checkSegmen
 
 void SPV::BendEventCalculator::addNewEventSegment(Point eventPoint)
 {
-    LineOfSight *splitLine;
+    std::shared_ptr<LineOfSight> splitLine;
     EventSegment *newEventSegment;
     Line lOS = Line(eventPoint, currentEventSegment->getPivotPoint()->getPoint());
 
@@ -362,11 +363,11 @@ void SPV::BendEventCalculator::addNewEventSegment(Point eventPoint)
     }
     Point secondEventPoint = boost::get<Point>(result);
     if (calculateEventsOnStartSide) {
-        splitLine = new LineOfSight(eventPoint, false, secondEventPoint, false);
+        splitLine = std::make_shared<LineOfSight>(eventPoint, false, secondEventPoint, false);
         newEventSegment = currentEventSegment->createNewSuccessor(splitLine);
         newEventSegment->setEventsOnStartSideHandled();
     } else {
-        splitLine = new LineOfSight(secondEventPoint, false, eventPoint, false);
+        splitLine = std::make_shared<LineOfSight>(secondEventPoint, false, eventPoint, false);
         newEventSegment = currentEventSegment->createNewPredecessor(splitLine);
         newEventSegment->setEventsOnEndSideHandled();
     }
@@ -541,8 +542,8 @@ void SPV::BendEventCalculator::handlePathOrBoundaryEvent()
 
 void SPV::BendEventCalculator::handleBoundaryEvent(EventSegment *previousEventSegment)
 {
-    LineOfSight *firstLos;
-    LineOfSight *secondLos;
+    std::shared_ptr<LineOfSight> firstLos;
+    std::shared_ptr<LineOfSight> secondLos;
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
     Point edgeStart;
     Point edgeEnd;
@@ -778,8 +779,8 @@ void SPV::BendEventCalculator::handlePathEvent(EventSegment *previousEventSegmen
     unsigned previousIndex = previousEventSegment->getPivotPoint()->getIndexOnShortestPath();
     if (currentSegmentOrderFromLeftToRight != isSegmentOrderFromLeftToRight(previousIndex)) {
         Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
-        LineOfSight *firstLoS = currentEventSegment->getFirstLineOfSightFromStart();
-        LineOfSight *secondLoS = currentEventSegment->getSecondLineOfSightFromStart();
+        std::shared_ptr<LineOfSight> firstLoS = currentEventSegment->getFirstLineOfSightFromStart();
+        std::shared_ptr<LineOfSight> secondLoS = currentEventSegment->getSecondLineOfSightFromStart();
         bool shortestPathObstructed;
 
         // The previous index is the last point on the shortest path at the start of this event segment

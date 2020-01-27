@@ -20,19 +20,13 @@ void MinSumTest::minSumTest1()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 5.0, 5.0);
-    shortestPath->setPoint(1, 9.0, 6.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
+
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(5.0, 5.0), Point(9.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 2.1213), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(6.5,3.5)), true);
@@ -40,6 +34,8 @@ void MinSumTest::minSumTest1()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(5,2)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(11,8)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest2()
@@ -52,19 +48,13 @@ void MinSumTest::minSumTest2()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 9.0, 6.0);
-    shortestPath->setPoint(1, 5.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
+
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(9.0, 6.0), Point(5.0, 5.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 2.1213), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(6.5,3.5)), true);
@@ -72,10 +62,14 @@ void MinSumTest::minSumTest2()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(5,2)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(11,8)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest3()
 {
+    polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
     polygon.push_back(Point(12.0, 2.0));
@@ -83,19 +77,13 @@ void MinSumTest::minSumTest3()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 5.0, 5.0);
-    shortestPath->setPoint(1, 9.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
+
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(5.0, 5.0), Point(9.0, 5.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 2);
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 1.7889), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(5,5)), true);
@@ -112,10 +100,13 @@ void MinSumTest::minSumTest3()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(3,2)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(12,6.5)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest4()
 {
+    polygon = Polygon();
     polygon.push_back(Point(3.0, 8.0));
     polygon.push_back(Point(3.0, 2.0));
     polygon.push_back(Point(12.0, 2.0));
@@ -123,19 +114,13 @@ void MinSumTest::minSumTest4()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 9.0, 5.0);
-    shortestPath->setPoint(1, 5.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
+
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(9.0, 5.0), Point(5.0, 5.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 2);
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 1.7889), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(5.8,3.4)), true);
@@ -152,6 +137,8 @@ void MinSumTest::minSumTest4()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(3,6)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(11,2)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest5()
@@ -165,20 +152,12 @@ void MinSumTest::minSumTest5()
     polygon.push_back(Point(12.0, 3.0));
     polygon.push_back(Point(0.0, 0.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 1.0, 4.0);
-    shortestPath->setPoint(1, 11.1, 4.04);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
-    QCOMPARE(minima.size(), 2);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(1.0, 4.0), Point(11.1, 4.04));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 2);
+    auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 3.7264), true);
@@ -202,6 +181,8 @@ void MinSumTest::minSumTest5()
     QCOMPARE(gU.isPointOnSegment(Segment(startSideLoSStart, startSideLoSEnd), Point(2.5986,0.6497)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(endSideEdgeStart, endSideEdgeEnd), Point(12,4.382)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(endSideLoSStart, endSideLoSEnd), Point(11.1052,4.0268)), true);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest6()
@@ -215,21 +196,12 @@ void MinSumTest::minSumTest6()
     polygon.push_back(Point(12.0, 3.0));
     polygon.push_back(Point(0.0, 0.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.10, 4.040);
-    shortestPath->setPoint(1, 1.0, 4.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
-    QCOMPARE(minima.size(), 2);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(11.1, 4.04), Point(1.0, 4.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 2);
+    auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 3.7264), true);
@@ -253,6 +225,8 @@ void MinSumTest::minSumTest6()
     QCOMPARE(gU.isPointOnSegment(Segment(endSideLoSStart, endSideLoSEnd), Point(2.5986,0.6497)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(startSideEdgeStart, startSideEdgeEnd), Point(12,4.382)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(startSideLoSStart, startSideLoSEnd), Point(11.1052,4.0268)), true);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest7()
@@ -266,21 +240,12 @@ void MinSumTest::minSumTest7()
     polygon.push_back(Point(12.0, 0.0));
     polygon.push_back(Point(0.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 0.9, 4.04);
-    shortestPath->setPoint(1, 11.0, 4.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
-    QCOMPARE(minima.size(), 2);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(0.9, 4.04), Point(11.0, 4.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 2);
+    auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 3.7264), true);
@@ -304,6 +269,8 @@ void MinSumTest::minSumTest7()
     QCOMPARE(gU.isPointOnSegment(Segment(startSideLoSStart, startSideLoSEnd), Point(0.8948, 4.0268)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(endSideEdgeStart, endSideEdgeEnd), Point(9.4014, 0.6497)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(endSideLoSStart, endSideLoSEnd), Point(9.4014, 0.6497)), true);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest8()
@@ -317,21 +284,12 @@ void MinSumTest::minSumTest8()
     polygon.push_back(Point(12.0, 0.0));
     polygon.push_back(Point(0.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 4.0);
-    shortestPath->setPoint(1, 0.9, 4.04);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
-    QCOMPARE(minima.size(), 2);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(11.0, 4.0), Point(0.9, 4.04));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 2);
+    auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 3.7264), true);
@@ -355,6 +313,8 @@ void MinSumTest::minSumTest8()
     QCOMPARE(gU.isPointOnSegment(Segment(endSideLoSStart, endSideLoSEnd), Point(0.8948, 4.0268)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(startSideEdgeStart, startSideEdgeEnd), Point(9.4014, 0.6497)), true);
     QCOMPARE(gU.isPointOnSegment(Segment(startSideLoSStart, startSideLoSEnd), Point(9.4014, 0.6497)), true);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest9()
@@ -370,20 +330,12 @@ void MinSumTest::minSumTest9()
     polygon.push_back(Point(0.0, 3.0));
     polygon.push_back(Point(0.0, 0.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 1.0, 4.0);
-    shortestPath->setPoint(1, 11.1, 4.04);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
-    QCOMPARE(minima.size(), 1);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(1.0, 4.0), Point(11.1, 4.04));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 1);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 4.8192), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -393,6 +345,8 @@ void MinSumTest::minSumTest9()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(12, 4.4)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(11.1, 4.04)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest10()
@@ -408,21 +362,12 @@ void MinSumTest::minSumTest10()
     polygon.push_back(Point(0.0, 3.0));
     polygon.push_back(Point(0.0, 0.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.10, 4.040);
-    shortestPath->setPoint(1, 1.0, 4.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator mS = SPV::MinSumCalculator(eS, sP);
-    mS.calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS.getAllMinima();
-    QCOMPARE(minima.size(), 1);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(11.1, 4.04), Point(1.0, 4.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 1);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(min->isMinSectorStart(), false);
     QCOMPARE(min->isMinSectorEnd(), false);
@@ -432,6 +377,8 @@ void MinSumTest::minSumTest10()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(12, 4.4)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(11.1, 4.04)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest11()
@@ -454,11 +401,11 @@ void MinSumTest::minSumTest11()
     polygon.push_back(Point(5.0, 3.0));
     polygon.push_back(Point(1.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 4.0, 6.0);
-    shortestPath->setPoint(1, 10.0, 6.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(4.0, 6.0), Point(10.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = minSumCalculator->getShortestPath();
+
     QCOMPARE(sP.size(), 7);
     QCOMPARE(sP.at(0)->getDistanceFromStartPoint(), 0);
     QCOMPARE(gU.valuesAreEqual(sP.at(0)->getDistanceFromEndPoint(), 8.4853), true);
@@ -475,15 +422,8 @@ void MinSumTest::minSumTest11()
     QCOMPARE(gU.valuesAreEqual(sP.at(6)->getDistanceFromStartPoint(), 8.4853), true);
     QCOMPARE(gU.valuesAreEqual(sP.at(6)->getDistanceFromEndPoint(), 0), true);
 
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
     bool allEventsChecked = false;
-    SPV::EventSegment *cS = eS;
+    SPV::EventSegment *cS = minima.at(0)->getEventSegment();
     while(!allEventsChecked) {
         double distance = cS->getDistanceToLastVertex(true);
         bool value = distance == 0.0 || distance > 1;
@@ -498,7 +438,7 @@ void MinSumTest::minSumTest11()
     }
     QCOMPARE(minima.size(), 6);
 
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -563,6 +503,8 @@ void MinSumTest::minSumTest11()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(12.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(10.0, 6.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest12()
@@ -585,21 +527,12 @@ void MinSumTest::minSumTest12()
     polygon.push_back(Point(5.0, 3.0));
     polygon.push_back(Point(1.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 10.0, 6.0);
-    shortestPath->setPoint(1, 4.0, 6.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
-    QCOMPARE(minima.size(), 6);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(10.0, 6.0), Point(4.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(5);
+    QCOMPARE(minima.size(), 6);
+    auto min = minima.at(5);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -664,6 +597,8 @@ void MinSumTest::minSumTest12()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(12.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(10.0, 6.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest13()
@@ -686,21 +621,12 @@ void MinSumTest::minSumTest13()
     polygon.push_back(Point(5.0, 3.0));
     polygon.push_back(Point(1.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 4.0, 6.0);
-    shortestPath->setPoint(1, 10.0, 6.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
-    QCOMPARE(minima.size(), 2);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(4.0, 6.0), Point(10.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(0);
+    QCOMPARE(minima.size(), 2);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 8.8191), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -721,6 +647,8 @@ void MinSumTest::minSumTest13()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(8.3333, 7.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(8.0, 6.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest14()
@@ -743,21 +671,12 @@ void MinSumTest::minSumTest14()
     polygon.push_back(Point(5.0, 3.0));
     polygon.push_back(Point(1.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 10.0, 6.0);
-    shortestPath->setPoint(1, 4.0, 6.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
-    QCOMPARE(minima.size(), 2);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(10.0, 6.0), Point(4.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    SPV::Minimum *min = minima.at(1);
+    QCOMPARE(minima.size(), 2);
+    auto min = minima.at(1);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 8.8191), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -778,6 +697,8 @@ void MinSumTest::minSumTest14()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(8.3333, 7.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(8.0, 6.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest15()
@@ -800,22 +721,12 @@ void MinSumTest::minSumTest15()
     polygon.push_back(Point(5.0, 3.0));
     polygon.push_back(Point(1.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 4.0, 6.0);
-    shortestPath->setPoint(1, 10.0, 4.0);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(4.0, 6.0), Point(10.0, 4.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -825,6 +736,8 @@ void MinSumTest::minSumTest15()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(7.3333,2.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(7.0, 3.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest16()
@@ -847,22 +760,12 @@ void MinSumTest::minSumTest16()
     polygon.push_back(Point(5.0, 3.0));
     polygon.push_back(Point(1.0, 3.0));
 
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 10.0, 4.0);
-    shortestPath->setPoint(1, 4.0, 6.0);
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(10.0, 4.0), Point(4.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -872,9 +775,8 @@ void MinSumTest::minSumTest16()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(7.3333,2.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(7.0, 3.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest17()
@@ -904,22 +806,13 @@ void MinSumTest::minSumTest17()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 8.0, 5.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(11.0, 11.0), Point(8.0, 5.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 11.5366), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -929,9 +822,8 @@ void MinSumTest::minSumTest17()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(19.0,4.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(18.0, 4.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest18()
@@ -961,22 +853,13 @@ void MinSumTest::minSumTest18()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 8.0, 5.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(8.0, 5.0), Point(11.0, 11.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 11.5366), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -986,9 +869,8 @@ void MinSumTest::minSumTest18()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(19.0,4.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(18.0, 4.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest19()
@@ -1023,22 +905,13 @@ void MinSumTest::minSumTest19()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 10.5, 11.0);
-    shortestPath->setPoint(1, 8.0, 5.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(10.5, 11.0), Point(8.0, 5.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 13.6530), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -1048,9 +921,8 @@ void MinSumTest::minSumTest19()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(6.6667,4.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(8.0, 4.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest20()
@@ -1085,23 +957,13 @@ void MinSumTest::minSumTest20()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 8.0, 5.0);
-    shortestPath->setPoint(1, 10.5, 11.0);
 
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(8.0, 5.0), Point(10.5, 11.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 13.6530), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -1111,9 +973,8 @@ void MinSumTest::minSumTest20()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(6.6667,4.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(8.0, 4.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest21()
@@ -1137,22 +998,13 @@ void MinSumTest::minSumTest21()
     polygon.push_back(Point(14.0, 10.0));
     polygon.push_back(Point(15.0, 8.0));
     polygon.push_back(Point(16.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 17.0, 11.0);
-    shortestPath->setPoint(1, 17.0, 4.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(17.0, 11.0), Point(17.0, 4.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.7317), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -1162,9 +1014,8 @@ void MinSumTest::minSumTest21()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(14.3333, 7.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(14.3333, 7.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest22()
@@ -1188,22 +1039,13 @@ void MinSumTest::minSumTest22()
     polygon.push_back(Point(14.0, 10.0));
     polygon.push_back(Point(15.0, 8.0));
     polygon.push_back(Point(16.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 17.0, 4.0);
-    shortestPath->setPoint(1, 17.0, 11.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(17.0, 4.0), Point(17.0, 11.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.7317), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -1213,9 +1055,8 @@ void MinSumTest::minSumTest22()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(14.3333, 7.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(14.3333, 7.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest23()
@@ -1240,22 +1081,13 @@ void MinSumTest::minSumTest23()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 19.0, 11.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(11.0, 11.0), Point(19.0, 11.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.6645), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -1265,9 +1097,8 @@ void MinSumTest::minSumTest23()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(19.75,12.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(19.0,11.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }
 
 void MinSumTest::minSumTest24()
@@ -1292,22 +1123,13 @@ void MinSumTest::minSumTest24()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 19.0, 11.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-    eS = bC->getFirstEventSegment();
-    SPV::MinSumCalculator *mS = new SPV::MinSumCalculator(eS, sP);
-    mS->calculateMinima();
-    std::vector<SPV::Minimum*> minima = mS->getAllMinima();
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(19.0, 11.0), Point(11.0, 11.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
     QCOMPARE(minima.size(), 1);
-
-    SPV::Minimum *min = minima.at(0);
+    auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.6645), true);
     QCOMPARE(min->isMinSectorStart(), false);
@@ -1317,7 +1139,6 @@ void MinSumTest::minSumTest24()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(19.75,12.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(19.0,11.0)), true);
     QCOMPARE(min->getIsInDiscArea(), false);
-    sP.clear();
-    delete bC;
-    delete mS;
+
+    delete minSumCalculator;
 }

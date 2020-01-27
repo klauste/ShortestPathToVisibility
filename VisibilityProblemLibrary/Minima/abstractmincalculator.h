@@ -5,23 +5,21 @@
 #include <math.h>
 #include "Models/eventsegment.h"
 #include "Models/minimum.h"
-#include "basecalculator.h"
+#include "Events/bendeventcalculator.h"
 
 namespace SPV {
-    class AbstractMinimumCalculator : public BaseCalculator {
+    class AbstractMinimumCalculator : public BendEventCalculator {
     public:
-        AbstractMinimumCalculator(EventSegment *fS, std::vector<PointOnShortestPath *> sP) {
-            shortestPath = sP;
-            firstEventSegment = fS;
-        }
+        AbstractMinimumCalculator (const Polygon &p, Point s, Point e) :
+            BendEventCalculator (p, s, e) {}
+        ~AbstractMinimumCalculator() {}
         virtual void calculateMinima() = 0;
-        virtual ~AbstractMinimumCalculator();
-        std::vector<Minimum*> getAllMinima() {
+        std::vector<std::shared_ptr<Minimum>> getAllMinima() {
             return allMinima;
         }
 
     protected:
-        std::vector<Minimum*> allMinima;
+        std::vector<std::shared_ptr<Minimum>> allMinima;
         double currentMinimum = -1;
         double getDistanceToIntersectionPoint(Point intersectionPoint, bool onStartSide)
         {
@@ -80,7 +78,7 @@ namespace SPV {
             bool isMinSectorStart = calculateMinimumSector;
             bool isMinSectorEnd = false;
             if (allMinima.size() > 0) {
-                Minimum *lastMin = allMinima.back();
+                auto lastMin = allMinima.back();
 
                 // If this is a duplicate, then there is nothing to do
                 if (gU.pointsAreEqual(lastMin->getStartSideIntersectionOnLoS(), startSideIntersectionOnLoS)) {
@@ -107,7 +105,7 @@ namespace SPV {
                     }
                 }
             }
-            Minimum *newMinimum = new Minimum();
+            std::shared_ptr<Minimum> newMinimum = std::make_shared<Minimum>();
             setMinimumDetails(
                 newMinimum,
                 newMinimumValue,
@@ -124,7 +122,7 @@ namespace SPV {
 
     private:
         void setMinimumDetails(
-            Minimum *min,
+            std::shared_ptr<Minimum> min,
             double newMinimumValue,
             Point startSideIntersectionOnLoS,
             Point endSideIntersectionOnLoS,

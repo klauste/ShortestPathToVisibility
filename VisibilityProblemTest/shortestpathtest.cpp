@@ -20,16 +20,13 @@ void ShortestPathTest::shortestPathTest1()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 5.0, 6.0);
-    shortestPath->setPoint(1, 9.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(5.0, 6.0), Point(9.0, 5.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
     QCOMPARE(sP.size(), 3);
     QCOMPARE(Point(5.0, 6.0), sP.at(0)->getPoint());
     QCOMPARE(Point(9.0, 5.0), sP.at(2)->getPoint());
     QCOMPARE(Point(7.0, 4.0), sP.at(1)->getPoint());
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 void ShortestPathTest::shortestPathTest2()
@@ -42,44 +39,41 @@ void ShortestPathTest::shortestPathTest2()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 5.0, 6.0);
-    shortestPath->setPoint(1, 9.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(5.0, 6.0), Point(9.0, 5.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
+    std::vector<std::shared_ptr<SPV::SweptSegment>> sweptSegments = sP.at(1)->getSegmentsFromStart();
 
-    std::vector<SPV::SweptSegment*> segments = sP.at(1)->getSegmentsFromStart();
-    SPV::SweptSegment *segment;
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    std::shared_ptr<SPV::SweptSegment> segment;
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(9,2));
     QCOMPARE(segment->getRightPoint(), Point(12,2));
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(12,2));
     QCOMPARE(segment->getRightPoint(), Point(12,8));
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(12,8));
     QCOMPARE(segment->getRightPoint(), Point(8,8));
 
-    segments = sP.at(1)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(6,8));
     QCOMPARE(segment->getRightPoint(), Point(3,8));
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(3,8));
     QCOMPARE(segment->getRightPoint(), Point(3,2));
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 void ShortestPathTest::shortestPathTest3()
@@ -92,44 +86,42 @@ void ShortestPathTest::shortestPathTest3()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 5.0, 5.0);
-    shortestPath->setPoint(1, 11.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
 
-    std::vector<SPV::SweptSegment*> segments = sP.at(1)->getSegmentsFromStart();
-    SPV::SweptSegment *segment;
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(5.0, 5.0), Point(11.0, 5.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
+
+    sweptSegments = sP.at(1)->getSegmentsFromStart();
+    std::shared_ptr<SPV::SweptSegment> segment;
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(11,2));
     QCOMPARE(segment->getRightPoint(), Point(12,2));
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(12,2));
     QCOMPARE(segment->getRightPoint(), Point(12,8));
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(12,8));
     QCOMPARE(segment->getRightPoint(), Point(8,8));
 
-    segments = sP.at(1)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(6,8));
     QCOMPARE(segment->getRightPoint(), Point(3,8));
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(3,8));
     QCOMPARE(segment->getRightPoint(), Point(3,3));
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 void ShortestPathTest::shortestPathTest4()
@@ -154,11 +146,11 @@ void ShortestPathTest::shortestPathTest4()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 19.0, 11.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(11.0, 11.0), Point(19.0, 11.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
+    std::vector<std::shared_ptr<SPV::SweptSegment>> sweptSegments = sP.at(1)->getSegmentsFromEnd();
+
     QCOMPARE(sP.size(), 5);
     QCOMPARE(sP.at(0)->getPoint(), Point(11.0,11.0));
     QCOMPARE(sP.at(1)->getPoint(), Point(12.0,9.0));
@@ -166,101 +158,100 @@ void ShortestPathTest::shortestPathTest4()
     QCOMPARE(sP.at(3)->getPoint(), Point(16.0,7.0));
     QCOMPARE(sP.at(4)->getPoint(), Point(19.0,11.0));
 
-    std::vector<SPV::SweptSegment*> segments = sP.at(1)->getSegmentsFromStart();
-    SPV::SweptSegment *segment;
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromStart();
+    std::shared_ptr<SPV::SweptSegment> segment;
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(14.5714, 3.8571)), true);
     QCOMPARE(segment->getRightPoint(), Point(15.6,5.4));
 
-    segments = sP.at(2)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(2)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(15.6,5.4));
     QCOMPARE(segment->getRightPoint(), Point(16,6));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(16,6));
     QCOMPARE(segment->getRightPoint(), Point(21,5));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(21,5));
     QCOMPARE(segment->getRightPoint(), Point(19,7));
 
-    segments = sP.at(3)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(19,7));
-    Point rightPoint = segment->getRightPoint();
     QCOMPARE(segment->getRightPoint(), Point(18,8));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(21,9.5));
     QCOMPARE(segment->getRightPoint(), Point(21,12));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(21,12));
     QCOMPARE(segment->getRightPoint(), Point(18.5,12));
     // From End
     // Point 1
-    segments = sP.at(1)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(12,12));
     QCOMPARE(segment->getRightPoint(), Point(9,12));
 
     // Point 2
-    segments = sP.at(2)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(2)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(9,12));
     QCOMPARE(segment->getRightPoint(), Point(6.5,12));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(11, 9));
     QCOMPARE(segment->getRightPoint(), Point(10.5,7));
 
     // Point 3
-    segments = sP.at(3)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(10.5,7));
     QCOMPARE(segment->getRightPoint(), Point(10,5));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(10, 5));
     QCOMPARE(segment->getRightPoint(), Point(13,5));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(13,5));
     QCOMPARE(segment->getRightPoint(), Point(13.6,3.8));
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 
@@ -286,12 +277,11 @@ void ShortestPathTest::shortestPathTest5()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 19.0, 11.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(19.0, 11.0), Point(11.0, 11.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
+    std::vector<std::shared_ptr<SPV::SweptSegment>> sweptSegments = sP.at(1)->getSegmentsFromEnd();
+
     QCOMPARE(sP.size(), 5);
     QCOMPARE(sP.at(4)->getPoint(), Point(11.0,11.0));
     QCOMPARE(sP.at(3)->getPoint(), Point(12.0,9.0));
@@ -299,100 +289,100 @@ void ShortestPathTest::shortestPathTest5()
     QCOMPARE(sP.at(1)->getPoint(), Point(16.0,7.0));
     QCOMPARE(sP.at(0)->getPoint(), Point(19.0,11.0));
 
-    std::vector<SPV::SweptSegment*> segments = sP.at(3)->getSegmentsFromEnd();
-    SPV::SweptSegment *segment;
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromEnd();
+    std::shared_ptr<SPV::SweptSegment> segment;
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(14.5714, 3.8571)), true);
     QCOMPARE(segment->getRightPoint(), Point(15.6,5.4));
 
-    segments = sP.at(2)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(2)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(15.6,5.4));
     QCOMPARE(segment->getRightPoint(), Point(16,6));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(16,6));
     QCOMPARE(segment->getRightPoint(), Point(21,5));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(21,5));
     QCOMPARE(segment->getRightPoint(), Point(19,7));
 
-    segments = sP.at(1)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(19,7));
     QCOMPARE(segment->getRightPoint(), Point(18,8));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(21,9.5));
     QCOMPARE(segment->getRightPoint(), Point(21,12));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(21,12));
     QCOMPARE(segment->getRightPoint(), Point(18.5,12));
     // From End
     // Point 1
-    segments = sP.at(3)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(12,12));
     QCOMPARE(segment->getRightPoint(), Point(9,12));
 
     // Point 2
-    segments = sP.at(2)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(2)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(9,12));
     QCOMPARE(segment->getRightPoint(), Point(6.5,12));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(11, 9));
     QCOMPARE(segment->getRightPoint(), Point(10.5,7));
 
     // Point 3
-    segments = sP.at(1)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(10.5,7));
     QCOMPARE(segment->getRightPoint(), Point(10,5));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(10, 5));
     QCOMPARE(segment->getRightPoint(), Point(13,5));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(13,5));
     QCOMPARE(segment->getRightPoint(), Point(13.6,3.8));
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 void ShortestPathTest::shortestPathTest6()
@@ -419,11 +409,11 @@ void ShortestPathTest::shortestPathTest6()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 8.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(11.0, 11.0), Point(8.0, 5.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
+    std::vector<std::shared_ptr<SPV::SweptSegment>> sweptSegments = sP.at(1)->getSegmentsFromEnd();
+
     QCOMPARE(sP.size(), 7);
     QCOMPARE(sP.at(0)->getPoint(), Point(11.0,11.0));
     QCOMPARE(sP.at(1)->getPoint(), Point(12.0,9.0));
@@ -433,78 +423,78 @@ void ShortestPathTest::shortestPathTest6()
     QCOMPARE(sP.at(5)->getPoint(), Point(9.0,4.0));
     QCOMPARE(sP.at(6)->getPoint(), Point(8.0,5.0));
 
-    std::vector<SPV::SweptSegment*> segments = sP.at(1)->getSegmentsFromStart();
-    SPV::SweptSegment *segment;
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromStart();
+    std::shared_ptr<SPV::SweptSegment> segment;
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(14, 5));
     QCOMPARE(segment->getRightPoint(), Point(16,5));
 
-    segments = sP.at(2)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(2)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(16,5));
     QCOMPARE(segment->getRightPoint(), Point(18,5));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(19, 4.5));
     QCOMPARE(segment->getRightPoint(), Point(19,7));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(17,7));
     QCOMPARE(segment->getRightPoint(), Point(15,9));
 
-    segments = sP.at(3)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(12.375,3.125));
     QCOMPARE(segment->getRightPoint(), Point(15,2));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(15,2));
     QCOMPARE(segment->getRightPoint(), Point(19,4));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(19,4));
     QCOMPARE(segment->getRightPoint(), Point(19, 4.5));
 
-    segments = sP.at(4)->getSegmentsFromStart();
+    sweptSegments = sP.at(4)->getSegmentsFromStart();
 
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(7.3333, 4)), true);
     QCOMPARE(segment->getRightPoint(), Point(8.56,3.08));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(11.5,3.5));
     QCOMPARE(segment->getRightPoint(), Point(12.375,3.125));
 
-    segments = sP.at(5)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(5)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(8,6));
     QCOMPARE(segment->getRightPoint(), Point(6,5));
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(6,5));
@@ -512,86 +502,86 @@ void ShortestPathTest::shortestPathTest6()
 
     // From End
     // Point 1
-    segments = sP.at(1)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(12,12));
     QCOMPARE(segment->getRightPoint(), Point(9,12));
 
     // Point 2
-    segments = sP.at(2)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(2)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(9,12));
     QCOMPARE(segment->getRightPoint(), Point(6.5,12));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(11, 9));
     QCOMPARE(gU.pointsAreEqual(segment->getRightPoint(), Point(10.8889, 8.5556)), true);
 
     // Point 3
-    segments = sP.at(3)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 5);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 5);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(19, 5.3333)), true);
     QCOMPARE(segment->getRightPoint(), Point(19,8));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(19, 8));
     QCOMPARE(segment->getRightPoint(), Point(17,7));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(17,7));
     QCOMPARE(segment->getRightPoint(), Point(15,9));
 
-    segment = segments.at(3);
+    segment = sweptSegments.at(3);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(15,9));
     QCOMPARE(segment->getRightPoint(), Point(14,7));
 
-    segment = segments.at(4);
+    segment = sweptSegments.at(4);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(10.8889, 8.5556)), true);
     QCOMPARE(segment->getRightPoint(), Point(10,5));
 
     // Point 4
-    segments = sP.at(4)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(4)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(19,4));
     QCOMPARE(gU.pointsAreEqual(segment->getRightPoint(), Point(19, 5.3333)), true);
 
     // Point 5
-    segments = sP.at(5)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(5)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(10.5,2.5));
     QCOMPARE(segment->getRightPoint(), Point(11.5,3.5));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(16.1429, 2.5714)), true);
     QCOMPARE(segment->getRightPoint(), Point(19,4));
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 void ShortestPathTest::shortestPathTest7()
@@ -618,11 +608,11 @@ void ShortestPathTest::shortestPathTest7()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 8.0, 5.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
+
+    shortestPathCalculator = new SPV::ShortestPathTreeCalculator(polygon, Point(8.0, 5.0), Point(11.0, 11.0));
+    std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = shortestPathCalculator->getShortestPath();
+    std::vector<std::shared_ptr<SPV::SweptSegment>> sweptSegments = sP.at(1)->getSegmentsFromEnd();
+
     QCOMPARE(sP.size(), 7);
     QCOMPARE(sP.at(6)->getPoint(), Point(11.0,11.0));
     QCOMPARE(sP.at(5)->getPoint(), Point(12.0,9.0));
@@ -632,78 +622,78 @@ void ShortestPathTest::shortestPathTest7()
     QCOMPARE(sP.at(1)->getPoint(), Point(9.0,4.0));
     QCOMPARE(sP.at(0)->getPoint(), Point(8.0,5.0));
 
-    std::vector<SPV::SweptSegment*> segments = sP.at(5)->getSegmentsFromEnd();
-    SPV::SweptSegment *segment;
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(5)->getSegmentsFromEnd();
+    std::shared_ptr<SPV::SweptSegment> segment;
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(14, 5));
     QCOMPARE(segment->getRightPoint(), Point(16,5));
 
-    segments = sP.at(4)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(4)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(16,5));
     QCOMPARE(segment->getRightPoint(), Point(18,5));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(19, 4.5));
     QCOMPARE(segment->getRightPoint(), Point(19,7));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(17,7));
     QCOMPARE(segment->getRightPoint(), Point(15,9));
 
-    segments = sP.at(3)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 3);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 3);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(12.375,3.125));
     QCOMPARE(segment->getRightPoint(), Point(15,2));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(15,2));
     QCOMPARE(segment->getRightPoint(), Point(19,4));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(19,4));
     QCOMPARE(segment->getRightPoint(), Point(19, 4.5));
 
-    segments = sP.at(2)->getSegmentsFromEnd();
+    sweptSegments = sP.at(2)->getSegmentsFromEnd();
 
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(7.3333, 4)), true);
     QCOMPARE(segment->getRightPoint(), Point(8.56,3.08));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(11.5,3.5));
     QCOMPARE(segment->getRightPoint(), Point(12.375,3.125));
 
-    segments = sP.at(1)->getSegmentsFromEnd();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromEnd();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(8,6));
     QCOMPARE(segment->getRightPoint(), Point(6,5));
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(6,5));
@@ -711,87 +701,87 @@ void ShortestPathTest::shortestPathTest7()
 
     // From Start
     // Point 5
-    segments = sP.at(5)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    sweptSegments = sP.at(5)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(12,12));
     QCOMPARE(segment->getRightPoint(), Point(9,12));
 
     // Point 2
-    segments = sP.at(4)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(4)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(9,12));
     QCOMPARE(segment->getRightPoint(), Point(6.5,12));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(11, 9));
     QCOMPARE(gU.pointsAreEqual(segment->getRightPoint(), Point(10.8889, 8.5556)), true);
 
     // Point 3
-    segments = sP.at(3)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 5);
-    segment = segments.at(0);
+    sweptSegments = sP.at(3)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 5);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(19, 5.3333)), true);
     QCOMPARE(segment->getRightPoint(), Point(19,8));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(19, 8));
     QCOMPARE(segment->getRightPoint(), Point(17,7));
 
-    segment = segments.at(2);
+    segment = sweptSegments.at(2);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(17,7));
     QCOMPARE(segment->getRightPoint(), Point(15,9));
 
-    segment = segments.at(3);
+    segment = sweptSegments.at(3);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(15,9));
     QCOMPARE(segment->getRightPoint(), Point(14,7));
 
-    segment = segments.at(4);
+    segment = sweptSegments.at(4);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(10.8889, 8.5556)), true);
     QCOMPARE(segment->getRightPoint(), Point(10,5));
 
     // Point 4
-    segments = sP.at(2)->getSegmentsFromStart();
+    sweptSegments = sP.at(2)->getSegmentsFromStart();
 
-    QCOMPARE(segments.size(), 1);
-    segment = segments.at(0);
+    QCOMPARE(sweptSegments.size(), 1);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), true);
     QCOMPARE(segment->rightPointIsPolygonVertex(), false);
     QCOMPARE(segment->getLeftPoint(), Point(19,4));
     QCOMPARE(gU.pointsAreEqual(segment->getRightPoint(), Point(19, 5.3333)), true);
 
     // Point 5
-    segments = sP.at(1)->getSegmentsFromStart();
-    QCOMPARE(segments.size(), 2);
-    segment = segments.at(0);
+    sweptSegments = sP.at(1)->getSegmentsFromStart();
+    QCOMPARE(sweptSegments.size(), 2);
+    segment = sweptSegments.at(0);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(segment->getLeftPoint(), Point(10.5,2.5));
     QCOMPARE(segment->getRightPoint(), Point(11.5,3.5));
 
-    segment = segments.at(1);
+    segment = sweptSegments.at(1);
     QCOMPARE(segment->leftPointIsPolygonVertex(), false);
     QCOMPARE(segment->rightPointIsPolygonVertex(), true);
     QCOMPARE(gU.pointsAreEqual(segment->getLeftPoint(), Point(16.1429, 2.5714)), true);
     QCOMPARE(segment->getRightPoint(), Point(19,4));
-    delete shortestPath;
+    delete shortestPathCalculator;
 }
 
 void ShortestPathTest::shortestPathTest8()
@@ -818,33 +808,31 @@ void ShortestPathTest::shortestPathTest8()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 8.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::PathAndBoundaryEventCalculator *eC = new SPV::PathAndBoundaryEventCalculator(sP);
-    std::vector<SPV::SweptSegment*> segments = eC->getSegmentsForFinalPoint(true);
-    QCOMPARE(segments.size(), 1);
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->getLeftPoint(), Point(10.5,12));
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(9,12));
 
-    segments.clear();
-    eC->setCurrentSegmentOrderFromLeftToRight(false);
-    segments = eC->getSegmentsForFinalPoint(false);
-    QCOMPARE(segments.size(), 2);
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), true);
+    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(11.0, 11.0), Point(8.0,5.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+    pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(true);
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(true);
 
-    QCOMPARE(gU.pointsAreEqual(segments.at(0)->getLeftPoint(), Point(7.3333,5.6667)), true);
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(6,5));
-    QCOMPARE(segments.at(1)->leftPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(1)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(1)->getLeftPoint(), Point(6,5));
-    QCOMPARE(gU.pointsAreEqual(segments.at(1)->getRightPoint(), Point(7.3333,4)), true);
-    segments.clear();
+    QCOMPARE(sweptSegments.size(), 1);
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->getLeftPoint(), Point(10.5,12));
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(9,12));
+
+    pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(false);
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(false);
+    QCOMPARE(sweptSegments.size(), 2);
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), true);
+
+    QCOMPARE(gU.pointsAreEqual(sweptSegments.at(0)->getLeftPoint(), Point(7.3333,5.6667)), true);
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(6,5));
+    QCOMPARE(sweptSegments.at(1)->leftPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(1)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(1)->getLeftPoint(), Point(6,5));
+    QCOMPARE(gU.pointsAreEqual(sweptSegments.at(1)->getRightPoint(), Point(7.3333,4)), true);
+    delete pathAndBoundaryCalculator;
 }
 
 void ShortestPathTest::shortestPathTest9()
@@ -871,35 +859,31 @@ void ShortestPathTest::shortestPathTest9()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 8.0, 5.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::PathAndBoundaryEventCalculator *eC = new SPV::PathAndBoundaryEventCalculator(sP);
-    eC->setCurrentSegmentOrderFromLeftToRight(false);
-    std::vector<SPV::SweptSegment*> segments = eC->getSegmentsForFinalPoint(false);
-    QCOMPARE(segments.size(), 1);
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->getLeftPoint(), Point(10.5,12));
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(9,12));
+    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(8.0, 5.0), Point(11.0,11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+    pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(false);
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(false);
 
-    segments.clear();
-    eC->setCurrentSegmentOrderFromLeftToRight(true);
-    segments = eC->getSegmentsForFinalPoint(true);
-    QCOMPARE(segments.size(), 2);
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.size(), 1);
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->getLeftPoint(), Point(10.5,12));
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(9,12));
 
-    QCOMPARE(gU.pointsAreEqual(segments.at(0)->getLeftPoint(), Point(7.3333,5.6667)), true);
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(6,5));
-    QCOMPARE(segments.at(1)->leftPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(1)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(1)->getLeftPoint(), Point(6,5));
-    QCOMPARE(gU.pointsAreEqual(segments.at(1)->getRightPoint(), Point(7.3333,4)), true);
-    segments.clear();
+    pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(true);
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(true);
+    QCOMPARE(sweptSegments.size(), 2);
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), true);
+
+    QCOMPARE(gU.pointsAreEqual(sweptSegments.at(0)->getLeftPoint(), Point(7.3333,5.6667)), true);
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(6,5));
+    QCOMPARE(sweptSegments.at(1)->leftPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(1)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(1)->getLeftPoint(), Point(6,5));
+    QCOMPARE(gU.pointsAreEqual(sweptSegments.at(1)->getRightPoint(), Point(7.3333,4)), true);
+    delete pathAndBoundaryCalculator;
 }
 
 void ShortestPathTest::shortestPathTest10()
@@ -924,40 +908,35 @@ void ShortestPathTest::shortestPathTest10()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 19.0, 11.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::PathAndBoundaryEventCalculator *eC = new SPV::PathAndBoundaryEventCalculator(sP);
 
-    std::vector<SPV::SweptSegment*> segments = eC->getSegmentsForFinalPoint(true);
-    QCOMPARE(segments.size(), 1);
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->getLeftPoint(), Point(10.5,12));
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(9,12));
+    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(11.0, 11.0), Point(19.0,11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(true);
 
-    segments.clear();
-    segments = eC->getSegmentsForFinalPoint(false);
-    QCOMPARE(segments.size(), 3);
+    QCOMPARE(sweptSegments.size(), 1);
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->getLeftPoint(), Point(10.5,12));
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(9,12));
 
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(0)->getLeftPoint(), Point(19,7));
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(18,8));
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(false);
+    QCOMPARE(sweptSegments.size(), 3);
 
-    QCOMPARE(segments.at(1)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(1)->rightPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(1)->getLeftPoint(), Point(21,9.5));
-    QCOMPARE(segments.at(1)->getRightPoint(), Point(21,12));
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(0)->getLeftPoint(), Point(19,7));
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(18,8));
 
-    QCOMPARE(segments.at(2)->leftPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(2)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(2)->getLeftPoint(), Point(21,12));
-    QCOMPARE(segments.at(2)->getRightPoint(), Point(19.75,12));
-    segments.clear();
-    delete shortestPath;
+    QCOMPARE(sweptSegments.at(1)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(1)->rightPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(1)->getLeftPoint(), Point(21,9.5));
+    QCOMPARE(sweptSegments.at(1)->getRightPoint(), Point(21,12));
+
+    QCOMPARE(sweptSegments.at(2)->leftPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(2)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(2)->getLeftPoint(), Point(21,12));
+    QCOMPARE(sweptSegments.at(2)->getRightPoint(), Point(19.75,12));
+    delete pathAndBoundaryCalculator;
 }
 
 void ShortestPathTest::shortestPathTest11()
@@ -982,43 +961,36 @@ void ShortestPathTest::shortestPathTest11()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 19.0, 11.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::PathAndBoundaryEventCalculator *eC = new SPV::PathAndBoundaryEventCalculator(sP);
-    eC->setCurrentSegmentOrderFromLeftToRight(false);
-    std::vector<SPV::SweptSegment*> segments = eC->getSegmentsForFinalPoint(false);
-    QCOMPARE(segments.size(), 1);
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->getLeftPoint(), Point(10.5,12));
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(9,12));
 
-    segments.clear();
-    eC->setCurrentSegmentOrderFromLeftToRight
-            (false);
-    segments = eC->getSegmentsForFinalPoint(true);
-    QCOMPARE(segments.size(), 3);
+    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(19.0, 11.0), Point(11.0,11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+    pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(false);
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(false);
 
-    QCOMPARE(segments.at(0)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(0)->rightPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(0)->getLeftPoint(), Point(19,7));
-    QCOMPARE(segments.at(0)->getRightPoint(), Point(18,8));
+    QCOMPARE(sweptSegments.size(), 1);
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->getLeftPoint(), Point(10.5,12));
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(9,12));
 
-    QCOMPARE(segments.at(1)->leftPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(1)->rightPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(1)->getLeftPoint(), Point(21,9.5));
-    QCOMPARE(segments.at(1)->getRightPoint(), Point(21,12));
+    sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(true);
+    QCOMPARE(sweptSegments.size(), 3);
 
-    QCOMPARE(segments.at(2)->leftPointIsPolygonVertex(), true);
-    QCOMPARE(segments.at(2)->rightPointIsPolygonVertex(), false);
-    QCOMPARE(segments.at(2)->getLeftPoint(), Point(21,12));
-    Point r = segments.at(2)->getRightPoint();
-    QCOMPARE(segments.at(2)->getRightPoint(), Point(19.75,12));
-    segments.clear();
-    delete shortestPath;
+    QCOMPARE(sweptSegments.at(0)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(0)->rightPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(0)->getLeftPoint(), Point(19,7));
+    QCOMPARE(sweptSegments.at(0)->getRightPoint(), Point(18,8));
+
+    QCOMPARE(sweptSegments.at(1)->leftPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(1)->rightPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(1)->getLeftPoint(), Point(21,9.5));
+    QCOMPARE(sweptSegments.at(1)->getRightPoint(), Point(21,12));
+
+    QCOMPARE(sweptSegments.at(2)->leftPointIsPolygonVertex(), true);
+    QCOMPARE(sweptSegments.at(2)->rightPointIsPolygonVertex(), false);
+    QCOMPARE(sweptSegments.at(2)->getLeftPoint(), Point(21,12));
+    QCOMPARE(sweptSegments.at(2)->getRightPoint(), Point(19.75,12));
+    delete pathAndBoundaryCalculator;
 }
 
 void ShortestPathTest::shortestPathTest12()
@@ -1048,16 +1020,13 @@ void ShortestPathTest::shortestPathTest12()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 8.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::PathAndBoundaryEventCalculator *eC = new SPV::PathAndBoundaryEventCalculator(sP);
 
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
+    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(11.0, 11.0), Point(8.0, 5.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+
+    SPV::EventSegment *eS = pathAndBoundaryCalculator->getFirstEventSegment();
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
-    SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
+    auto loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(10.5,12));
     QCOMPARE(loS->getPointOnEndSide(), Point(14, 5));
     loS = eS->getSecondLineOfSightFromStart();
@@ -1208,7 +1177,7 @@ void ShortestPathTest::shortestPathTest12()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(7.3333, 5.6666)), true);
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    delete shortestPath;
+    delete pathAndBoundaryCalculator;
 }
 
 void ShortestPathTest::shortestPathTest13()
@@ -1238,16 +1207,14 @@ void ShortestPathTest::shortestPathTest13()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 8.0, 5.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
 
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
+    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(8.0, 5.0), Point(11.0, 11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+
+    SPV::EventSegment *eS = pathAndBoundaryCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
-    SPV::LineOfSight *loS = eS->getSecondLineOfSightFromStart();
+    auto loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(loS->getPointOnEndSide(), Point(11.25, 3.25));
     QCOMPARE(loS->getPointOnStartSide(), Point(6,5));
     loS = eS->getFirstLineOfSightFromStart();
@@ -1398,6 +1365,6 @@ void ShortestPathTest::shortestPathTest13()
     QCOMPARE(loS->getPointOnStartSide(), Point(16, 5));
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    delete shortestPath;
+    delete pathAndBoundaryCalculator;
 }
 

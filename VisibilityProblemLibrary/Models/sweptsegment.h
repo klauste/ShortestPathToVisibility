@@ -19,9 +19,9 @@ namespace SPV {
             rightPoint(r),
             rightPointPolygonVertex(rP) {}
 
-        SweptSegment* getClone()
+        std::shared_ptr<SPV::SweptSegment> getClone()
         {
-            return new SweptSegment(leftPoint, leftPointPolygonVertex, rightPoint, rightPointPolygonVertex);
+            return std::make_shared<SweptSegment>(leftPoint, leftPointPolygonVertex, rightPoint, rightPointPolygonVertex);
         }
 
         Point getLeftPoint()

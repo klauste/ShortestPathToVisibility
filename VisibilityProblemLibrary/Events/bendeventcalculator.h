@@ -1,33 +1,14 @@
 #ifndef BENDEVENTCALCULATOR_H
 #define BENDEVENTCALCULATOR_H
 
-#include "basecalculator.h"
+#include "Events/pathandboundaryeventcalculator.h"
 
 namespace SPV {
-    class BendEventCalculator : public BaseCalculator {
+    class BendEventCalculator : public PathAndBoundaryEventCalculator {
     public:
-        BendEventCalculator(EventSegment *fS, const std::vector<PointOnShortestPath* > &sP) {
-            firstEventSegment = fS;
-            shortestPath = sP;
-        }
-        ~BendEventCalculator()
-        {
-            EventSegment *nextSegment = firstEventSegment;
-            EventSegment *currentSegment = firstEventSegment;
-
-            bool allDestroyed = false;
-            while(!allDestroyed) {
-                currentSegment = nextSegment;
-                if (!currentSegment->hasSuccessor()) {
-                    allDestroyed = true;
-                } else {
-                    nextSegment = currentSegment->getSuccessor();
-                }
-            }
-            delete currentSegment;
-        }
-
-        void calculateBendEvents();
+        BendEventCalculator (const Polygon &p, Point s, Point e) :
+            PathAndBoundaryEventCalculator (p, s, e) {}
+        void calculateEvents();
 
     private:
         void calculateEventsForCurrentEventSegment();

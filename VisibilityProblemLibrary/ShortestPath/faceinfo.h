@@ -1,5 +1,5 @@
-#ifndef SPVFACEINFO_H
-#define SPVFACEINFO_H
+#ifndef FACEINFO_H
+#define FACEINFO_H
 
 #include <vector>
 #include <boost/bind.hpp>
@@ -18,4 +18,4 @@ namespace SPV {
     };
 }
 
-#endif // SPVFACEINFO_H
+#endif // FACEINFO_H

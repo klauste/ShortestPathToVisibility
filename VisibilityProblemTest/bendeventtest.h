@@ -3,8 +3,6 @@
 #include <QtTest>
 
 // add necessary includes here
-#include "spvshortestpath.h"
-#include "Events/pathandboundaryeventcalculator.h"
 #include "Events/bendeventcalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"
@@ -27,8 +25,8 @@ public:
     ~BendEventTest();
 private:
     Polygon polygon;
-    SPV::ShortestPath *shortestPath;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
+    SPV::BendEventCalculator *bendEventCalculator;
 
 private slots:
     void bendEventTest1();

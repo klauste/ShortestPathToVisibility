@@ -16,17 +16,11 @@ namespace SPV {
     class EventSegment
     {
     public:
-        EventSegment(LineOfSight *fL, LineOfSight *sL, PointOnShortestPath *pP) :
+        EventSegment(std::shared_ptr<LineOfSight> fL, std::shared_ptr<LineOfSight> sL, std::shared_ptr<PointOnShortestPath> pP) :
             firstLineOfSightFromStart(fL),
             secondLineOfSightFromStart(sL),
             pivotPoint(pP)
         {}
-
-        ~EventSegment()
-        {
-            delete firstLineOfSightFromStart;
-            delete secondLineOfSightFromStart;
-        }
 
         EventSegment* clone()
         {
@@ -59,7 +53,7 @@ namespace SPV {
             return newSegment;
         }
 
-        EventSegment* createNewSuccessor(LineOfSight *splitLine)
+        EventSegment *createNewSuccessor(std::shared_ptr<LineOfSight> splitLine)
         {
             EventSegment *newSegment = clone();
             newSegment->setFirstLineOfSightFromStart(splitLine);
@@ -73,9 +67,9 @@ namespace SPV {
             return newSegment;
         }
 
-        EventSegment* createNewPredecessor(LineOfSight *splitLine)
+        EventSegment* createNewPredecessor(std::shared_ptr<LineOfSight> splitLine)
         {
-            EventSegment *newSegment = clone();
+            EventSegment* newSegment = clone();
             newSegment->setDistanceToLastVertex(distanceToLastVertexOnStartSide, true);
             newSegment->setSecondLineOfSightFromStart(splitLine);
             setFirstLineOfSightFromStart(splitLine);
@@ -220,27 +214,27 @@ namespace SPV {
             return endSideOnPolygonEdge;
         }
 
-        LineOfSight* getFirstLineOfSightFromStart()
+        std::shared_ptr<LineOfSight> getFirstLineOfSightFromStart()
         {
             return firstLineOfSightFromStart;
         }
 
-        void setFirstLineOfSightFromStart(LineOfSight *fL)
+        void setFirstLineOfSightFromStart(std::shared_ptr<LineOfSight> fL)
         {
             firstLineOfSightFromStart = fL;
         }
 
-        LineOfSight* getSecondLineOfSightFromStart()
+        std::shared_ptr<LineOfSight> getSecondLineOfSightFromStart()
         {
             return secondLineOfSightFromStart;
         }
 
-        void setSecondLineOfSightFromStart(LineOfSight *sL)
+        void setSecondLineOfSightFromStart(std::shared_ptr<LineOfSight> sL)
         {
             secondLineOfSightFromStart = sL;
         }
 
-        PointOnShortestPath* getPivotPoint()
+        std::shared_ptr<PointOnShortestPath> getPivotPoint()
         {
              return pivotPoint;
         }
@@ -315,17 +309,17 @@ namespace SPV {
         bool predecessorSet = false;
         EventSegment *successor;
         bool successorSet = false;
-        PointOnShortestPath *pivotPoint;
+        std::shared_ptr<PointOnShortestPath> pivotPoint;
 
         unsigned indexOfLastSPPointOnStartSide;
         unsigned indexOfLastSPPointOnEndSide;
         std::vector<Point> extraPointsOnStartSide;
         std::vector<Point> extraPointsOnEndSide;
         // The first line of sight (as seen from the start point) delimiting this event segment
-        LineOfSight *firstLineOfSightFromStart;
+        std::shared_ptr<LineOfSight> firstLineOfSightFromStart;
 
         // The second line of sight (as seen from the start point) delimiting this event segment
-        LineOfSight *secondLineOfSightFromStart;
+        std::shared_ptr<LineOfSight> secondLineOfSightFromStart;
 
         bool startSideLoSVisible = true;
         bool endSideLoSVisible = true;
@@ -334,7 +328,7 @@ namespace SPV {
         bool bendEventsOnStartSideHandled = false;
         bool bendEventsOnEndSideHandled = false;
         double distanceToLastVertexOnStartSide;
-        bool distanceOnStartSideSet = false;;
+        bool distanceOnStartSideSet = false;
         double distanceToLastVertexOnEndSide;
         bool distanceOnEndSideSet = false;
     };

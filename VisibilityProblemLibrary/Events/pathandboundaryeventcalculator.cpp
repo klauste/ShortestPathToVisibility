@@ -3,15 +3,15 @@
 void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
 {
     unsigned lastPointIndex = shortestPath.size() - 2;
-    EventSegment *previousEvent;
+    std::shared_ptr<SweptSegment> previousEvent;
     EventSegmentCreationResult result;
 
     for (unsigned i = 1; i <= lastPointIndex; i++) {
         bool isFirstPoint = false;
         currentSegmentOrderFromLeftToRight = isSegmentOrderFromLeftToRight(i);
-        PointOnShortestPath *currentPoint = shortestPath.at(i);
-        std::vector<SweptSegment*> segmentsOnStartSide = currentPoint->getSegmentsFromEnd();
-        std::vector<SweptSegment*> segmentsOnEndSide = currentPoint->getSegmentsFromStart();
+        std::shared_ptr<PointOnShortestPath> currentPoint = shortestPath.at(i);
+        std::vector<std::shared_ptr<SweptSegment>> segmentsOnStartSide = currentPoint->getSegmentsFromEnd();
+        std::vector<std::shared_ptr<SweptSegment>> segmentsOnEndSide = currentPoint->getSegmentsFromStart();
         if (i == 1) {
             segmentsOnStartSide = getSegmentsForFinalPoint(true);
             isFirstPoint = true;
@@ -28,8 +28,8 @@ void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
 
         // Segments are now ordered in the correct way so that loop can start at 0
         while (!allSegmentsHandled) {
-            SweptSegment *startSegment = segmentsOnStartSide.at(startSegmentIndex);
-            SweptSegment *endSegment = segmentsOnEndSide.at(endSegmentIndex);
+            std::shared_ptr<SweptSegment>startSegment = segmentsOnStartSide.at(startSegmentIndex);
+            std::shared_ptr<SweptSegment>endSegment = segmentsOnEndSide.at(endSegmentIndex);
 
             if (startSegmentIndex == 0 && endSegmentIndex == 0) {
                 result = createPathEventSegment(startSegment, endSegment, currentPoint);
@@ -56,7 +56,7 @@ void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
                 // If neither end of the segments has been reached, a boundary event with
                 // protruding vertex must have been encountered. Check which side the event
                 // is on.
-                SweptSegment *nextSegment;
+                std::shared_ptr<SweptSegment> nextSegment;
                 if (startSegmentIndex + 1 < segmentsOnStartSide.size()) {
                     nextSegment = segmentsOnStartSide.at(startSegmentIndex + 1);
 
@@ -83,17 +83,17 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         bool secondStartPointIsVertex,
         Point secondEndPoint,
         bool secondEndPointIsVertex,
-        PointOnShortestPath *pivotPoint
+        std::shared_ptr<PointOnShortestPath> pivotPoint
 )
 {
-    LineOfSight *firstLineOfSight = new LineOfSight(
+    std::shared_ptr<LineOfSight> firstLineOfSight = std::make_shared<LineOfSight>(
         firstStartPoint,
         firstStartPointIsVertex,
         firstEndPoint,
         firstEndPointIsVertex
     );
 
-    LineOfSight *secondLineOfSight;
+    std::shared_ptr<LineOfSight> secondLineOfSight;
     bool startSideIsEndOfSegment = false;
     bool endSideIsEndOfSegment = false;
     bool startSideIsVertex = false;
@@ -121,7 +121,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
             startSideIsVertex = secondStartPointIsVertex;
         }
 
-        secondLineOfSight = new LineOfSight(
+        secondLineOfSight = std::make_shared<LineOfSight>(
             startSideIntersection,
             startSideIsVertex,
             secondEndPoint,
@@ -136,7 +136,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
             endSideIsVertex = secondEndPointIsVertex;
         }
 
-        secondLineOfSight = new LineOfSight(
+        secondLineOfSight = std::make_shared<LineOfSight>(
             secondStartPoint,
             secondStartPointIsVertex,
             endSideIntersection,
@@ -144,7 +144,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         );
     } else {
         // If both or no end of segment is reached, create the end line of sight at the vertices
-        secondLineOfSight = new LineOfSight(
+        secondLineOfSight = std::make_shared<LineOfSight>(
             secondStartPoint,
             secondStartPointIsVertex,
             secondEndPoint,
@@ -160,9 +160,9 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
 }
 
 SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoundaryEventCalculator::createPathEventSegment(
-        SPV::SweptSegment* startSideSegment,
-        SPV::SweptSegment* endSideSegment,
-        PointOnShortestPath *pivotPoint
+        std::shared_ptr<SPV::SweptSegment> startSideSegment,
+        std::shared_ptr<SPV::SweptSegment> endSideSegment,
+        std::shared_ptr<PointOnShortestPath> pivotPoint
 ) {
     Point firstStartPoint, firstEndPoint, secondStartPoint, secondEndPoint;
     bool firstStartPointIsVertex, firstEndPointIsVertex, secondStartPointIsVertex, secondEndPointIsVertex;
@@ -203,9 +203,9 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
 }
 
 SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoundaryEventCalculator::createBoundaryEventSegment(
-    SweptSegment* startSideSegment,
-    SweptSegment* endSideSegment,
-    PointOnShortestPath *pivotPoint,
+    std::shared_ptr<SPV::SweptSegment> startSideSegment,
+    std::shared_ptr<SPV::SweptSegment> endSideSegment,
+    std::shared_ptr<PointOnShortestPath> pivotPoint,
     bool endOfStartSegmentReached,
     bool endOfEndSegmentReached
 )
@@ -215,7 +215,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
     bool firstEndPointIsVertex = false;
     bool secondStartPointIsVertex = false;
     bool secondEndPointIsVertex = false;
-    LineOfSight *loS = currentEventSegment->getSecondLineOfSightFromStart();
+    std::shared_ptr<LineOfSight> loS = currentEventSegment->getSecondLineOfSightFromStart();
 
     // The intersections are already ordered from left to right, so no
     // need to differentiate there
@@ -269,12 +269,12 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
     );
 }
 
-std::vector<SPV::SweptSegment*> SPV::PathAndBoundaryEventCalculator::getEndSegmentsForLoop(
-    const std::vector<SweptSegment* > &segments,
+std::vector<std::shared_ptr<SPV::SweptSegment>> SPV::PathAndBoundaryEventCalculator::getEndSegmentsForLoop(
+    const std::vector<std::shared_ptr<SweptSegment>> &segments,
     unsigned currentIndex
 )
 {
-    std::vector<SweptSegment*> newSegments;
+    std::vector<std::shared_ptr<SweptSegment>> newSegments;
     bool willChangeOrder = false;
     Point nextPoint = shortestPath.at(currentIndex + 1)->getPoint();
     if (currentIndex < shortestPath.size() - 2) {
@@ -319,12 +319,12 @@ std::vector<SPV::SweptSegment*> SPV::PathAndBoundaryEventCalculator::getEndSegme
     return newSegments;
 }
 
-std::vector<SPV::SweptSegment*> SPV::PathAndBoundaryEventCalculator::getStartSegmentsForLoop(
-    const std::vector<SweptSegment* > &segments,
+std::vector<std::shared_ptr<SPV::SweptSegment>> SPV::PathAndBoundaryEventCalculator::getStartSegmentsForLoop(
+    const std::vector<std::shared_ptr<SweptSegment>> &segments,
     unsigned currentIndex
 )
 {
-    std::vector<SweptSegment*> newSegments;
+    std::vector<std::shared_ptr<SweptSegment>> newSegments;
     bool hasChangedOrder = false;
     Point previousPoint = shortestPath.at(currentIndex - 1)->getPoint();
     if (currentIndex > 1) {
@@ -387,9 +387,9 @@ std::vector<SPV::SweptSegment*> SPV::PathAndBoundaryEventCalculator::getStartSeg
     return newSegments;
 }
 
-std::vector<SPV::SweptSegment *> SPV::PathAndBoundaryEventCalculator::getSegmentsForFinalPoint(bool forFirstPoint)
+std::vector<std::shared_ptr<SPV::SweptSegment>> SPV::PathAndBoundaryEventCalculator::getSegmentsForFinalPoint(bool forFirstPoint)
 {
-    std::vector<SweptSegment *> segments;
+    std::vector<std::shared_ptr<SweptSegment>> segments;
     Point currentPivotPoint;
     Point finalPoint;
     bool addAfterFind;
@@ -405,7 +405,7 @@ std::vector<SPV::SweptSegment *> SPV::PathAndBoundaryEventCalculator::getSegment
         finalPoint = shortestPath.back()->getPoint();
         addAfterFind = !currentSegmentOrderFromLeftToRight;
     }
-    std::vector<SweptSegment *> newSegments;
+    std::vector<std::shared_ptr<SweptSegment>> newSegments;
     Line lineToCheck = Line(currentPivotPoint, finalPoint);
     unsigned i;
     Point leftPoint, rightPoint;
@@ -417,7 +417,7 @@ std::vector<SPV::SweptSegment *> SPV::PathAndBoundaryEventCalculator::getSegment
             if (foundIntersection) {
                 newSegments.push_back(segments.at(i)->getClone());
             } else {
-                SweptSegment *currentSegment = segments.at(i);
+                std::shared_ptr<SweptSegment> currentSegment = segments.at(i);
                 leftPoint = currentSegment->getLeftPoint();
                 rightPoint = currentSegment->getRightPoint();
 
@@ -428,12 +428,12 @@ std::vector<SPV::SweptSegment *> SPV::PathAndBoundaryEventCalculator::getSegment
                 );
                 if (result.type() == typeid(Point)) {
                     Point newLeftPoint = boost::get<Point>(result);
-                    SweptSegment *newSegment;
+                    std::shared_ptr<SweptSegment> newSegment;
 
                     if (gU.pointsAreEqual(newLeftPoint, rightPoint)) {
                         newSegment = currentSegment->getClone();
                     } else {
-                        newSegment = new SweptSegment(
+                        newSegment = std::make_shared<SweptSegment>(
                             newLeftPoint, false, rightPoint, currentSegment->rightPointIsPolygonVertex()
                         );
                     }
@@ -444,7 +444,7 @@ std::vector<SPV::SweptSegment *> SPV::PathAndBoundaryEventCalculator::getSegment
         }
     } else {
         for (i = 0; i < segments.size(); i++) {
-            SweptSegment *currentSegment = segments.at(i);
+            auto currentSegment = segments.at(i);
             leftPoint = currentSegment->getLeftPoint();
             rightPoint = currentSegment->getRightPoint();
 
@@ -457,12 +457,12 @@ std::vector<SPV::SweptSegment *> SPV::PathAndBoundaryEventCalculator::getSegment
                 newSegments.push_back(currentSegment->getClone());
             } else {
                 Point newRightPoint = boost::get<Point>(result);
-                SweptSegment *newSegment;
+                std::shared_ptr<SweptSegment> newSegment;
 
                 if (gU.pointsAreEqual(newRightPoint, rightPoint)) {
                     newSegment = currentSegment->getClone();
                 } else {
-                    newSegment = new SweptSegment(
+                    newSegment = std::make_shared<SweptSegment>(
                         leftPoint, currentSegment->leftPointIsPolygonVertex(), newRightPoint, false
                     );
                 }

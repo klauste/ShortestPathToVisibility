@@ -11,7 +11,8 @@
 namespace SPV {
     class MinSumCalculator : public AbstractMinimumCalculator {
     public:
-        using AbstractMinimumCalculator::AbstractMinimumCalculator;
+        MinSumCalculator (const Polygon &p, Point s, Point e) :
+            AbstractMinimumCalculator (p, s, e) {}
         void calculateMinima();
 
     private:

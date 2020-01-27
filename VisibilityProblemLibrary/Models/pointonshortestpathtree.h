@@ -12,15 +12,12 @@ namespace SPV {
      */
     class PointOnShortestPathTree {
     public:
-        PointOnShortestPathTree(PointWithTriangulationInfo *p);
-        PointOnShortestPathTree(PointWithTriangulationInfo *p, PointOnShortestPathTree* pt);
-        ~PointOnShortestPathTree()
-        {
-            delete currentPoint;
-        }
+        PointOnShortestPathTree(std::shared_ptr<PointWithTriangulationInfo> p);
+        PointOnShortestPathTree(std::shared_ptr<PointWithTriangulationInfo> p, std::shared_ptr<PointOnShortestPathTree> pt);
+
         Point getPoint();
-        PointWithTriangulationInfo* getPointWithTriangulationInfo();
-        PointOnShortestPathTree *getPreviousPoint();
+        std::shared_ptr<PointWithTriangulationInfo> getPointWithTriangulationInfo();
+        std::shared_ptr<PointOnShortestPathTree> getPreviousPoint();
         bool isFinalPoint();
 
         void setIndexOnShortestPath(int i)
@@ -38,8 +35,8 @@ namespace SPV {
             return indexOnShortestPath;
         }
     private:
-        PointWithTriangulationInfo *currentPoint;
-        PointOnShortestPathTree *previousPointOnTree;
+        std::shared_ptr<PointWithTriangulationInfo> currentPoint;
+        std::shared_ptr<PointOnShortestPathTree> previousPointOnTree;
         int indexOnShortestPath = -1;
     };
 }

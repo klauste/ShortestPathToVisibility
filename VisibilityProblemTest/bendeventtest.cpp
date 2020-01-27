@@ -32,18 +32,12 @@ void BendEventTest::bendEventTest1()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 11.0, 11.0);
-    shortestPath->setPoint(1, 19.0, 11.0);
-
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
+    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(11.0, 11.0), Point(19.0, 11.0));
+    bendEventCalculator->calculateEvents();
+    SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
-    SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
+    auto loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(10.5,12));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.5714, 3.8571)), true);
     loS = eS->getSecondLineOfSightFromStart();
@@ -342,7 +336,7 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    delete bC;
+    delete bendEventCalculator;
 }
 
 void BendEventTest::bendEventTest2()
@@ -367,18 +361,12 @@ void BendEventTest::bendEventTest2()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 19.0, 11.0);
-    shortestPath->setPoint(1, 11.0, 11.0);
-
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
+    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(19.0, 11.0), Point(11.0, 11.0));
+    bendEventCalculator->calculateEvents();
+    SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
-    SPV::LineOfSight *loS = eS->getSecondLineOfSightFromStart();
+    auto loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(13.3333, 4.3333)), true);
     QCOMPARE(loS->getPointOnStartSide(), Point(21, 12));
     loS = eS->getFirstLineOfSightFromStart();
@@ -673,7 +661,7 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    delete bC;
+    delete bendEventCalculator;
 }
 
 void BendEventTest::bendEventTest3()
@@ -697,17 +685,11 @@ void BendEventTest::bendEventTest3()
     polygon.push_back(Point(14.0, 10.0));
     polygon.push_back(Point(15.0, 8.0));
     polygon.push_back(Point(16.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 17.0, 11.0);
-    shortestPath->setPoint(1, 17.0, 4.0);
+    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(17.0, 11.0), Point(17.0, 4.0));
+    bendEventCalculator->calculateEvents();
+    SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-
-    SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
+    auto loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(15,8));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(17.6666, 12)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.3333,7)), true);
@@ -991,7 +973,7 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    delete bC;
+    delete bendEventCalculator;
 }
 
 void BendEventTest::bendEventTest4()
@@ -1015,17 +997,11 @@ void BendEventTest::bendEventTest4()
     polygon.push_back(Point(14.0, 10.0));
     polygon.push_back(Point(15.0, 8.0));
     polygon.push_back(Point(16.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 17.0, 4.0);
-    shortestPath->setPoint(1, 17.0, 11.0);
+    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(17.0, 4.0), Point(17.0, 11.0));
+    bendEventCalculator->calculateEvents();
+    SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
-
-    SPV::LineOfSight *loS = eS->getSecondLineOfSightFromStart();
+    auto loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(14,5));
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.1538, 5.9231)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18,3)), true);
@@ -1309,7 +1285,7 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    delete bC;
+    delete bendEventCalculator;
 }
 
 void BendEventTest::bendEventTest5()
@@ -1344,17 +1320,12 @@ void BendEventTest::bendEventTest5()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 10.5, 11.0);
-    shortestPath->setPoint(1, 8.0, 5.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
+    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(10.5, 11.0), Point(8.0, 5.0));
+    bendEventCalculator->calculateEvents();
+    SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
-    SPV::LineOfSight *loS = eS->getFirstLineOfSightFromStart();
+    auto loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(loS->getPointOnStartSide() , Point(9.75,12));
     QCOMPARE(loS->getPointOnEndSide(), Point(15, 5));
     loS = eS->getSecondLineOfSightFromStart();
@@ -1822,7 +1793,7 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    delete bC;
+    delete bendEventCalculator;
 }
 
 void BendEventTest::bendEventTest6()
@@ -1857,17 +1828,12 @@ void BendEventTest::bendEventTest6()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    shortestPath = new SPV::ShortestPath();
-    shortestPath->initialize(polygon);
-    shortestPath->setPoint(0, 8.0, 5.0);
-    shortestPath->setPoint(1, 10.5, 11.0);
-    std::vector<SPV::PointOnShortestPath*> sP = shortestPath->calculateShortestPath();
-    SPV::EventSegment *eS = shortestPath->getFirstEvent();
-    SPV::BendEventCalculator *bC = new SPV::BendEventCalculator(eS, sP);
-    bC->calculateBendEvents();
+    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(8.0, 5.0), Point(10.5, 11.0));
+    bendEventCalculator->calculateEvents();
+    SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));
-    SPV::LineOfSight *loS = eS->getSecondLineOfSightFromStart();
+    auto loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(11.25,3.25)), true);
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(6.0,5.0)), true);
     loS = eS->getFirstLineOfSightFromStart();
@@ -2333,5 +2299,5 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    delete bC;
+    delete bendEventCalculator;
 }
