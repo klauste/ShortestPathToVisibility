@@ -45,7 +45,7 @@ void MinMaxTest::minMaxTest2()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(5.0, 5.0), Point(9.0, 5.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(9.0, 5.0), Point(5.0, 5.0));
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
@@ -72,14 +72,14 @@ void MinMaxTest::minMaxTest3()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
-    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(5.0, 5.0), Point(9.0, 5.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(5.0, 5.0), Point(9.0, 6.0));
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
     QCOMPARE(minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
-    QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1.455213), true);
+    QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1.455214), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(5.3529, 3.5882)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(9.3529, 4.5882)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(3,3)), true);
@@ -99,7 +99,7 @@ void MinMaxTest::minMaxTest4()
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
 
-    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(9.0, 5.0), Point(5.0, 5.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(9.0, 6.0), Point(5.0, 5.0));
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
@@ -302,7 +302,7 @@ void MinMaxTest::minMaxTest11()
     polygon.push_back(Point(7.0, 4.0));
     polygon.push_back(Point(6.0, 8.0));
 
-    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(9.0, 6.0), Point(5.0, 6.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(5.0, 6.0), Point(9.0, 6.0));
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
