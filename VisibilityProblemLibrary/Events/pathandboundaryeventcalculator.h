@@ -79,7 +79,8 @@ namespace SPV {
                 bool secondStartPointIsVertex,
                 Point secondEndPoint,
                 bool secondEndPointIsVertex,
-                std::shared_ptr<PointOnShortestPath> pivotPoint
+                std::shared_ptr<PointOnShortestPath> pivotPoint,
+                EventType t
         );
         std::vector<std::shared_ptr<SweptSegment>> getStartSegmentsForLoop(
             const std::vector<std::shared_ptr<SweptSegment>> &segments,

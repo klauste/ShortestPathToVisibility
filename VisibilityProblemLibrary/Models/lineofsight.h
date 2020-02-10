@@ -10,6 +10,8 @@ typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
 typedef K::Segment_2 Segment;
 
+enum EventType { PATH, BOUNDARY, BEND };
+
 namespace SPV {
     class LineOfSight {
     public:
@@ -19,6 +21,15 @@ namespace SPV {
             pointOnStartSideIsVertex(pSV),
             pointOnEndSide(pE),
             pointOnEndSideIsVertex(pEV) {}
+
+        void setEventType(EventType t)
+        {
+            type = t;
+        }
+        EventType getEventType()
+        {
+            return type;
+        }
 
         Point getPointOnStartSide()
         {
@@ -60,6 +71,7 @@ namespace SPV {
             pointOnEndSideIsVertex = e;
         }
     private:
+        EventType type;
         Point pointOnStartSide;
         Point pointOnEndSide;
         bool pointOnStartSideIsVertex;

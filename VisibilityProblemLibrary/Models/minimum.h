@@ -101,6 +101,16 @@ namespace SPV {
         {
             return minSectorEnd;
         }
+
+        void setDiscOnStartSide(bool b)
+        {
+            discOnStartSide = b;
+        }
+
+        bool isDiscOnStartSide()
+        {
+            return discOnStartSide;
+        }
     private:
         Point startSideIntersectionOnLoS;
         Point startSideIntersectionOnEdge;
@@ -112,6 +122,7 @@ namespace SPV {
         EventSegment *eventSegment;
         bool minSectorStart = false;
         bool minSectorEnd = false;
+        bool discOnStartSide;
     };
 }
 

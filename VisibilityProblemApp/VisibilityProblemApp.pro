@@ -27,4 +27,12 @@ INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/include
 
 SOURCES += \
-    main.cpp
+    Utils/cgalgeometryconnector.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    visibilityproblemscene.cpp
+
+HEADERS += \
+    Utils/cgalgeometryconnector.h \
+    mainwindow.h \
+    visibilityproblemscene.h

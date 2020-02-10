@@ -137,7 +137,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
 {
     double totalDistance, distanceOnOppositeSide;
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
-    Point lastPointBeforeLoS = getLastPointOnShortestPath(currentEventSegment, true);
+    Point lastPointBeforeLoS = getLastPointBeforeLoS(currentEventSegment, true);
     Point oppositePointOnBoundary, oppositePointOnLoS;
 
     // If the last point on the start side is equal to the pivot point, then the closest point
@@ -172,10 +172,11 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
         auto min = allMinima.at(0);
         min->setIsInDiscArea(true);
         min->setDiscRadius(totalDistance - distanceOnOppositeSide);
+        min->setDiscOnStartSide(false);
         return true;
     }
 
-    lastPointBeforeLoS = getLastPointOnShortestPath(currentEventSegment, false);
+    lastPointBeforeLoS = getLastPointBeforeLoS(currentEventSegment, false);
 
     // If the last point on the end side is equal to the pivot point, then the closest point
     // on the start side is on the first line of sight
@@ -209,6 +210,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
         auto min = allMinima.at(0);
         min->setIsInDiscArea(true);
         min->setDiscRadius(totalDistance - distanceOnOppositeSide);
+        min->setDiscOnStartSide(true);
         return true;
     }
     return false;

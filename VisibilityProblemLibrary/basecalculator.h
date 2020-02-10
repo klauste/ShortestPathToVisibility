@@ -33,6 +33,22 @@ namespace SPV {
             return shortestPath;
         }
 
+        Point getLastPointBeforeLoS(EventSegment *eS, bool onStartSide) {
+            std::vector<Point> extraPoints;
+            if (onStartSide) {
+                extraPoints = eS->getExtraPointsOnStartSide();
+                if (extraPoints.size() > 0) {
+                    return extraPoints.at(extraPoints.size() - 1);
+                }
+                return shortestPath.at(eS->getIndexOfLastSPPointOnStartSide())->getPoint();
+            }
+            extraPoints = eS->getExtraPointsOnEndSide();
+            if (extraPoints.size() > 0) {
+                return extraPoints.at(extraPoints.size() - 1);
+            }
+            return shortestPath.at(eS->getIndexOfLastSPPointOnEndSide())->getPoint();
+        }
+
     protected:
         std::vector<std::shared_ptr<PointOnShortestPath>> shortestPath;
         bool currentSegmentOrderFromLeftToRight = true;
@@ -48,22 +64,6 @@ namespace SPV {
             // If the next point is on the right of the line through the previous and current point,
             // then the segments are swept from left to right
             return gU.isOnRightSide(previousPoint, currentPoint, nextPoint);
-        }
-
-        Point getLastPointOnShortestPath(EventSegment *eS, bool onStartSide) {
-            std::vector<Point> extraPoints;
-            if (onStartSide) {
-                extraPoints = eS->getExtraPointsOnStartSide();
-                if (extraPoints.size() > 0) {
-                    return extraPoints.at(extraPoints.size() - 1);
-                }
-                return shortestPath.at(eS->getIndexOfLastSPPointOnStartSide())->getPoint();
-            }
-            extraPoints = eS->getExtraPointsOnEndSide();
-            if (extraPoints.size() > 0) {
-                return extraPoints.at(extraPoints.size() - 1);
-            }
-            return shortestPath.at(eS->getIndexOfLastSPPointOnEndSide())->getPoint();
         }
     };
 }

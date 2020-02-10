@@ -255,7 +255,7 @@ bool SPV::MinSumCalculator::handleLocalMinimumAtPivotPoint()
 {
     double totalDistance = currentEventSegment->getDistanceToLastVertex(true) + currentEventSegment->getDistanceToLastVertex(false);
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
-    Point lastPointBeforeLoSOnStartSide = getLastPointOnShortestPath(currentEventSegment, true);
+    Point lastPointBeforeLoSOnStartSide = getLastPointBeforeLoS(currentEventSegment, true);
     Point oppositePointOnBoundary, oppositePointOnLoS, pointOnBoundary;
 
     // If the last point on the start side is equal to the pivot point, then the closest point
@@ -276,7 +276,7 @@ bool SPV::MinSumCalculator::handleLocalMinimumAtPivotPoint()
         return true;
     }
 
-    Point lastPointBeforeLoSOnEndSide = getLastPointOnShortestPath(currentEventSegment, true);
+    Point lastPointBeforeLoSOnEndSide = getLastPointBeforeLoS(currentEventSegment, true);
 
     // If the last point on the end side is equal to the pivot point, then the closest point
     // on the start side is on the first line of sight

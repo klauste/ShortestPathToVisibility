@@ -89,7 +89,7 @@ void SPV::BendEventCalculator::calculateEventsForCurrentEventSegment ()
     setCurrentSegmentOrderFromLeftToRight();
     handlePathOrBoundaryEvent();
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
-    Point lastPointToLoS = getLastPointOnShortestPath(currentEventSegment, calculateEventsOnStartSide);
+    Point lastPointToLoS = getLastPointBeforeLoS(currentEventSegment, calculateEventsOnStartSide);
 
     // If the last point to the line of sight is on the pivot point,
     // there is nothing to do
@@ -98,8 +98,8 @@ void SPV::BendEventCalculator::calculateEventsForCurrentEventSegment ()
     }
 
     if (
-            currentEventSegment->isPathOnPolygonEdgeAtBeginning(calculateEventsOnStartSide) &&
-            !currentEventSegment->isLoSVisible(calculateEventsOnStartSide)
+        currentEventSegment->isPathOnPolygonEdgeAtBeginning(calculateEventsOnStartSide) &&
+        !currentEventSegment->isLoSVisible(calculateEventsOnStartSide)
     ) {
         boost::variant<bool, Point> result = getNextDegenerateBendEvent();
         // If the path runs on the polygon edge until the segment end point, there
@@ -364,10 +364,12 @@ void SPV::BendEventCalculator::addNewEventSegment(Point eventPoint)
     Point secondEventPoint = boost::get<Point>(result);
     if (calculateEventsOnStartSide) {
         splitLine = std::make_shared<LineOfSight>(eventPoint, false, secondEventPoint, false);
+        splitLine->setEventType(BEND);
         newEventSegment = currentEventSegment->createNewSuccessor(splitLine);
         newEventSegment->setEventsOnStartSideHandled();
     } else {
         splitLine = std::make_shared<LineOfSight>(secondEventPoint, false, eventPoint, false);
+        splitLine->setEventType(BEND);
         newEventSegment = currentEventSegment->createNewPredecessor(splitLine);
         newEventSegment->setEventsOnEndSideHandled();
     }
@@ -407,7 +409,7 @@ void SPV::BendEventCalculator::handleDegenerateBendEventForSegmentStart()
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
     Point segmentStartPoint = currentEventSegment->getSegmentStartPoint(calculateEventsOnStartSide);
     Point segmentEndPoint = currentEventSegment->getSegmentEndPoint(calculateEventsOnStartSide);
-    Point lastVertexToLs = getLastPointOnShortestPath(currentEventSegment, calculateEventsOnStartSide);
+    Point lastVertexToLs = getLastPointBeforeLoS(currentEventSegment, calculateEventsOnStartSide);
     Point centerPoint = Point((lastVertexToLs.x() + pivotPoint.x()) / 2, (lastVertexToLs.y() + pivotPoint.y()) / 2);
     boost::variant<std::vector<Point>, bool> intersectionResult =
         gU.getCircleLineIntersection(centerPoint, lastVertexToLs, segmentStartPoint, segmentEndPoint);
@@ -450,7 +452,7 @@ boost::variant<Point, bool> SPV::BendEventCalculator::getNextDegenerateBendEvent
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
     Point segmentStartPoint = currentEventSegment->getSegmentStartPoint(calculateEventsOnStartSide);
     Point segmentEndPoint = currentEventSegment->getSegmentEndPoint(calculateEventsOnStartSide);
-    Point lastVertexToLs = getLastPointOnShortestPath(currentEventSegment, calculateEventsOnStartSide);
+    Point lastVertexToLs = getLastPointBeforeLoS(currentEventSegment, calculateEventsOnStartSide);
     Point centerPoint = Point((lastVertexToLs.x() + pivotPoint.x()) / 2, (lastVertexToLs.y() + pivotPoint.y()) / 2);
     boost::variant<std::vector<Point>, bool> intersectionResult =
         gU.getCircleSegmentIntersection(centerPoint, lastVertexToLs, segmentStartPoint, segmentEndPoint);
@@ -547,7 +549,7 @@ void SPV::BendEventCalculator::handleBoundaryEvent(EventSegment *previousEventSe
     Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
     Point edgeStart;
     Point edgeEnd;
-    Point previousLastPointOnPath = getLastPointOnShortestPath(previousEventSegment, calculateEventsOnStartSide);
+    Point previousLastPointOnPath = getLastPointBeforeLoS(previousEventSegment, calculateEventsOnStartSide);
     bool eventHandled = false;
     addPreviousSettingsToCurrentES(previousEventSegment, true);
 

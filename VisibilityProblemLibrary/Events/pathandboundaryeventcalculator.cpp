@@ -48,6 +48,10 @@ void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
                 firstEventSegment = currentEventSegment;
             } else {
                 currentEventSegment->setSuccessor(result.newEventSegment);
+                // The type of the second line of sight is the same as that of the new
+                // event's first line of sight.
+                currentEventSegment->getSecondLineOfSightFromStart()
+                        ->setEventType(result.newEventSegment->getFirstLineOfSightFromStart()->getEventType());
                 result.newEventSegment->setPredecessor(currentEventSegment);
                 currentEventSegment = result.newEventSegment;
             }
@@ -72,6 +76,9 @@ void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
             allSegmentsHandled = (startSegmentIndex >= segmentsOnStartSide.size() || endSegmentIndex >= segmentsOnEndSide.size());
         }
     }
+
+    // The last line of sight is is a path line of sight
+    result.newEventSegment->getSecondLineOfSightFromStart()->setEventType(PATH);
 }
 
 SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoundaryEventCalculator::createEventSegment(
@@ -83,7 +90,8 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         bool secondStartPointIsVertex,
         Point secondEndPoint,
         bool secondEndPointIsVertex,
-        std::shared_ptr<PointOnShortestPath> pivotPoint
+        std::shared_ptr<PointOnShortestPath> pivotPoint,
+        EventType t
 )
 {
     std::shared_ptr<LineOfSight> firstLineOfSight = std::make_shared<LineOfSight>(
@@ -92,6 +100,7 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         firstEndPoint,
         firstEndPointIsVertex
     );
+    firstLineOfSight->setEventType(t);
 
     std::shared_ptr<LineOfSight> secondLineOfSight;
     bool startSideIsEndOfSegment = false;
@@ -198,7 +207,8 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         secondStartPointIsVertex,
         secondEndPoint,
         secondEndPointIsVertex,
-        pivotPoint
+        pivotPoint,
+        PATH
     );
 }
 
@@ -265,7 +275,8 @@ SPV::PathAndBoundaryEventCalculator::EventSegmentCreationResult SPV::PathAndBoun
         secondStartPointIsVertex,
         secondEndPoint,
         secondEndPointIsVertex,
-        pivotPoint
+        pivotPoint,
+        BOUNDARY
     );
 }
 

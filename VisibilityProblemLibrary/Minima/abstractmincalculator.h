@@ -23,14 +23,14 @@ namespace SPV {
         double currentMinimum = -1;
         double getDistanceToIntersectionPoint(Point intersectionPoint, bool onStartSide)
         {
-            Point lastPointOnPath = getLastPointOnShortestPath(currentEventSegment, onStartSide);
+            Point lastPointOnPath = getLastPointBeforeLoS(currentEventSegment, onStartSide);
 
             return sqrt(CGAL::squared_distance(lastPointOnPath, intersectionPoint));
         }
 
         Point getIntersectionPointOnLoS(Point intersectionPointOnBoundary, bool onStartSide)
         {
-            Point lastPointOnPath = getLastPointOnShortestPath(currentEventSegment, onStartSide);
+            Point lastPointOnPath = getLastPointBeforeLoS(currentEventSegment, onStartSide);
             Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
 
             // If the last point on the path is the pivotPoint, return that as intersection
