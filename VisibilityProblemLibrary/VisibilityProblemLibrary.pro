@@ -69,8 +69,6 @@ macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL_Core
 
 macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL_ImageIO
 
-macx: LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL_Qt5
-
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /local/include
 

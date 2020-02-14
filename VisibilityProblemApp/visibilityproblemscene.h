@@ -65,10 +65,10 @@ private:
     QGraphicsEllipseItem *startPoint = nullptr;
     QGraphicsEllipseItem *endPoint = nullptr;
     QGraphicsLineItem* lineToMousePosition = nullptr;
-    void toggleEvents(bool display, const std::vector<QLineF*> &events, std::vector<QGraphicsLineItem*> &lines);
-    void toggleMinima(bool display, const std::vector<CGALGeometryConnector::minData*> &minima, std::vector<QGraphicsLineItem*> &lines);
+    void toggleEvents(bool display, const std::vector<QLineF*> &events, std::vector<QGraphicsLineItem*> &lines, bool isShortestPath = false);
+    void toggleMinima(bool display, const std::vector<CGALGeometryConnector::MinData*> &minima, std::vector<QGraphicsLineItem*> &lines);
     void toggleLabels(bool display, const std::vector<QGraphicsLineItem*> &lines, std::vector<QGraphicsProxyWidget*> &labels);
-    void toggleMinLabels(bool display, const std::vector<CGALGeometryConnector::minData*> &minima, std::vector<QGraphicsProxyWidget*> &labels);
+    void toggleMinLabels(bool display, const std::vector<CGALGeometryConnector::MinData*> &minima, std::vector<QGraphicsProxyWidget*> &labels);
     std::vector<QGraphicsLineItem *> pathEvents;
     std::vector<QGraphicsLineItem *> boundaryEvents;
     std::vector<QGraphicsLineItem *> bendEvents;
