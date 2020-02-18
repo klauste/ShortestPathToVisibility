@@ -34,12 +34,18 @@ SOURCES += \
     Events/pathandboundaryeventcalculator.cpp \
     Minima/minmaxcalculator.cpp \
     Minima/minsumcalculator.cpp \
+    Models/eventsegment.cpp \
+    Models/lineofsight.cpp \
+    Models/minimum.cpp \
+    Models/pointonshortestpath.cpp \
     Models/pointonshortestpathtree.cpp \
-    Models/pointwithtriangulationinfo.cpp \
+    Models/sweptsegment.cpp \
     ShortestPath/shortestpathtreecalculator.cpp \
     ShortestPath/faceinfo.cpp \
     ShortestPath/shortestpathcalculator.cpp \
-    ShortestPath/triangulation.cpp
+    ShortestPath/triangulation.cpp \
+    Utils/geometryutil.cpp \
+    basecalculator.cpp
 
 HEADERS +=  \
     Minima/abstractmincalculator.h \
@@ -52,7 +58,6 @@ HEADERS +=  \
     Models/minimum.h \
     Models/pointonshortestpath.h \
     Models/pointonshortestpathtree.h \
-    Models/pointwithtriangulationinfo.h \
     Models/sweptsegment.h \
     ShortestPath/shortestpathtreecalculator.h \
     ShortestPath/shortestpathcalculator.h \

@@ -13,13 +13,8 @@ typedef K::Segment_2 Segment;
 
 namespace SPV {
     /**
-     * Contains the following information for a point on the shortest path:
-     * - The point's coordinates
-     * - the point's type: start point, mid point or end point
-     * - two vectors containing the edges or part of the edges swept over by the two halfs of the line of sight.
-     *   The edges are stored in order from left to right.
-     *
-     * @brief The ShortestPathEntry class
+     * @brief The PointOnShortestPath class contains information about a point on the shortest path from
+     * the start point to the end point
      */
     class PointOnShortestPath
     {
@@ -31,88 +26,106 @@ namespace SPV {
             segmentsFromEnd.clear();
         }
 
-        Point getPoint()
-        {
-            return point;
-        }
+        /**
+         * @brief getPoint returns the instance's CGAL point
+         * @return
+         */
+        Point getPoint();
 
-        std::vector<std::shared_ptr<SweptSegment>> getSegmentsFromStart()
-        {
-            return segmentsFromStart;
-        }
+        /**
+         * @brief getSegmentsFromStart returns the segments on the polygon edge which a line of sight
+         * closer to the end point sweeps if rotated around this point as pivot point
+         * @return
+         */
+        std::vector<std::shared_ptr<SweptSegment>> getSegmentsFromStart();
 
-        std::vector<std::shared_ptr<SweptSegment>> getSegmentsFromEnd()
-        {
-            return segmentsFromEnd;
-        }
+        /**
+         * @brief getSegmentsFromEnd returns the segments on the polygon edge which a line of sight
+         * closer to the start point sweeps if rotated around this point as pivot point
+         * @return
+         */
+        std::vector<std::shared_ptr<SweptSegment>> getSegmentsFromEnd();
 
-        void addSegmentFromStart(std::shared_ptr<SweptSegment> s)
-        {
-            segmentsFromStart.push_back(s);
-        }
+        /**
+         * @brief addSegmentFromStart adds a swept segment
+         * @param s
+         */
+        void addSegmentFromStart(std::shared_ptr<SweptSegment> s);
 
-        void addSegmentFromEnd(std::shared_ptr<SweptSegment> s)
-        {
-            segmentsFromEnd.push_back(s);
-        }
+        /**
+         * @brief addSegmentFromEnd adds a swept segment
+         * @param s
+         */
+        void addSegmentFromEnd(std::shared_ptr<SweptSegment> s);
 
-        unsigned getIndexOnShortestPath()
-        {
-            return indexOnShortestPath;
-        }
+        /**
+         * @brief getIndexOnShortestPath return the index of this point on the shortest path
+         */
+        unsigned getIndexOnShortestPath();
 
-        void setIndexOnShortestPath(unsigned i)
-        {
-            indexOnShortestPath = i;
-        }
+        /**
+         * @brief setIndexOnShortestPath sets the index of this point on the shortest path
+         * @param i
+         */
+        void setIndexOnShortestPath(unsigned i);
 
-        double getDistanceFromStartPoint()
-        {
-            return distanceFromStartPoint;
-        }
+        /**
+         * @brief getDistanceFromStartPoint returns the distance from the start point to this point
+         * @return
+         */
+        double getDistanceFromStartPoint();
 
-        double getDistanceFromEndPoint()
-        {
-            return distanceFromEndPoint;
-        }
+        /**
+         * @brief getDistanceFromEndPoint returns the distance from the end point to this point
+         * @return
+         */
+        double getDistanceFromEndPoint();
 
-        void setDistanceFromStartPoint(double d)
-        {
-            distanceFromStartPoint = d;
-        }
+        /**
+         * @brief setDistanceFromStartPoint sets the distance from the start point to this point
+         * @param d
+         */
+        void setDistanceFromStartPoint(double d);
 
-        void setDistanceFromEndPoint(double d)
-        {
-            distanceFromEndPoint = d;
-        }
+        /**
+         * @brief setDistanceFromEndPoint sets the distance form the end point to this point
+         * @param d
+         */
+        void setDistanceFromEndPoint(double d);
+
     private:
         /**
-         * Contains the coordinates of this point.
-         *
-         * @brief point
+         * @brief point contains the coordinates of this point
          */
         Point point;
 
         /**
-         * The segments swept by the line of sight through this point
+         * @brief segmentsFromStart the segments swept by the line of sight through this point
          * found in the start point's shortest path map
-         * @brief segmentsFromStart
          */
         std::vector<std::shared_ptr<SweptSegment>> segmentsFromStart;
 
         /**
-         * The segments swept by the line of sight through this point
-         * found in th end point's shortest path map
-         * @brief segmentsFromEnd
+         * @brief segmentsFromEnd the segments swept by the line of sight through this point
+         * found in the end point's shortest path map
          */
         std::vector<std::shared_ptr<SweptSegment>> segmentsFromEnd;
 
+        /**
+         * @brief indexOnShortestPath this point'ss index on the shortest path
+         */
         unsigned indexOnShortestPath;
 
+        /**
+         * @brief distanceFromStartPoint the distance from the start point to this point
+         */
         double distanceFromStartPoint;
+
+        /**
+         * @brief distanceFromEndPoint the distance from the end point to this point
+         */
         double distanceFromEndPoint;
     };
 }
-
 
 #endif // POINTONSHORTESTPATH_H

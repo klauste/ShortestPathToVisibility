@@ -15,56 +15,67 @@ typedef K::Segment_2 Segment;
 typedef K::Line_2 Line;
 
 namespace SPV {
+    /**
+     * @brief The BaseCalculator class contains data and functions needed by all calculators
+     */
     class BaseCalculator
     {
     public:
-        BaseCalculator(const Polygon &p, const Point s, Point e) {
-            std::unique_ptr<ShortestPathTreeCalculator> spt = std::unique_ptr<ShortestPathTreeCalculator>(new ShortestPathTreeCalculator(p, s, e));
-            shortestPath = spt->getShortestPath();
-        }
+        /**
+         * @brief BaseCalculator constructor needs a polygon, a start point and an end point. The
+         * start and end point are assumed to be inside the polygon.
+         * @param p
+         * @param s
+         * @param e
+         */
+        BaseCalculator(const Polygon &p, const Point s, Point e);
 
-        EventSegment* getFirstEventSegment()
-        {
-            return firstEventSegment;
-        }
+        /**
+         * @brief getFirstEventSegment returns the first event segment. After calculating the
+         * events the event segments contain all relevant information about the location of
+         * the events.
+         * @return
+         */
+        EventSegment* getFirstEventSegment();
 
-        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath()
-        {
-            return shortestPath;
-        }
+        /**
+         * @brief getShortestPath return the shortest path from the start to the end point
+         * @return
+         */
+        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath();
 
-        Point getLastPointBeforeLoS(EventSegment *eS, bool onStartSide) {
-            std::vector<Point> extraPoints;
-            if (onStartSide) {
-                extraPoints = eS->getExtraPointsOnStartSide();
-                if (extraPoints.size() > 0) {
-                    return extraPoints.at(extraPoints.size() - 1);
-                }
-                return shortestPath.at(eS->getIndexOfLastSPPointOnStartSide())->getPoint();
-            }
-            extraPoints = eS->getExtraPointsOnEndSide();
-            if (extraPoints.size() > 0) {
-                return extraPoints.at(extraPoints.size() - 1);
-            }
-            return shortestPath.at(eS->getIndexOfLastSPPointOnEndSide())->getPoint();
-        }
+        /**
+         * @brief getLastPointBeforeLoS given an event segment, this function returns the last
+         * point before a line of sight in the event segment is reached. The last point can be
+         * either the start or end point, a point on the shortest path or a polygon vertex add
+         * because of a boundary event.
+         * @param eS
+         * @param onStartSide
+         * @return
+         */
+        Point getLastPointBeforeLoS(EventSegment *eS, bool onStartSide);
 
     protected:
+        /**
+         * @brief shortestPath from start point to end point
+         */
         std::vector<std::shared_ptr<PointOnShortestPath>> shortestPath;
-        bool currentSegmentOrderFromLeftToRight = true;
+
+        /**
+         * @brief currentEventSegment pointer to an event segment
+         */
         EventSegment *currentEventSegment;
+
+        /**
+         * @brief firstEventSegment pointer to the first event segment, i.e. the one which has the start
+         * point on one of its edges
+         */
         EventSegment *firstEventSegment;
-        GeometryUtil gU = GeometryUtil();
 
-        bool isSegmentOrderFromLeftToRight(unsigned index) {
-            Point previousPoint = shortestPath.at(index - 1)->getPoint();
-            Point currentPoint = shortestPath.at(index)->getPoint();
-            Point nextPoint = shortestPath.at(index + 1)->getPoint();
-
-            // If the next point is on the right of the line through the previous and current point,
-            // then the segments are swept from left to right
-            return gU.isOnRightSide(previousPoint, currentPoint, nextPoint);
-        }
+        /**
+         * @brief gU instance of the geometry util used for static calculations
+         */
+        GeometryUtil gU;
     };
 }
 #endif // BASECALCULATOR_H

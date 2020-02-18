@@ -13,7 +13,6 @@
 #include <vector>
 #include <iostream>
 #include "Models/faceonshortestpath.h"
-#include "Models/pointwithtriangulationinfo.h"
 #include "Utils/geometryutil.h"
 #include "ShortestPath/faceinfo.h"
 #include "ShortestPath/triangulation.h"
@@ -36,103 +35,108 @@ typedef K::Line_2 Line;
 typedef CDT::Face_circulator Face_circulator;
 
 namespace SPV {
+    /**
+     * @brief The ShortestPathCalculator class calculates the shortest path for a given polygon
+     * and a start and end point
+     */
     class ShortestPathCalculator
     {
     public:
-        ShortestPathCalculator(const Polygon &p, Point s, Point e) {
-            triangulationCalculator = Triangulation(p);
-            polygon = p;
-            triangulation = triangulationCalculator.getTriangulation();
-            startPoint = s;
-            endPoint = e;
-        }
+        /**
+         * @brief ShortestPathCalculator constructor sets the triangulation for the given
+         * polygon
+         * @param p
+         * @param s
+         * @param e
+         */
+        ShortestPathCalculator(const Polygon &p, Point s, Point e);
 
-        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath()
-        {
-            calculateShortestPath();
-            return shortestPath;
-        }
-
-        CDT::Face_handle getStartFace()
-        {
-            return facesFromStartToEnd.at(0)->faceHandle;
-        }
-
-        CDT::Face_handle getEndFace()
-        {
-            unsigned lastIndex = facesFromStartToEnd.size() - 1;
-
-            return facesFromStartToEnd.at(lastIndex)->faceHandle;
-        }
+        /**
+         * @brief getShortestPath calculates and returns the shortest path
+         * @return
+         */
+        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath();
     protected:
         /**
-         * Calculates the shortest path between startPoint and endPoint
+         * @brief calculateShortestPath Cclculates the shortest path between startPoint and endPoint
          * in the given polygon. The function implements the algorithm
          * described by Wolgang Mulzer in
          * https://page.mi.fu-berlin.de/mulzer/notes/alggeo/polySP.pdf
          *
-         * @brief calculateShortestPath
          * @return the shortest path
          */
         void calculateShortestPath();
 
         /**
-         * Stores the triangulation faces through which the shortest
+         * @brief facesFromStartToEnd stores the triangulation faces through which the shortest
          * path has to go. The first face contains the start point,
-         * the second face contains the end point.
-         *
-         * @brief facesFromStartToEnd
+         * the last face contains the end point.
          */
         std::vector<std::shared_ptr<FaceOnShortestPath>> facesFromStartToEnd;
 
         /**
-         * @brief shortestPath
+         * @brief shortestPath stores the shortest path as a vector of PointOnShortestPath instances
          */
         std::vector<std::shared_ptr<PointOnShortestPath>> shortestPath;
 
+        /**
+         * @brief startPoint the start point for the shortest path
+         */
         Point startPoint;
+
+        /**
+         * @brief endPoint the end point for the shortest path
+         */
         Point endPoint;
+
+        /**
+         * @brief gU instance of the utility class
+         */
         GeometryUtil gU;
     private:
+        /**
+         * @brief polygon stores the polygon for the calculations
+         */
         Polygon polygon;
+
+        /**
+         * @brief triangulation the triangulation of the polygon
+         */
         CDT triangulation;
+
+        /**
+         * @brief triangulationCalculator instance of the Triangulation helper class
+         */
         Triangulation triangulationCalculator;
 
         /**
-         * This function sets facesFromStartToEnd
-         *
-         * @brief setFacesFromStartToEndPoint
+         * @brief setFacesFromStartToEndPoint sets the triangulation faces from the start point to the
+         * end point
          */
         void setFacesFromStartToEndPoint();
 
         /**
-         * This function recursively goes through the triangulation
-         * and searches for the endPoint. It adds the faces to
-         * facesFromStartToEnd as it does so.
-         *
-         * @brief recursivelyfindEndPoint
+         * @brief recursivelyfindEndPoint recursively goes through the triangulation
+         * and searches for the endPoint. It adds the faces to facesFromStartToEnd as
+         * it does so.
          * @param currentFaceHandle
          * @return
          */
         bool recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle);
 
         /**
-         * Contains the left part of the funnel
-         * @brief funnelLeftPath
+         * @brief funnelLeftPath contains the left part of the funnel
          */
         std::vector<std::shared_ptr<PointOnShortestPath>> funnelLeftPath;
 
         /**
-         * Contains the right part of the funnel
-         * @brief funnelRightPath
+         * @brief funnelRightPath containt the right part of the funnel
          */
         std::vector<std::shared_ptr<PointOnShortestPath>> funnelRightPath;
 
         /**
-         * Handle the next point in a triangle on the path from the start to the end
+         * @brief handleNextPoint handles the next point in a triangle on the path from the start to the end
          * point.
-         *
-         * @brief handleNextPoint
          * @param backwardPath
          * @param forwardPath
          * @param nextPoint
@@ -146,9 +150,8 @@ namespace SPV {
         );
 
         /**
-         * Set the distance from the start and end point to this point on
+         * @brief setDistances set the distance from the start and end point to all points on
          * the shortest path.
-         * @brief setDistances
          */
         void setDistances();
     };

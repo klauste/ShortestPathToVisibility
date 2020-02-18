@@ -2,6 +2,7 @@
 CGALGeometryConnector::CGALGeometryConnector()
 {
     polygon = Polygon();
+    minSquaredDistanceToStartPoint = 400;
 }
 
 std::vector<QLineF*> CGALGeometryConnector::getShortestPathGraph()
@@ -107,7 +108,6 @@ void CGALGeometryConnector::reset()
     bendEvents.clear();
     minMaxMinima.clear();
     minSumMinima.clear();
-    sweptSegments.clear();
     shortestPathGraph.clear();
 }
 

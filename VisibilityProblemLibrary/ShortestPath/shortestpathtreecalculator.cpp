@@ -1,17 +1,23 @@
 #include "ShortestPath/shortestpathtreecalculator.h"
 
+const std::vector<std::shared_ptr<SPV::PointOnShortestPath>> SPV::ShortestPathTreeCalculator::getShortestPath()
+{
+    calculateShortestPath();
+    return shortestPath;
+}
+
 void SPV::ShortestPathTreeCalculator::calculateShortestPath()
 {
     ShortestPathCalculator::calculateShortestPath();
 
     rootAtEndPoint = false;
-    rootPoint = std::make_shared<PointWithTriangulationInfo>(startPoint);
+    rootPoint = startPoint;
     currentPointOnShortestPathIndex = 0;
     setSweptSegmentsInShortestPath(facesFromStartToEnd.at(0)->faceHandle);
     shortestPathTree.clear();
 
     rootAtEndPoint = true;
-    rootPoint = std::make_shared<PointWithTriangulationInfo>(endPoint);
+    rootPoint = endPoint;
     currentPointOnShortestPathIndex = shortestPath.size() - 1;
     setSweptSegmentsInShortestPath(facesFromStartToEnd.back()->faceHandle);
     shortestPathTree.clear();
@@ -27,7 +33,7 @@ void SPV::ShortestPathTreeCalculator::setSweptSegmentsInShortestPath(CDT::Face_h
     // add all points in the start triangle
     for (int i = 0; i < 3; i++) {
         std::shared_ptr<PointOnShortestPathTree> trianglePoint = std::make_shared<PointOnShortestPathTree>(
-            std::make_shared<PointWithTriangulationInfo>(firstFace, i),
+            firstFace->vertex(i)->point(),
             startPointOnTree
         );
         addPointToShortestPathTree(trianglePoint);
@@ -199,7 +205,7 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtApex(
 )
 {
     auto nextPointOnTree = std::make_shared<PointOnShortestPathTree>(
-        std::make_shared<PointWithTriangulationInfo>(nextFace, indexInfo->nextPointIndex)
+        nextFace->vertex(indexInfo->nextPointIndex)->point()
     );
     std::vector<std::shared_ptr<PointOnShortestPathTree>> newSplitFunnelRight;
     std::vector<std::shared_ptr<PointOnShortestPathTree>> newSplitFunnelLeft;
@@ -249,7 +255,7 @@ void SPV::ShortestPathTreeCalculator::handleTriangleBeyondLastEdge(
             currentFace
         );
         std::shared_ptr<PointOnShortestPathTree> secondPointOnTree = std::make_shared<PointOnShortestPathTree>(
-            std::make_shared<PointWithTriangulationInfo>(currentFace, indexInfo->nextPointIndex),
+            currentFace->vertex(indexInfo->nextPointIndex)->point(),
             apex
         );
         addPointToShortestPathTree(secondPointOnTree);
@@ -319,7 +325,7 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtLastPoint(
     }
 
     auto nextPointOnTree = std::make_shared<PointOnShortestPathTree>(
-        std::make_shared<PointWithTriangulationInfo>(nextFace, indexInfo->nextPointIndex),
+        nextFace->vertex(indexInfo->nextPointIndex)->point(),
         newApex
     );
     addPointToShortestPathTree(nextPointOnTree);
@@ -398,7 +404,7 @@ void SPV::ShortestPathTreeCalculator::splitFunnelAtMidPoint(
     }
 
     auto nextPointOnTree = std::make_shared<PointOnShortestPathTree>(
-        std::make_shared<PointWithTriangulationInfo>(nextFace, indexInfo->nextPointIndex),
+        nextFace->vertex(indexInfo->nextPointIndex)->point(),
         newApex
     );
 
@@ -579,6 +585,50 @@ std::shared_ptr<SPV::ShortestPathTreeCalculator::predecessorInfo> SPV::ShortestP
     result->indexOnFunnel = rightFunnel.size() - 1;
     result->isLastPointOnFunnel = true;
     return result;
+}
+
+bool SPV::ShortestPathTreeCalculator::allPointsOnShortestPathHandled()
+{
+    if (rootAtEndPoint) {
+        return currentPointOnShortestPathIndex <= 1;
+    }
+    return currentPointOnShortestPathIndex >= shortestPath.size() - 1;
+}
+
+Point SPV::ShortestPathTreeCalculator::getNextPointOnShortestPath()
+{
+    int index;
+    if (rootAtEndPoint) {
+        index = currentPointOnShortestPathIndex - 1;
+    } else {
+        index = currentPointOnShortestPathIndex + 1;
+    }
+    return shortestPath.at(index)->getPoint();
+}
+
+bool SPV::ShortestPathTreeCalculator::isPointOnShortestPath(std::shared_ptr<PointOnShortestPathTree> pointToCheck)
+{
+    if (allPointsOnShortestPathHandled()) {
+        return false;
+    }
+    if (getNextPointOnShortestPath() == pointToCheck->getPoint()) {
+        // Set the shortest path to the
+        if (rootAtEndPoint) {
+            currentPointOnShortestPathIndex = currentPointOnShortestPathIndex - 1;
+        } else {
+            currentPointOnShortestPathIndex = currentPointOnShortestPathIndex + 1;
+        }
+        return true;
+    }
+    return false;
+}
+
+void SPV::ShortestPathTreeCalculator::addPointToShortestPathTree(std::shared_ptr<PointOnShortestPathTree> p)
+{
+    if (isPointOnShortestPath(p)) {
+        p->setIndexOnShortestPath(currentPointOnShortestPathIndex);
+    }
+    shortestPathTree.push_back(p);
 }
 
 std::shared_ptr<SPV::ShortestPathTreeCalculator::triangulationIndexInformation> SPV::ShortestPathTreeCalculator::getTriangulationIndexInformation(

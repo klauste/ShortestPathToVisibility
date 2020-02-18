@@ -13,323 +13,432 @@ typedef K::Point_2 Point;
 typedef K::Segment_2 Segment;
 
 namespace SPV {
+    /**
+     * @brief The EventSegment class stores information about two successive events. The events are represented
+     * as instances of class LineOfSight. An instance of this class contains the necessary information
+     * to calculate a local minimum. Event segments are linked via pointers, so that all event segments for
+     * a given visibility problem can be inspected in the correct order.
+     *
+     * The terms 'start side' and 'end side' used in the comments refer to the half of the lines of sight
+     * which is closer to the start/end point of the visibility problem.
+     */
     class EventSegment
     {
     public:
-        EventSegment(std::shared_ptr<LineOfSight> fL, std::shared_ptr<LineOfSight> sL, std::shared_ptr<PointOnShortestPath> pP) :
+        EventSegment(
+            std::shared_ptr<LineOfSight> fL,
+            std::shared_ptr<LineOfSight> sL,
+            std::shared_ptr<PointOnShortestPath> pP) :
             firstLineOfSightFromStart(fL),
             secondLineOfSightFromStart(sL),
-            pivotPoint(pP)
+            pivotPoint(pP),
+            predecessorSet(false),
+            successorSet(false),
+            startSideLoSVisible(true),
+            endSideLoSVisible(true),
+            startSideOnPolygonEdge(false),
+            endSideOnPolygonEdge(false),
+            bendEventsOnStartSideHandled(false),
+            bendEventsOnEndSideHandled(false),
+            distanceOnStartSideSet(false),
+            distanceOnEndSideSet(false)
         {}
 
-        EventSegment* clone()
-        {
-            EventSegment *newSegment = new EventSegment(firstLineOfSightFromStart, secondLineOfSightFromStart, pivotPoint);
-            if (successorSet) {
-                newSegment->setSuccessor(successor);
-            }
-            if (predecessorSet) {
-                newSegment->setPredecessor(predecessor);
-            }
-            newSegment->setStartSideLoSVisible(startSideLoSVisible);
-            newSegment->setStartSideOnPolygonEdge(startSideOnPolygonEdge);
-            newSegment->setEndSideLoSVisible(endSideLoSVisible);
-            newSegment->setEndSideOnPolygonEdge(endSideOnPolygonEdge);
-            newSegment->setIndexOfLastSPPointOnStartSide(indexOfLastSPPointOnStartSide);
-            newSegment->setIndexOfLastSPPointOnEndSide(indexOfLastSPPointOnEndSide);
-            if (distanceOnStartSideSet) {
-                newSegment->setDistanceToLastVertex(distanceToLastVertexOnStartSide, true);
-            }
-            if (distanceOnEndSideSet) {
-                newSegment->setDistanceToLastVertex(distanceToLastVertexOnEndSide, false);
-            }
-            for (unsigned i = 0; i < extraPointsOnStartSide.size(); i++) {
-                newSegment->addExtraPointsOnStartSide(extraPointsOnStartSide.at(i));
-            }
+        /**
+         * @brief clone returns a cloned instance of the current instance containing all relevant information
+         * @return
+         */
+        EventSegment* clone();
 
-            for (unsigned i = 0; i < extraPointsOnEndSide.size(); i++) {
-                newSegment->addExtraPointsOnEndSide(extraPointsOnEndSide.at(i));
-            }
-            return newSegment;
-        }
+        /**
+         * @brief createNewSuccessor creates a successor of the current instance at the splitline.
+         * @param splitLine
+         * @return
+         */
+        EventSegment *createNewSuccessor(std::shared_ptr<LineOfSight> splitLine);
 
-        EventSegment *createNewSuccessor(std::shared_ptr<LineOfSight> splitLine)
-        {
-            EventSegment *newSegment = clone();
-            newSegment->setFirstLineOfSightFromStart(splitLine);
-            setSecondLineOfSightFromStart(splitLine);
-            setSuccessor(newSegment);
-            newSegment->setPredecessor(this);
-            if (newSegment->hasSuccessor()) {
-                newSegment->getSuccessor()->setPredecessor(newSegment);
-            }
+        /**
+         * @brief createNewPredecessor creates a predecessor of the current instance at the splitline
+         * @param splitLine
+         * @return
+         */
+        EventSegment* createNewPredecessor(std::shared_ptr<LineOfSight> splitLine);
 
-            return newSegment;
-        }
+        /**
+         * @brief getPredecessor returns this instance's predecessor. Should only be called, if
+         * hasPredecessor returns true
+         * @return
+         */
+        EventSegment* getPredecessor();
 
-        EventSegment* createNewPredecessor(std::shared_ptr<LineOfSight> splitLine)
-        {
-            EventSegment* newSegment = clone();
-            newSegment->setDistanceToLastVertex(distanceToLastVertexOnStartSide, true);
-            newSegment->setSecondLineOfSightFromStart(splitLine);
-            setFirstLineOfSightFromStart(splitLine);
-            setPredecessor(newSegment);
-            newSegment->setSuccessor(this);
-            if (newSegment->hasPredecessor()) {
-                newSegment->getPredecessor()->setSuccessor(newSegment);
-            }
+        /**
+         * @brief setPredecessor set this instance's predecessor to p
+         * @param p
+         */
+        void setPredecessor(EventSegment *p);
 
-            return newSegment;
-        }
+        /**
+         * @brief getSuccessor returns this instance's successor. Should only be called if
+         * hasSuccessor return true
+         * @return
+         */
+        EventSegment* getSuccessor();
 
-        EventSegment* getPredecessor()
-        {
-            return predecessor;
-        }
+        /**
+         * @brief setSuccessor sets this instance's successor to s
+         * @param s
+         */
+        void setSuccessor(EventSegment* s);
 
-        void setPredecessor(EventSegment *p)
-        {
-            predecessorSet = true;
-            predecessor = p;
-        }
+        /**
+         * @brief addExtraPointsOnStartSide adds an extra point, i.e. a point which does not belong to
+         * the shortest path from start point to end point to the path from start point to the lines of
+         * sights in this event segment.
+         * @param p
+         */
+        void addExtraPointsOnStartSide(Point p);
 
-        EventSegment* getSuccessor()
-        {
-            return successor;
-        }
+        /**
+         * @brief removeExtraPointOnStartSide removes an extra point from the path starting at the start point
+         */
+        void removeExtraPointOnStartSide();
 
-        void setSuccessor(EventSegment* s)
-        {
-            successorSet = true;
-            successor = s;
-        }
+        /**
+         * @brief addExtraPointsOnEndSide adds an extra point, i.e. a point which does not belong to
+         * the shortest path from start point to end point to the path from end point to the lines of
+         * sights in this event segment.
+         * @param p
+         */
+        void addExtraPointsOnEndSide(Point p);
 
-        void addExtraPointsOnStartSide(Point p)
-        {
-            extraPointsOnStartSide.push_back(p);
-        }
+        /**
+         * @brief removeExtraPointOnEndSide removes an extra point from the path starting at the end point
+         */
+        void removeExtraPointOnEndSide();
 
-        void removeExtraPointOnStartSide()
-        {
-            if (extraPointsOnStartSide.size() > 0) {
-                extraPointsOnStartSide.pop_back();
-            }
-        }
+        /**
+         * @brief getExtraPointsOnStartSide returns the extra points for a path from the start point to a line of sight
+         * @return
+         */
+        std::vector<Point> getExtraPointsOnStartSide();
 
-        void addExtraPointsOnEndSide(Point p)
-        {
-            extraPointsOnEndSide.push_back(p);
-        }
+        /**
+         * @brief getExtraPointsOnEndSide returns the extra points for a path from the end point to a line of sight
+         * @return
+         */
+        std::vector<Point> getExtraPointsOnEndSide();
 
-        void removeExtraPointOnEndSide()
-        {
-            if (extraPointsOnEndSide.size() > 0) {
-                extraPointsOnEndSide.pop_back();
-            }
-        }
+        /**
+         * @brief setIndexOfLastSPPointOnStartSide sets the index up to which the path starting at the
+         * start point to a line of sight follows the shortest path between start and end point
+         * @param i
+         */
+        void setIndexOfLastSPPointOnStartSide(unsigned i);
 
-        std::vector<Point> getExtraPointsOnStartSide()
-        {
-            return extraPointsOnStartSide;
-        }
+        /**
+         * @brief setIndexOfLastSPPointOnEndSide sets the index up to which the path starting at the
+         * end point to a line of sight follows the shortest path between start and end point
+         * @param i
+         */
+        void setIndexOfLastSPPointOnEndSide(unsigned i);
 
-        std::vector<Point> getExtraPointsOnEndSide()
-        {
-            return extraPointsOnEndSide;
-        }
+        /**
+         * @brief getIndexOfLastSPPointOnStartSide returns the index
+         */
+        unsigned getIndexOfLastSPPointOnStartSide();
 
-        void setIndexOfLastSPPointOnStartSide(unsigned i)
-        {
-            indexOfLastSPPointOnStartSide = i;
-        }
+        /**
+         * @brief getIndexOfLastSPPointOnEndSide returns the index
+         */
+        unsigned getIndexOfLastSPPointOnEndSide();
 
-        void setIndexOfLastSPPointOnEndSide(unsigned i)
-        {
-            indexOfLastSPPointOnEndSide = i;
-        }
+        /**
+         * @brief setStartSideLoSVisible sets the visibility flag for the start side
+         * @param s
+         */
+        void setStartSideLoSVisible(bool s);
 
-        unsigned getIndexOfLastSPPointOnStartSide()
-        {
-            return indexOfLastSPPointOnStartSide;
-        }
+        /**
+         * @brief getStartSideLoSVisible gets the visiblity flag for the start side
+         * @return
+         */
+        bool getStartSideLoSVisible();
 
-        unsigned getIndexOfLastSPPointOnEndSide()
-        {
-            return indexOfLastSPPointOnEndSide;
-        }
+        /**
+         * @brief isLoSVisible convenience function to get the visibility flags
+         * @param onStartSide
+         * @return
+         */
+        bool isLoSVisible(bool onStartSide);
 
-        void setStartSideLoSVisible(bool s)
-        {
-            startSideLoSVisible = s;
-        }
+        /**
+         * @brief setEndSideLoSVisible sets the visibility flag for the end side
+         * @param e
+         */
+        void setEndSideLoSVisible(bool e);
 
-        bool getStartSideLoSVisible()
-        {
-            return startSideLoSVisible;
-        }
+        /**
+         * @brief getEndSideLoSVisible gets the visiblity flag for the end side
+         * @return
+         */
+        bool getEndSideLoSVisible();
 
-        bool isLoSVisible(bool onStartSide)
-        {
-            if (onStartSide) {
-                return startSideLoSVisible;
-            }
-            return endSideLoSVisible;
-        }
+        /**
+         * @brief setStartSideOnPolygonEdge sets the flag indicating if the path to the lines of sight
+         * start on the polygon edge
+         * @param s
+         */
+        void setStartSideOnPolygonEdge(bool s);
 
-        void setEndSideLoSVisible(bool e)
-        {
-            endSideLoSVisible = e;
-        }
+        /**
+         * @brief getStartSideOnPolygonEdge returns the flag
+         * @return
+         */
+        bool getStartSideOnPolygonEdge();
 
-        bool getEndSideLoSVisible()
-        {
-            return endSideLoSVisible;
-        }
+        /**
+         * @brief setEndSideOnPolygonEdge sets the flag indicating if the path to the lines of sight
+         * start on the polygon edge
+         * @param e
+         */
+        void setEndSideOnPolygonEdge(bool e);
 
-        void setStartSideOnPolygonEdge(bool s)
-        {
-            startSideOnPolygonEdge = s;
-        }
+        /**
+         * @brief getEndSideOnPolygonEdge returns the flag
+         * @return
+         */
+        bool getEndSideOnPolygonEdge();
 
-        bool getStartSideOnPolygonEdge()
-        {
-            return startSideOnPolygonEdge;
-        }
+        /**
+         * @brief isPathOnPolygonEdgeAtBeginning convenience function to get the flags
+         * @param onStartSide
+         * @return
+         */
+        bool isPathOnPolygonEdgeAtBeginning(bool onStartSide);
 
-        void setEndSideOnPolygonEdge(bool e)
-        {
-            endSideOnPolygonEdge = e;
-        }
+        /**
+         * @brief getFirstLineOfSightFromStart returns the line of sight where the event segment starts
+         * @return
+         */
+        std::shared_ptr<LineOfSight> getFirstLineOfSightFromStart();
 
-        bool getEndSideOnPolygonEdge()
-        {
-            return endSideOnPolygonEdge;
-        }
+        /**
+         * @brief setFirstLineOfSightFromStart sets the first line of sight
+         * @param fL
+         */
+        void setFirstLineOfSightFromStart(std::shared_ptr<LineOfSight> fL);
 
-        bool isPathOnPolygonEdgeAtBeginning(bool onStartSide)
-        {
-            if (onStartSide) {
-                return startSideOnPolygonEdge;
-            }
-            return endSideOnPolygonEdge;
-        }
+        /**
+         * @brief getSecondLineOfSightFromStart returns the line of sight where the event segment ends
+         * @return
+         */
+        std::shared_ptr<LineOfSight> getSecondLineOfSightFromStart();
 
-        std::shared_ptr<LineOfSight> getFirstLineOfSightFromStart()
-        {
-            return firstLineOfSightFromStart;
-        }
+        /**
+         * @brief setSecondLineOfSightFromStart sets the second line of sight
+         * @param sL
+         */
+        void setSecondLineOfSightFromStart(std::shared_ptr<LineOfSight> sL);
 
-        void setFirstLineOfSightFromStart(std::shared_ptr<LineOfSight> fL)
-        {
-            firstLineOfSightFromStart = fL;
-        }
+        /**
+         * @brief getPivotPoint returns the pivotPoint information
+         * @return
+         */
+        std::shared_ptr<PointOnShortestPath> getPivotPoint();
 
-        std::shared_ptr<LineOfSight> getSecondLineOfSightFromStart()
-        {
-            return secondLineOfSightFromStart;
-        }
+        /**
+         * @brief hasSuccessor returns whether or not the successor is set
+         * @return
+         */
+        bool hasSuccessor();
 
-        void setSecondLineOfSightFromStart(std::shared_ptr<LineOfSight> sL)
-        {
-            secondLineOfSightFromStart = sL;
-        }
+        /**
+         * @brief hasPredecessor returns whether or not the predecessor is set
+         * @return
+         */
+        bool hasPredecessor();
 
-        std::shared_ptr<PointOnShortestPath> getPivotPoint()
-        {
-             return pivotPoint;
-        }
+        /**
+         * @brief getSegmentStartPoint get the start point of the segment either on the
+         * start or end side
+         * @param onStartSide
+         * @return
+         */
+        Point getSegmentStartPoint(bool onStartSide);
 
-        bool hasSuccessor()
-        {
-            return successorSet;
-        }
+        /**
+         * @brief getSegmentEndPoint get the end point on of the segment either on the
+         * start or end side
+         * @param onStartSide
+         * @return
+         */
+        Point getSegmentEndPoint(bool onStartSide);
 
-        bool hasPredecessor()
-        {
-            return predecessorSet;
-        }
+        /**
+         * @brief bendEventsOnStartSideAreHandled returns whether bend events on the
+         * start side have been handled
+         * @return
+         */
+        bool bendEventsOnStartSideAreHandled();
 
-        Point getSegmentStartPoint(bool onStartSide)
-        {
-            if (onStartSide) {
-                return firstLineOfSightFromStart->getPointOnStartSide();
-            }
-            return secondLineOfSightFromStart->getPointOnEndSide();
-        }
+        /**
+         * @brief setEventsOnStartSideHandled sets the flag whether bend events on the start
+         * side have been handled
+         */
+        void setEventsOnStartSideHandled();
 
-        Point getSegmentEndPoint(bool onStartSide)
-        {
-            if (onStartSide) {
-                return secondLineOfSightFromStart->getPointOnStartSide();
-            }
-            return firstLineOfSightFromStart->getPointOnEndSide();
-        }
+        /**
+         * @brief bendEventsOnEndSideAreHandled returns whether bend events on the end side
+         * have been handled
+         * @return
+         */
+        bool bendEventsOnEndSideAreHandled();
 
-        bool bendEventsOnStartSideAreHandled()
-        {
-            return bendEventsOnStartSideHandled;
-        }
+        /**
+         * @brief setEventsOnEndSideHandled sets the flag wheter bend events on the end side have
+         * been handled
+         */
+        void setEventsOnEndSideHandled();
 
-        void setEventsOnStartSideHandled()
-        {
-            bendEventsOnStartSideHandled = true;
-        }
+        /**
+         * @brief getDistanceToLastVertex returns the distance of the shortest path from
+         * either the start or end point to the last vertex of the polygon before the lines
+         * of sight in this segement are reached
+         * @param onStartSide
+         * @return
+         */
+        double getDistanceToLastVertex(bool onStartSide);
 
-        bool bendEventsOnEndSideAreHandled()
-        {
-            return bendEventsOnEndSideHandled;
-        }
-
-        void setEventsOnEndSideHandled()
-        {
-            bendEventsOnEndSideHandled = true;
-        }
-
-        double getDistanceToLastVertex(bool onStartSide)
-        {
-            if (onStartSide) {
-                return distanceToLastVertexOnStartSide;
-            }
-            return distanceToLastVertexOnEndSide;
-        }
-
-        void setDistanceToLastVertex(double d, bool onStartSide)
-        {
-            if (onStartSide) {
-                distanceToLastVertexOnStartSide = d;
-                distanceOnStartSideSet = true;
-            } else {
-                distanceToLastVertexOnEndSide = d;
-                distanceOnEndSideSet = true;
-            }
-        }
+        /**
+         * @brief setDistanceToLastVertex sets the distance to the last vertex on the polygon
+         * before the lines of sight in this segment are reached
+         * @param d
+         * @param onStartSide
+         */
+        void setDistanceToLastVertex(double d, bool onStartSide);
 
     private:
-        EventSegment *predecessor;
-        bool predecessorSet = false;
-        EventSegment *successor;
-        bool successorSet = false;
-        std::shared_ptr<PointOnShortestPath> pivotPoint;
-
-        unsigned indexOfLastSPPointOnStartSide;
-        unsigned indexOfLastSPPointOnEndSide;
-        std::vector<Point> extraPointsOnStartSide;
-        std::vector<Point> extraPointsOnEndSide;
-        // The first line of sight (as seen from the start point) delimiting this event segment
+        /**
+         * @brief firstLineOfSightFromStart pointer to the first line of sight (as seen from the start point)
+         * delimiting this event segment
+         */
         std::shared_ptr<LineOfSight> firstLineOfSightFromStart;
 
-        // The second line of sight (as seen from the start point) delimiting this event segment
+        /**
+         * @brief secondLineOfSightFromStart pointer to the second line of sight (as seen from the start point)
+         * delimiting this event segment
+         */
         std::shared_ptr<LineOfSight> secondLineOfSightFromStart;
 
-        bool startSideLoSVisible = true;
-        bool endSideLoSVisible = true;
-        bool startSideOnPolygonEdge = false;
-        bool endSideOnPolygonEdge = false;
-        bool bendEventsOnStartSideHandled = false;
-        bool bendEventsOnEndSideHandled = false;
+        /**
+         * @brief pivotPoint pointer to this event segment's pivot point
+         */
+        std::shared_ptr<PointOnShortestPath> pivotPoint;
+
+        /**
+         * @brief predecessor pointer to this event's predecessor
+         */
+        EventSegment *predecessor;
+
+        /**
+         * @brief successor pointer to this event's successor
+         */
+        EventSegment *successor;
+
+        /**
+         * @brief predecessorSet whether or not the predecessor is set
+         */
+        bool predecessorSet;
+
+        /**
+         * @brief successorSet whether or not the successor is set
+         */
+        bool successorSet;
+
+        /**
+         * @brief indexOfLastSPPointOnStartSide the index of the last point on the shortest path
+         * from the start point to this segment. After this index, the path to a line of sight
+         * no longer follows the shortest path between start and end point.
+         */
+        unsigned indexOfLastSPPointOnStartSide;
+
+        /**
+         * @brief indexOfLastSPPointOnEndSide the index of the last point on the shortest path
+         * from the end point to this segment. After this index, the path to a line of sight
+         * no longer follows the shortest path between start and end point.
+         */
+        unsigned indexOfLastSPPointOnEndSide;
+
+        /**
+         * @brief extraPointsOnStartSide stores polygon vertices which are not part of the shortest path
+         * from start to end point but which are part of the path from the start point to lines
+         * of sight in this segment
+         */
+        std::vector<Point> extraPointsOnStartSide;
+
+        /**
+         * @brief extraPointsOnEndSide stores polygon vertices which are not part of the shortest path
+         * from start to end point but which are part of the path from the end point to lines
+         * of sight in this segment
+         */
+        std::vector<Point> extraPointsOnEndSide;
+
+        /**
+         * @brief startSideLoSVisible indicates whether the shortest path from the last vertex on
+         * the polygon to the line of sight on the start side is visible or whether it is obstructed
+         * by a polygon edge
+         */
+        bool startSideLoSVisible;
+
+        /**
+         * @brief endSideLoSVisible indicates whether the shortest path from the last vertex on
+         * the polygon to the line of sight on the end side is visible or whether it is obstructed
+         * by a polygon edge
+         */
+        bool endSideLoSVisible;
+
+        /**
+         * @brief startSideOnPolygonEdge indicates for the start side whether the path from the last vertex to
+         * a line of sight starts on the polygon edge
+         */
+        bool startSideOnPolygonEdge;
+
+        /**
+         * @brief endSideOnPolygonEdge indicates for the end side whether the path from the last vertex to
+         * a line of sight starts on the polygon edge
+         */
+        bool endSideOnPolygonEdge;
+
+        /**
+         * @brief bendEventsOnStartSideHandled indicates whether bend events on the start side have been handled
+         */
+        bool bendEventsOnStartSideHandled;
+
+        /**
+         * @brief bendEventsOnEndSideHandled indicates whether bend events on the end side have been handled
+         */
+        bool bendEventsOnEndSideHandled;
+
+        /**
+         * @brief distanceToLastVertexOnStartSide stores the distance from the start point to the last
+         * polygon vertex before the lines of sight in this segment
+         */
         double distanceToLastVertexOnStartSide;
+
+        /**
+         * @brief distanceOnStartSideSet indicates if distanceToLastVertexOnStartSide has been set
+         */
         bool distanceOnStartSideSet = false;
+
+        /**
+         * @brief distanceToLastVertexOnEndSide stores the distance from the end point to the last
+         * polygon vertex before the lines of sight in this segment
+         */
         double distanceToLastVertexOnEndSide;
+
+        /**
+         * @brief distanceOnEndSideSet indicates if distanceToLastVertexOnEndSide has been set
+         */
         bool distanceOnEndSideSet = false;
     };
 }

@@ -16,6 +16,9 @@ typedef K::Point_2 Point;
 typedef CGAL::Polygon_2<K> Polygon;
 typedef K::Segment_2 Segment;
 
+/**
+ * @brief The CGALGeometryConnector class connects the visualiation code and the minimum calculations library
+ */
 class CGALGeometryConnector
 {
 public:
@@ -98,7 +101,8 @@ public:
 
     /**
      * @brief handleFinalPoint handles one of the points (the start or the end point) for which the
-     * path to pairwise visibility is to be calculated.
+     * path to pairwise visibility is to be calculated. If this function is called for the end point,
+     * the functions to calculate the the minima are called.
      * @param p
      * @param isStart
      */
@@ -163,25 +167,66 @@ public:
     void reset();
 
 private:
+    /**
+     * @brief polygon the polygon entered by the user
+     */
     Polygon polygon;
+
+    /**
+     * @brief startPoint first of the point pair
+     */
     Point startPoint;
+
+    /**
+     * @brief endPoint second of the point pair
+     */
     Point endPoint;
+
+    /**
+     * @brief addedSegments holds the segments which have so far been added to the polygon
+     */
     std::vector<Segment> addedSegments;
-    const double minSquaredDistanceToStartPoint = 400;
+
+    /**
+     * @brief minSquaredDistanceToStartPoint how close the mouse needs to be to the start point
+     * to close the polyline
+     */
+    double minSquaredDistanceToStartPoint;
+
     std::vector<QLineF*> shortestPathGraph;
     std::vector<QLineF*> pathEvents;
     std::vector<QLineF*> boundaryEvents;
     std::vector<QLineF*> bendEvents;
     std::vector<MinData*> minMaxMinima;
     std::vector<MinData*> minSumMinima;
-    std::vector<QRectF*> sweptSegments;
     SPV::MinSumCalculator *minSumCalculator = nullptr;
     SPV::MinMaxCalculator *minMaxCalculator = nullptr;
+
+    /**
+     * @brief calculateMinima calculates the min-sum and min max solution of the problem
+     * Expects that the polygon as well as the start and end point have been set
+     */
     void calculateMinima();
+
     SPV::EventSegment *firstSegment;
     std::vector<std::shared_ptr<SPV::PointOnShortestPath>> shortestPath;
+
+    /**
+     * @brief setEvents populates the event vectors
+     */
     void setEvents();
+
+    /**
+     * @brief setMinima populates the min vectors
+     */
     void setMinima();
+
+    /**
+     * @brief setLinesToMin populates MinData.linesToMin with the linese
+     * leading from the start and end point to the minimum
+     * @param min
+     * @param data
+     */
     void setLinesToMin(std::shared_ptr<SPV::Minimum> min, MinData* data);
 };
 

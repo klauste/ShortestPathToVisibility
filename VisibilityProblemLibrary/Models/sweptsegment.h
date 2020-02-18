@@ -11,6 +11,10 @@ typedef K::Point_2 Point;
 typedef K::Segment_2 Segment;
 
 namespace SPV {
+    /**
+     * @brief The SweptSegment class stores information about a segment on the polygon's border which
+     * is swept by a line of sight. It's a helper data structure used by instances of PointOnShortestPath
+     */
     class SweptSegment {
     public:
         SweptSegment(Point l, bool lP, Point r, bool rP) :
@@ -19,37 +23,59 @@ namespace SPV {
             rightPoint(r),
             rightPointPolygonVertex(rP) {}
 
-        std::shared_ptr<SPV::SweptSegment> getClone()
-        {
-            return std::make_shared<SweptSegment>(leftPoint, leftPointPolygonVertex, rightPoint, rightPointPolygonVertex);
-        }
+        /**
+         * @brief getClone returns a clone of the instance
+         * @return
+         */
+        std::shared_ptr<SPV::SweptSegment> getClone();
 
-        Point getLeftPoint()
-        {
-            return leftPoint;
-        }
+        /**
+         * @brief getLeftPoint returns the left point of the segment (as seen from the pivot point)
+         * @return
+         */
+        Point getLeftPoint();
 
-        bool leftPointIsPolygonVertex()
-        {
-            return leftPointPolygonVertex;
-        }
+        /**
+         * @brief leftPointIsPolygonVertex returns the value of the flag indicating if the
+         * left point is a vertex
+         * @return
+         */
+        bool leftPointIsPolygonVertex();
 
-        Point getRightPoint()
-        {
-            return rightPoint;
-        }
+        /**
+         * @brief getRightPoint returns the right point of the segment (as seen from the pivot point)
+         * @return
+         */
+        Point getRightPoint();
 
-        bool rightPointIsPolygonVertex()
-        {
-            return rightPointPolygonVertex;
-        }
+        /**
+         * @brief rightPointIsPolygonVertex returns the value of the flag indicating if the right point
+         * is a vertex
+         * @return
+         */
+        bool rightPointIsPolygonVertex();
+
     private:
+        /**
+         * @brief leftPoint the left point of the segment
+         */
         Point leftPoint;
+
+        /**
+         * @brief leftPointPolygonVertex indicates if the left point is a vertex
+         */
         bool leftPointPolygonVertex;
+
+        /**
+         * @brief rightPoint the right point of the segment
+         */
         Point rightPoint;
+
+        /**
+         * @brief rightPointPolygonVertex indicates if the right point is a vertex
+         */
         bool rightPointPolygonVertex;
     };
 }
-
 
 #endif // SWEPTSEGMENT_H

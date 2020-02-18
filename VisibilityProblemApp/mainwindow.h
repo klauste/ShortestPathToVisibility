@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include "visibilityproblemscene.h"
 
+/**
+ * @brief The MainWindow class is the main controller for the GUI. It owns a scene where polygons and
+ * results can be displayed and listens to button clicks.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -11,8 +15,14 @@ public:
     MainWindow();
 
 public slots:
+    /**
+     * @brief onPolygonReady listens to the polygonReady signal from VisibilityProblemScene
+     * and enables the buttons and tools which are available once the solution for the min-max
+     * and min-sum problem is ready
+     */
     void onPolygonReady();
 
+// Listeners for button clicks
 private slots:
     void pathEventLabelButtonClicked();
     void boundaryEventLabelButtonClicked();

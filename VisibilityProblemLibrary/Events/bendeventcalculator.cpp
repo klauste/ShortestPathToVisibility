@@ -558,7 +558,7 @@ void SPV::BendEventCalculator::handleBoundaryEvent(EventSegment *previousEventSe
         secondLos = currentEventSegment->getSecondLineOfSightFromStart();
         if (firstLos->isStartPointVertex()) {
             eventHandled = true;
-            // If the end point on the previous segment was not vertex, this vertex is
+            // If the end point on the previous segment was not a vertex, this vertex is
             // protruding into the polygon and we need to check the segment between
             // the previous end point and the protruding vertex
             if (!previousEventSegment->getSecondLineOfSightFromStart()->isStartPointVertex()) {

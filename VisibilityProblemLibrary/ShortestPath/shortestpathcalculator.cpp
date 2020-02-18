@@ -1,5 +1,19 @@
 #include "ShortestPath/shortestpathcalculator.h"
 
+SPV::ShortestPathCalculator::ShortestPathCalculator(const Polygon &p, Point s, Point e) {
+    triangulationCalculator = Triangulation(p);
+    polygon = p;
+    triangulation = triangulationCalculator.getTriangulation();
+    startPoint = s;
+    endPoint = e;
+}
+
+const std::vector<std::shared_ptr<SPV::PointOnShortestPath>> SPV::ShortestPathCalculator::getShortestPath()
+{
+    calculateShortestPath();
+    return shortestPath;
+}
+
 void SPV::ShortestPathCalculator::calculateShortestPath() {
     setFacesFromStartToEndPoint();
 

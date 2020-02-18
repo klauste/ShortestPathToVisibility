@@ -1,11 +1,19 @@
 #include "visibilityproblemscene.h"
-/**
- * This function handles mouse press events in the scene.
- *
- * @brief SPVGraphicsScene::mousePressEvent
- * @param mouseEvent
- */
-void VisibilityProblemScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) {
+VisibilityProblemScene::VisibilityProblemScene()
+{
+    numberOfPointsAdded = 0;
+    startPoint = nullptr;
+    endPoint = nullptr;
+    lineToMousePosition = nullptr;
+    decimalPlaces = 0;
+    testDataScaleFactor = 30;
+    polygonIsClosed = false;
+    displayDashLine = false;
+    gC = CGALGeometryConnector();
+}
+
+void VisibilityProblemScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
     if (polygonIsClosed && numberOfPointsAdded == 2) {
         return;
     }

@@ -1,5 +1,20 @@
 #include "Events/pathandboundaryeventcalculator.h"
 
+void SPV::PathAndBoundaryEventCalculator::setCurrentSegmentOrderFromLeftToRight(bool c)
+{
+    currentSegmentOrderFromLeftToRight = c;
+}
+
+bool SPV::PathAndBoundaryEventCalculator::isSegmentOrderFromLeftToRight(unsigned index) {
+    Point previousPoint = shortestPath.at(index - 1)->getPoint();
+    Point currentPoint = shortestPath.at(index)->getPoint();
+    Point nextPoint = shortestPath.at(index + 1)->getPoint();
+
+    // If the next point is on the right of the line through the previous and current point,
+    // then the segments are swept from left to right
+    return gU.isOnRightSide(previousPoint, currentPoint, nextPoint);
+}
+
 void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
 {
     unsigned lastPointIndex = shortestPath.size() - 2;
