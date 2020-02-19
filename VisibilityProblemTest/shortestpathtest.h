@@ -3,6 +3,7 @@
 #include <QtTest>
 
 // add necessary includes here
+#include "Minima/minsumcalculator.h"
 #include "Events/pathandboundaryeventcalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"

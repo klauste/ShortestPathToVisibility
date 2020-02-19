@@ -2,7 +2,7 @@
 
 void SPV::MinMaxCalculator::calculateMinima()
 {
-    calculateEvents();
+    calculateBendEvents();
     bool minimumFound = false;
     currentEventSegment = firstEventSegment;
 

@@ -7,6 +7,7 @@
 #include "Models/sweptsegment.h"
 #include "Utils/geometryutil.h"
 #include "Models/lineofsight.h"
+#include "Models/minimum.h"
 #include "ShortestPath/shortestpathtreecalculator.h"
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
@@ -33,9 +34,19 @@ namespace SPV {
         virtual ~BaseCalculator() {}
 
         /**
-         * @brief calculateEvents calculates the events (of type path, boundary or bend).
+         * @brief calculatePathAndBoundaryEvents calculates the path and boundary events
          */
-        virtual void calculateEvents() = 0;
+        virtual void calculatePathAndBoundaryEvents() = 0;
+
+        /**
+         * @brief calculateBendEvents calculates the bend events
+         */
+        virtual void calculateBendEvents() = 0;
+
+        /**
+         * @brief calculateMinima calculates the minima (either min-max or min-sum)
+         */
+        virtual void calculateMinima() = 0;
 
         /**
          * @brief getFirstEventSegment returns the first event segment. After calculating the
@@ -62,6 +73,12 @@ namespace SPV {
          */
         Point getLastPointBeforeLoS(EventSegment *eS, bool onStartSide);
 
+        /**
+         * @brief getAllMinima returns the vector with the minima
+         * @return
+         */
+        std::vector<std::shared_ptr<Minimum>> getAllMinima();
+
     protected:
         /**
          * @brief shortestPath from start point to end point
@@ -83,6 +100,83 @@ namespace SPV {
          * @brief gU instance of the geometry util used for static calculations
          */
         GeometryUtil gU;
+
+        /**
+         * @brief stepPrecision the precision used to calculate minima if at least one line of sight is
+         * obstructed by a polygon edge
+         */
+        double stepPrecision = 0.001;
+
+        /**
+         * @brief allMinima contains the minima
+         */
+        std::vector<std::shared_ptr<Minimum>> allMinima;
+
+        /**
+         * @brief currentMinimum the currently minimal distance to a line of sight
+         */
+        double currentMinimum;
+
+        /**
+         * @brief getDistanceToIntersectionPoint returns the distance to an intersection point on a line
+         * of sight for the current event segment
+         * @param intersectionPoint
+         * @param onStartSide
+         * @return
+         */
+        double getDistanceToIntersectionPoint(Point intersectionPoint, bool onStartSide);
+
+        /**
+         * @brief getIntersectionPointOnLoS returns the intersection point an a line of sight for the
+         * current event segment
+         * @param intersectionPointOnBoundary
+         * @param onStartSide
+         * @return
+         */
+        Point getIntersectionPointOnLoS(Point intersectionPointOnBoundary, bool onStartSide);
+
+        /**
+         * @brief handleNewGlobalMinimum checks if newMinimumValue is a new global value (compared to the
+         * minima so far). If that's the case a new minimum is added to the minima vector. If the new
+         * minimum value is the same as the minimal value so far, the minima so far are not removed
+         * @param newMinimumValue
+         * @param startSideIntersectionOnLoS
+         * @param endSideIntersectionOnLoS
+         * @param startSideIntersectionOnEdge
+         * @param endSideIntersectionOnEdge
+         * @param calculateMinimumSector
+         */
+        void handleNewGlobalMinimum (
+            double newMinimumValue,
+            Point startSideIntersectionOnLoS,
+            Point endSideIntersectionOnLoS,
+            Point startSideIntersectionOnEdge,
+            Point endSideIntersectionOnEdge,
+            bool calculateMinimumSector = false
+        );
+
+    private:
+        /**
+         * @brief setMinimumDetails sets the details of a minimum
+         * @param min
+         * @param newMinimumValue
+         * @param startSideIntersectionOnLoS
+         * @param endSideIntersectionOnLoS
+         * @param startSideIntersectionOnEdge
+         * @param endSideIntersectionOnEdge
+         * @param isMinSectorStart
+         * @param isMinSectorEnd
+         */
+        void setMinimumDetails(
+            std::shared_ptr<Minimum> min,
+            double newMinimumValue,
+            Point startSideIntersectionOnLoS,
+            Point endSideIntersectionOnLoS,
+            Point startSideIntersectionOnEdge,
+            Point endSideIntersectionOnEdge,
+            bool isMinSectorStart,
+            bool isMinSectorEnd
+        );
     };
 }
 #endif // BASECALCULATOR_H

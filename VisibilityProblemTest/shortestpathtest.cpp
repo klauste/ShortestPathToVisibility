@@ -809,8 +809,8 @@ void ShortestPathTest::shortestPathTest8()
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
 
-    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(11.0, 11.0), Point(8.0,5.0));
-    pathAndBoundaryCalculator->calculateEvents();
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(11.0, 11.0), Point(8.0,5.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
     pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(true);
     sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(true);
 
@@ -860,8 +860,8 @@ void ShortestPathTest::shortestPathTest9()
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
 
-    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(8.0, 5.0), Point(11.0,11.0));
-    pathAndBoundaryCalculator->calculateEvents();
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(8.0, 5.0), Point(11.0,11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
     pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(false);
     sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(false);
 
@@ -909,8 +909,8 @@ void ShortestPathTest::shortestPathTest10()
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
 
-    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(11.0, 11.0), Point(19.0,11.0));
-    pathAndBoundaryCalculator->calculateEvents();
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(11.0, 11.0), Point(19.0,11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
     sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(true);
 
     QCOMPARE(sweptSegments.size(), 1);
@@ -962,8 +962,8 @@ void ShortestPathTest::shortestPathTest11()
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
 
-    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(19.0, 11.0), Point(11.0,11.0));
-    pathAndBoundaryCalculator->calculateEvents();
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(19.0, 11.0), Point(11.0,11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
     pathAndBoundaryCalculator->setCurrentSegmentOrderFromLeftToRight(false);
     sweptSegments = pathAndBoundaryCalculator->getSegmentsForFinalPoint(false);
 
@@ -1021,8 +1021,8 @@ void ShortestPathTest::shortestPathTest12()
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
 
-    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(11.0, 11.0), Point(8.0, 5.0));
-    pathAndBoundaryCalculator->calculateEvents();
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(11.0, 11.0), Point(8.0, 5.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
 
     SPV::EventSegment *eS = pathAndBoundaryCalculator->getFirstEventSegment();
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
@@ -1208,8 +1208,8 @@ void ShortestPathTest::shortestPathTest13()
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
 
-    pathAndBoundaryCalculator = new SPV::PathAndBoundaryEventCalculator(polygon, Point(8.0, 5.0), Point(11.0, 11.0));
-    pathAndBoundaryCalculator->calculateEvents();
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(8.0, 5.0), Point(11.0, 11.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
 
     SPV::EventSegment *eS = pathAndBoundaryCalculator->getFirstEventSegment();
 

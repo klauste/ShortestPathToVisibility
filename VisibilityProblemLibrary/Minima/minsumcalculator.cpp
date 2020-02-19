@@ -2,7 +2,7 @@
 
 void SPV::MinSumCalculator::calculateMinima()
 {
-    calculateEvents();
+    calculateBendEvents();
     bool allSegmentsHandled = false;
     currentEventSegment = firstEventSegment;
 

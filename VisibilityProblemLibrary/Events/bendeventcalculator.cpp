@@ -1,8 +1,8 @@
 #include "Events/bendeventcalculator.h"
 
-void SPV::BendEventCalculator::calculateEvents()
+void SPV::BendEventCalculator::calculateBendEvents()
 {
-    PathAndBoundaryEventCalculator::calculateEvents();
+    calculatePathAndBoundaryEvents();
     currentEventSegment = firstEventSegment;
     calculateEventsOnStartSide = true;
     bool allEventsHandled = false;

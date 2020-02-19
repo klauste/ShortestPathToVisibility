@@ -9,10 +9,12 @@ namespace SPV {
         BendEventCalculator (const Polygon &p, Point s, Point e) :
             PathAndBoundaryEventCalculator (p, s, e) {}
 
+        virtual ~BendEventCalculator() {}
+
         /**
-         * @brief calculateEvents calculates the bend events by adding new event segments
+         * @brief calculateBendEvents calculates the bend events by adding new event segments
          */
-        void calculateEvents();
+        void calculateBendEvents();
 
     private:
         bool calculateEventsOnStartSide;

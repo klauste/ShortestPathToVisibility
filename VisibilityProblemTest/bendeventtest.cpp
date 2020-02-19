@@ -32,8 +32,8 @@ void BendEventTest::bendEventTest1()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(11.0, 11.0), Point(19.0, 11.0));
-    bendEventCalculator->calculateEvents();
+    bendEventCalculator = new SPV::MinMaxCalculator(polygon, Point(11.0, 11.0), Point(19.0, 11.0));
+    bendEventCalculator->calculateBendEvents();
     SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
@@ -361,8 +361,8 @@ void BendEventTest::bendEventTest2()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(19.0, 11.0), Point(11.0, 11.0));
-    bendEventCalculator->calculateEvents();
+    bendEventCalculator = new SPV::MinMaxCalculator(polygon, Point(19.0, 11.0), Point(11.0, 11.0));
+    bendEventCalculator->calculateBendEvents();
     SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(16,7));
@@ -685,8 +685,8 @@ void BendEventTest::bendEventTest3()
     polygon.push_back(Point(14.0, 10.0));
     polygon.push_back(Point(15.0, 8.0));
     polygon.push_back(Point(16.0, 10.0));
-    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(17.0, 11.0), Point(17.0, 4.0));
-    bendEventCalculator->calculateEvents();
+    bendEventCalculator = new SPV::MinMaxCalculator(polygon, Point(17.0, 11.0), Point(17.0, 4.0));
+    bendEventCalculator->calculateBendEvents();
     SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     auto loS = eS->getFirstLineOfSightFromStart();
@@ -997,8 +997,8 @@ void BendEventTest::bendEventTest4()
     polygon.push_back(Point(14.0, 10.0));
     polygon.push_back(Point(15.0, 8.0));
     polygon.push_back(Point(16.0, 10.0));
-    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(17.0, 4.0), Point(17.0, 11.0));
-    bendEventCalculator->calculateEvents();
+    bendEventCalculator = new SPV::MinMaxCalculator(polygon, Point(17.0, 4.0), Point(17.0, 11.0));
+    bendEventCalculator->calculateBendEvents();
     SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     auto loS = eS->getSecondLineOfSightFromStart();
@@ -1320,8 +1320,8 @@ void BendEventTest::bendEventTest5()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(10.5, 11.0), Point(8.0, 5.0));
-    bendEventCalculator->calculateEvents();
+    bendEventCalculator = new SPV::MinMaxCalculator(polygon, Point(10.5, 11.0), Point(8.0, 5.0));
+    bendEventCalculator->calculateBendEvents();
     SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
@@ -1828,8 +1828,8 @@ void BendEventTest::bendEventTest6()
     polygon.push_back(Point(8.0, 8.0));
     polygon.push_back(Point(8.0, 10.0));
     polygon.push_back(Point(6.0, 10.0));
-    bendEventCalculator = new SPV::BendEventCalculator(polygon, Point(8.0, 5.0), Point(10.5, 11.0));
-    bendEventCalculator->calculateEvents();
+    bendEventCalculator = new SPV::MinMaxCalculator(polygon, Point(8.0, 5.0), Point(10.5, 11.0));
+    bendEventCalculator->calculateBendEvents();
     SPV::EventSegment *eS = bendEventCalculator->getFirstEventSegment();
 
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(9,4));

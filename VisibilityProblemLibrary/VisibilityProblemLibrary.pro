@@ -48,7 +48,6 @@ SOURCES += \
     basecalculator.cpp
 
 HEADERS +=  \
-    Minima/abstractmincalculator.h \
     Minima/minmaxcalculator.h \
     basecalculator.h \
     Events/bendeventcalculator.h \

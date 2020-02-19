@@ -28,7 +28,7 @@ namespace SPV {
         PathAndBoundaryEventCalculator (const Polygon &p, Point s, Point e) :
             BaseCalculator (p, s, e) {}
 
-        ~PathAndBoundaryEventCalculator()
+        virtual ~PathAndBoundaryEventCalculator()
         {
             EventSegment *nextSegment = firstEventSegment;
             EventSegment *currentSegment = firstEventSegment;
@@ -67,11 +67,11 @@ namespace SPV {
         void setCurrentSegmentOrderFromLeftToRight(bool c);
 
         /**
-         * @brief calculateEvents calculate the path and the boundary events for the
+         * @brief calculatePathAndBoundaryEvents calculate the path and the boundary events for the
          * given polygon and start and end point. Path and boundary events are represented by instances
          * of EventSegment which are linked together via pointers.
          */
-        void calculateEvents();
+        void calculatePathAndBoundaryEvents();
 
     protected:
         /**

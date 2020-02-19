@@ -3,6 +3,7 @@
 #include <QtTest>
 
 // add necessary includes here
+#include "Minima/minmaxcalculator.h"
 #include "Events/bendeventcalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"
