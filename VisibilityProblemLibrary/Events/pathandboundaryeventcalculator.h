@@ -67,11 +67,11 @@ namespace SPV {
         void setCurrentSegmentOrderFromLeftToRight(bool c);
 
         /**
-         * @brief calculatePathAndBoundaryEvents calculate the path and the boundary events for the
+         * @brief calculateEvents calculate the path and the boundary events for the
          * given polygon and start and end point. Path and boundary events are represented by instances
          * of EventSegment which are linked together via pointers.
          */
-        void calculatePathAndBoundaryEvents();
+        void calculateEvents();
 
     protected:
         /**

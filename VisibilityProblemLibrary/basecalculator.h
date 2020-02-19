@@ -30,6 +30,13 @@ namespace SPV {
          */
         BaseCalculator(const Polygon &p, const Point s, Point e);
 
+        virtual ~BaseCalculator() {}
+
+        /**
+         * @brief calculateEvents calculates the events (of type path, boundary or bend).
+         */
+        virtual void calculateEvents() = 0;
+
         /**
          * @brief getFirstEventSegment returns the first event segment. After calculating the
          * events the event segments contain all relevant information about the location of
@@ -42,7 +49,7 @@ namespace SPV {
          * @brief getShortestPath return the shortest path from the start to the end point
          * @return
          */
-        const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath();
+        std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath();
 
         /**
          * @brief getLastPointBeforeLoS given an event segment, this function returns the last

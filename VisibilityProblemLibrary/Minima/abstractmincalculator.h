@@ -12,7 +12,7 @@ namespace SPV {
     public:
         AbstractMinimumCalculator (const Polygon &p, Point s, Point e) :
             BendEventCalculator (p, s, e) {}
-        ~AbstractMinimumCalculator() {}
+        virtual ~AbstractMinimumCalculator() {}
         virtual void calculateMinima() = 0;
         std::vector<std::shared_ptr<Minimum>> getAllMinima() {
             return allMinima;

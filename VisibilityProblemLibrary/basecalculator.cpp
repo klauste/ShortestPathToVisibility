@@ -11,7 +11,7 @@ SPV::EventSegment* SPV::BaseCalculator::getFirstEventSegment()
     return firstEventSegment;
 }
 
-const std::vector<std::shared_ptr<SPV::PointOnShortestPath>> SPV::BaseCalculator::getShortestPath()
+std::vector<std::shared_ptr<SPV::PointOnShortestPath>> SPV::BaseCalculator::getShortestPath()
 {
     return shortestPath;
 }

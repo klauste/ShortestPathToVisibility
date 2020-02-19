@@ -2,7 +2,7 @@
 
 void SPV::BendEventCalculator::calculateEvents()
 {
-    calculatePathAndBoundaryEvents();
+    PathAndBoundaryEventCalculator::calculateEvents();
     currentEventSegment = firstEventSegment;
     calculateEventsOnStartSide = true;
     bool allEventsHandled = false;
