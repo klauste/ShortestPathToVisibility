@@ -42,17 +42,42 @@ namespace SPV {
     public:
         Triangulation() {}
         Triangulation(const Polygon &p) : polygon(p) {}
+
+        /**
+         * @brief getTriangulation returns CGAL's triangulation of the polygon
+         * @return
+         */
         const CDT& getTriangulation();
     private:
+        /**
+         * @brief polygon the polygon to be triangulated
+         */
         Polygon polygon;
+
+        /**
+         * @brief cdt CGAL's triangulation of the polygon
+         */
         CDT cdt;
+
+        /**
+         * @brief markDomains helper function for CGAL to mark triangles which
+         * are in the interior of the polygon
+         * @param ct
+         * @param start
+         * @param index
+         * @param border
+         */
         void markDomains(CDT& ct,
                      CDT::Face_handle start,
                      int index,
                      std::list<CDT::Edge>& border );
+
+        /**
+         * @brief markDomains helper function for CGAL to mark triangles which
+         * are in the interior of the polygon
+         * @param cdt
+         */
         void markDomains(CDT& cdt);
-        bool setFacesFromStartToEndPoint();
-        bool recursivelyfindEndPoint(TDS::Face_handle &currentFaceHandle);
     };
 }
 #endif // TRIANGULATION_H
