@@ -5,11 +5,13 @@ VisibilityProblemScene::VisibilityProblemScene()
     startPoint = nullptr;
     endPoint = nullptr;
     lineToMousePosition = nullptr;
+    firstPointDisplay = nullptr;
     decimalPlaces = 0;
     testDataScaleFactor = 30;
     polygonIsClosed = false;
     displayDashLine = false;
     gC = CGALGeometryConnector();
+    circle = nullptr;
 }
 
 void VisibilityProblemScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -199,6 +201,7 @@ void VisibilityProblemScene::toggleMinima(bool display, const std::vector<CGALGe
 
 void VisibilityProblemScene::reset()
 {
+    unsigned i;
     toggleShortestPath(false);
     togglePathEvents(false);
     toggleBoundaryEvents(false);
@@ -213,7 +216,7 @@ void VisibilityProblemScene::reset()
     toggleMinMaxLabels(false);
     toggleMinSumLabels(false);
     togglePolygonLabels(false);
-    for (unsigned i = 0; i < polygonLines.size(); i++) {
+    for (i = 0; i < polygonLines.size(); i++) {
         removeItem(polygonLines.at(i));
     }
     polygonLines.clear();
@@ -225,9 +228,24 @@ void VisibilityProblemScene::reset()
         delete endPoint;
         endPoint = nullptr;
     }
+    if (circle) {
+        removeItem(circle);
+        delete circle;
+    }
+    if (lineToMousePosition) {
+        removeItem(lineToMousePosition);
+        delete lineToMousePosition;
+        lineToMousePosition = nullptr;
+    }
+    if (firstPointDisplay) {
+        removeItem(firstPointDisplay);
+        delete firstPointDisplay;
+        firstPointDisplay = nullptr;
+    }
     polygonIsClosed = false;
     numberOfPointsAdded = 0;
     gC.reset();
+    displayDashLine = false;
 }
 
 void VisibilityProblemScene::togglePathEvents(bool display)
@@ -253,6 +271,24 @@ void VisibilityProblemScene::toggleShortestPath(bool display)
 void VisibilityProblemScene::toggleMinMaxMinima(bool display)
 {
     toggleMinima(display, gC.getMinMaxMinima(), minMaxLines);
+    if (display == true) {
+        auto min = gC.getMinMaxMinima().at(0);
+        if (min->hasRadius == true) {
+            double radius = min->radius;
+            QPointF center = min->centerPoint;
+            circle = new QGraphicsPathItem();
+            QPainterPath path = QPainterPath();
+            path.moveTo(QPointF(center.x() + radius, center.y()));
+            path.arcTo(QRectF(center.x() - radius, center.y() - radius, radius * 2, radius *2), 0, 360);
+            circle->setPath(path);
+            addItem(circle);
+        }
+    } else if (circle) {
+        removeItem(circle);
+        delete circle;
+        circle = nullptr;
+
+    }
 }
 
 void VisibilityProblemScene::toggleMinSumMinima(bool display)
@@ -487,6 +523,17 @@ void VisibilityProblemScene::setTestData(int numberOfTest)
             handleStartOrEndPoint(QPointF(testDataScaleFactor * 11.0, testDataScaleFactor * 11.0));
             handleStartOrEndPoint(QPointF(testDataScaleFactor * 19.0, testDataScaleFactor * 11.0));
             break;
+        case 4 :
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 3.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 3.0,  testDataScaleFactor * 2.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 12.0, testDataScaleFactor * 2.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 12.0, testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 8.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 7.0,  testDataScaleFactor * 4.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 6.0,  testDataScaleFactor * 8.0));
+            closePolyline();
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 6.5, testDataScaleFactor * 5.0));
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 8.5, testDataScaleFactor * 7.5));
     }
 }
 

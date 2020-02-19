@@ -188,10 +188,15 @@ void MainWindow::addTestDataButtons()
     testData3Button->setEnabled(true);
     connect(testData3Button, SIGNAL(triggered()), this, SLOT(testData3ButtonClicked()));
 
+    testData4Button = new QAction("Test data 4", this);
+    testData4Button->setEnabled(true);
+    connect(testData4Button, SIGNAL(triggered()), this, SLOT(testData4ButtonClicked()));
+
     QMenu *testDataMenu = menuBar()->addMenu("Load test data");
     testDataMenu->addAction(testData1Button);
     testDataMenu->addAction(testData2Button);
     testDataMenu->addAction(testData3Button);
+    testDataMenu->addAction(testData4Button);
 }
 
 void MainWindow::pathEventsButtonClicked()
@@ -268,6 +273,11 @@ void MainWindow::testData2ButtonClicked()
 void MainWindow::testData3ButtonClicked()
 {
     scene.setTestData(3);
+}
+
+void MainWindow::testData4ButtonClicked()
+{
+    scene.setTestData(4);
 }
 
 void MainWindow::minMaxButtonClicked()

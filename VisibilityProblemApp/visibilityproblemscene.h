@@ -15,6 +15,7 @@
 #include <QString>
 #include <boost/format.hpp>
 #include <math.h>
+#include <QRectF>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
@@ -214,6 +215,10 @@ private:
      */
     QGraphicsLineItem* lineToMousePosition;
 
+    /**
+     * @brief circle displays the circle if a minium lies in a disc
+     */
+    QGraphicsPathItem *circle;
     std::vector<QGraphicsLineItem *> pathEvents;
     std::vector<QGraphicsLineItem *> boundaryEvents;
     std::vector<QGraphicsLineItem *> bendEvents;
