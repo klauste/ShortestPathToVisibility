@@ -1,11 +1,18 @@
 #include "basecalculator.h"
 
-SPV::BaseCalculator::BaseCalculator(const Polygon &p, const Point s, Point e) {
+SPV::BaseCalculator::BaseCalculator(const Polygon &p, const Point s, Point e)
+{
     gU = GeometryUtil();
     stepPrecision = 0.001;
     currentMinimum = -1;
     std::unique_ptr<ShortestPathTreeCalculator> spt = std::unique_ptr<ShortestPathTreeCalculator>(new ShortestPathTreeCalculator(p, s, e));
     shortestPath = spt->getShortestPath();
+    directPathExists = spt->directPathBetweenFinalPointsExists();
+}
+
+bool SPV::BaseCalculator::hasDirectPath()
+{
+    return directPathExists;
 }
 
 SPV::EventSegment* SPV::BaseCalculator::getFirstEventSegment()

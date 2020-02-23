@@ -115,6 +115,16 @@ namespace SPV {
         boost::variant<Point, bool> getIntersectionBetweenLineAndSegment(Line l, Point p1, Point p2);
 
         /**
+         * @brief getIntersectionBetweenSegmentAndSegment calculates the intersection between s and the segment
+         * between p1 and p2
+         * @param l
+         * @param p1
+         * @param p2
+         * @return
+         */
+        boost::variant<Point, bool> getIntersectionBetweenSegmentAndSegment(Segment s, Point p1, Point p2);
+
+        /**
          * @brief getIntersectionBetweenLineAndLine calculates the intersection between l and the line
          * through p1 and p2
          * @param l

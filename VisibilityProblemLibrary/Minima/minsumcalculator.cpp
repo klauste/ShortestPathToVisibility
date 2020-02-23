@@ -2,6 +2,10 @@
 
 void SPV::MinSumCalculator::calculateMinima()
 {
+    if (directPathExists) {
+        return;
+    }
+
     calculateBendEvents();
     bool allSegmentsHandled = false;
     currentEventSegment = firstEventSegment;

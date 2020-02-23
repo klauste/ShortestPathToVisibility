@@ -10,6 +10,10 @@ void SPV::ShortestPathTreeCalculator::calculateShortestPath()
 {
     ShortestPathCalculator::calculateShortestPath();
 
+    if (directPathBetweenFinalPointsExists()) {
+        return;
+    }
+
     rootAtEndPoint = false;
     rootPoint = startPoint;
     currentPointOnShortestPathIndex = 0;

@@ -2,6 +2,10 @@
 
 void SPV::BendEventCalculator::calculateBendEvents()
 {
+    if (directPathExists) {
+        return;
+    }
+
     calculatePathAndBoundaryEvents();
     currentEventSegment = firstEventSegment;
     calculateEventsOnStartSide = true;

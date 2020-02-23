@@ -41,7 +41,8 @@ private slots:
     void testData2ButtonClicked();
     void testData3ButtonClicked();
     void testData4ButtonClicked();
-    //void testData5ButtonClicked();
+    void testData5ButtonClicked();
+    void testData6ButtonClicked();
 
     void scaleFactorThirtyClicked();
     void scaleFactorFortyClicked();
@@ -50,6 +51,7 @@ private slots:
 
     void minMaxButtonClicked();
     void minSumButtonClicked();
+    void minMaxCircleButtonClicked();
 
     void noDecimalPlaceClicked();
     void oneDecimalPlaceClicked();
@@ -73,6 +75,7 @@ private:
     QAction *shortestPathLabelButton;
     QAction *minMaxLabelButton;
     QAction *minSumLabelButton;
+    QAction *minMaxCircleButton;
     QAction *polygonLabelButton;
 
     QAction *resetButton;
@@ -92,6 +95,8 @@ private:
     QAction *testData2Button;
     QAction *testData3Button;
     QAction *testData4Button;
+    QAction *testData5Button;
+    QAction *testData6Button;
 
     void addMenuItems();
     void addEventButtons();

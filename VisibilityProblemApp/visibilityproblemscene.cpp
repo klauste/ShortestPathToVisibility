@@ -12,6 +12,7 @@ VisibilityProblemScene::VisibilityProblemScene()
     displayDashLine = false;
     gC = CGALGeometryConnector();
     circle = nullptr;
+    minMaxCircleCenter = nullptr;
 }
 
 void VisibilityProblemScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -97,6 +98,7 @@ void VisibilityProblemScene::closePolyline()
         QPen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
     ));
     delete firstPointDisplay;
+    firstPointDisplay = nullptr;
     displayDashLine = false;
     delete lineToMousePosition;
     lineToMousePosition = nullptr;
@@ -207,6 +209,7 @@ void VisibilityProblemScene::reset()
     toggleBoundaryEvents(false);
     toggleBendEvents(false);
     toggleMinMaxMinima(false);
+    toggleMinMaxCircle(false);
     toggleMinSumMinima(false);
 
     toggleShortestPathLabels(false);
@@ -231,6 +234,12 @@ void VisibilityProblemScene::reset()
     if (circle) {
         removeItem(circle);
         delete circle;
+        circle = nullptr;
+    }
+    if (minMaxCircleCenter) {
+        removeItem(minMaxCircleCenter);
+        delete minMaxCircleCenter;
+        minMaxCircleCenter = nullptr;
     }
     if (lineToMousePosition) {
         removeItem(lineToMousePosition);
@@ -271,23 +280,38 @@ void VisibilityProblemScene::toggleShortestPath(bool display)
 void VisibilityProblemScene::toggleMinMaxMinima(bool display)
 {
     toggleMinima(display, gC.getMinMaxMinima(), minMaxLines);
+}
+
+void VisibilityProblemScene::toggleMinMaxCircle(bool display)
+{
     if (display == true) {
-        auto min = gC.getMinMaxMinima().at(0);
-        if (min->hasRadius == true) {
-            double radius = min->radius;
-            QPointF center = min->centerPoint;
-            circle = new QGraphicsPathItem();
-            QPainterPath path = QPainterPath();
-            path.moveTo(QPointF(center.x() + radius, center.y()));
-            path.arcTo(QRectF(center.x() - radius, center.y() - radius, radius * 2, radius *2), 0, 360);
-            circle->setPath(path);
-            addItem(circle);
+        if (gC.getMinMaxMinima().size() > 0) {
+            auto min = gC.getMinMaxMinima().at(0);
+            if (min->hasRadius == true) {
+                double radius = min->radius;
+                QPointF center = min->centerPoint;
+                circle = new QGraphicsPathItem();
+                QPainterPath path = QPainterPath();
+                path.moveTo(QPointF(center.x() + radius, center.y()));
+                path.arcTo(QRectF(center.x() - radius, center.y() - radius, radius * 2, radius *2), 0, 360);
+                circle->setPath(path);
+                addItem(circle);
+
+                QRectF currentRect = QRectF(center.x() - 3, center.y() - 3, 6, 6);
+                minMaxCircleCenter = addEllipse(
+                    currentRect,
+                    QPen(Qt::black, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin),
+                    QBrush(Qt::black, Qt::SolidPattern)
+                );
+            }
         }
     } else if (circle) {
         removeItem(circle);
         delete circle;
         circle = nullptr;
-
+        removeItem(minMaxCircleCenter);
+        delete minMaxCircleCenter;
+        minMaxCircleCenter = nullptr;
     }
 }
 
@@ -534,6 +558,39 @@ void VisibilityProblemScene::setTestData(int numberOfTest)
             closePolyline();
             handleStartOrEndPoint(QPointF(testDataScaleFactor * 6.5, testDataScaleFactor * 5.0));
             handleStartOrEndPoint(QPointF(testDataScaleFactor * 8.5, testDataScaleFactor * 7.5));
+            break;
+        case 5 :
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 1.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 4.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 5.0,  testDataScaleFactor * 5.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 6.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 7.0,  testDataScaleFactor * 5.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 8.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 9.0,  testDataScaleFactor * 5.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 10.0, testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 13.0, testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 13.0, testDataScaleFactor * 3.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 9.0,  testDataScaleFactor * 3.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 8.0,  testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 7.0,  testDataScaleFactor * 3.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 6.0,  testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 5.0,  testDataScaleFactor * 3.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 1.0,  testDataScaleFactor * 3.0));
+            closePolyline();
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 4.0, testDataScaleFactor * 6.0));
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 10.0, testDataScaleFactor * 6.0));
+            break;
+        case 6 :
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 0.0,  testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 4.0,  testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 6.0,  testDataScaleFactor * 2.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 8.0,  testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 12.0, testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 12.0, testDataScaleFactor * 3.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 0.0,  testDataScaleFactor * 0.0));
+            closePolyline();
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 1.0, testDataScaleFactor * 4.0));
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 11.1, testDataScaleFactor * 4.04));
+            break;
     }
 }
-

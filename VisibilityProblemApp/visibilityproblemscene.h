@@ -76,6 +76,12 @@ public:
     void toggleMinMaxMinima(bool display);
 
     /**
+     * @brief toggleMinMaxCircle display/hide the circle of a min-max minimum (if it exists)
+     * @param display
+     */
+    void toggleMinMaxCircle(bool display);
+
+    /**
      * @brief toggleMinSumMinima display/hide the result of the min-sum calculation
      * @param display
      */
@@ -198,6 +204,11 @@ private:
      * @brief firstPointDisplay graphic item representing the first point of the polyline
      */
     QGraphicsEllipseItem *firstPointDisplay;
+
+    /**
+     * @brief minMaxCircleCenter the center point of the min-max circle
+     */
+    QGraphicsEllipseItem *minMaxCircleCenter;
 
     /**
      * @brief startPoint graphic item representing the start point

@@ -21,6 +21,12 @@ void MainWindow::addMenuItems()
     minMaxButton->setEnabled(false);
     connect(minMaxButton, SIGNAL(triggered()), this, SLOT(minMaxButtonClicked()));
 
+    minMaxCircleButton = new QAction("Min Max Circle", this);
+    minMaxCircleButton->setCheckable(true);
+    minMaxCircleButton->setChecked(false);
+    minMaxCircleButton->setEnabled(false);
+    connect(minMaxCircleButton, SIGNAL(triggered()), this, SLOT(minMaxCircleButtonClicked()));
+
     minSumButton = new QAction("Min Sum", this);
     minSumButton->setCheckable(true);
     minSumButton->setChecked(false);
@@ -29,6 +35,7 @@ void MainWindow::addMenuItems()
 
     QMenu *minimumMenu = menuBar()->addMenu("Minimum Type");
     minimumMenu->addAction(minMaxButton);
+    minimumMenu->addAction(minMaxCircleButton);
     minimumMenu->addAction(minSumButton);
 
     addEventButtons();
@@ -192,11 +199,21 @@ void MainWindow::addTestDataButtons()
     testData4Button->setEnabled(true);
     connect(testData4Button, SIGNAL(triggered()), this, SLOT(testData4ButtonClicked()));
 
+    testData5Button = new QAction("Test data 5", this);
+    testData5Button->setEnabled(true);
+    connect(testData5Button, SIGNAL(triggered()), this, SLOT(testData5ButtonClicked()));
+
+    testData6Button = new QAction("Test data 6", this);
+    testData6Button->setEnabled(true);
+    connect(testData6Button, SIGNAL(triggered()), this, SLOT(testData6ButtonClicked()));
+
     QMenu *testDataMenu = menuBar()->addMenu("Load test data");
     testDataMenu->addAction(testData1Button);
     testDataMenu->addAction(testData2Button);
     testDataMenu->addAction(testData3Button);
     testDataMenu->addAction(testData4Button);
+    testDataMenu->addAction(testData5Button);
+    testDataMenu->addAction(testData6Button);
 }
 
 void MainWindow::pathEventsButtonClicked()
@@ -280,11 +297,26 @@ void MainWindow::testData4ButtonClicked()
     scene.setTestData(4);
 }
 
+void MainWindow::testData5ButtonClicked()
+{
+    scene.setTestData(5);
+}
+
+void MainWindow::testData6ButtonClicked()
+{
+    scene.setTestData(6);
+}
+
 void MainWindow::minMaxButtonClicked()
 {
     scene.toggleMinMaxMinima(minMaxButton->isChecked());
     minMaxLabelButton->setEnabled(minMaxButton->isChecked());
     scene.toggleMinMaxLabels(minMaxButton->isChecked() && minMaxLabelButton->isChecked());
+}
+
+void MainWindow::minMaxCircleButtonClicked()
+{
+    scene.toggleMinMaxCircle(minMaxCircleButton->isChecked());
 }
 
 void MainWindow::minSumButtonClicked()
@@ -298,6 +330,7 @@ void MainWindow::resetButtonClicked()
 {
     scene.reset();
     minMaxButton->setEnabled(false);
+    minMaxCircleButton->setEnabled(false);
     minSumButton->setEnabled(false);
     resetButton->setEnabled(false);
     shortestPathButton->setEnabled(false);
@@ -309,6 +342,7 @@ void MainWindow::resetButtonClicked()
 void MainWindow::onPolygonReady()
 {
     minMaxButton->setEnabled(true);
+    minMaxCircleButton->setEnabled(true);
     minMaxLabelButton->setEnabled(true);
     minSumButton->setEnabled(true);
     resetButton->setEnabled(true);
@@ -326,6 +360,10 @@ void MainWindow::drawAll()
     if (minMaxButton->isChecked()) {
         scene.toggleMinMaxMinima(false);
         scene.toggleMinMaxMinima(true);
+    }
+    if (minMaxCircleButton->isChecked()) {
+        scene.toggleMinMaxCircle(false);
+        scene.toggleMinMaxCircle(true);
     }
     if (minSumButton->isChecked()) {
         scene.toggleMinSumMinima(false);

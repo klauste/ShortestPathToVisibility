@@ -56,6 +56,13 @@ namespace SPV {
          * @return
          */
         const std::vector<std::shared_ptr<PointOnShortestPath>> getShortestPath();
+
+        /**
+         * @brief directPathBetweenFinalPointsExists returns the directPathBetweenFinalPoints flag
+         * @return
+         */
+        bool directPathBetweenFinalPointsExists();
+
     protected:
         /**
          * @brief calculateShortestPath Cclculates the shortest path between startPoint and endPoint
@@ -108,6 +115,18 @@ namespace SPV {
          * @brief triangulationCalculator instance of the Triangulation helper class
          */
         Triangulation triangulationCalculator;
+
+        /**
+         * @brief directPathBetweenFinalPoints indicates if the start and end point are visible
+         * to each other.
+         */
+        bool directPathBetweenFinalPoints;
+
+        /**
+         * @brief checkDirectPath checks if there is a direct path between start and end point
+         * and sets the flag accordingly
+         */
+        void checkDirectPath();
 
         /**
          * @brief setFacesFromStartToEndPoint sets the triangulation faces from the start point to the

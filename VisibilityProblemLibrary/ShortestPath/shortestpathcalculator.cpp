@@ -6,6 +6,7 @@ SPV::ShortestPathCalculator::ShortestPathCalculator(const Polygon &p, Point s, P
     triangulation = triangulationCalculator.getTriangulation();
     startPoint = s;
     endPoint = e;
+    checkDirectPath();
 }
 
 const std::vector<std::shared_ptr<SPV::PointOnShortestPath>> SPV::ShortestPathCalculator::getShortestPath()
@@ -15,6 +16,11 @@ const std::vector<std::shared_ptr<SPV::PointOnShortestPath>> SPV::ShortestPathCa
 }
 
 void SPV::ShortestPathCalculator::calculateShortestPath() {
+    if (directPathBetweenFinalPoints) {
+        shortestPath.push_back(std::make_shared<PointOnShortestPath>(startPoint));
+        shortestPath.push_back(std::make_shared<PointOnShortestPath>(endPoint));
+        return;
+    }
     setFacesFromStartToEndPoint();
 
     std::vector<std::shared_ptr<PointOnShortestPath>> forwardVector;
@@ -259,4 +265,24 @@ void SPV::ShortestPathCalculator::setDistances()
             shortestPath.at(i)->setDistanceFromEndPoint(currentDistance);
         }
     }
+}
+
+void SPV::ShortestPathCalculator::checkDirectPath()
+{
+    directPathBetweenFinalPoints = true;
+    unsigned i;
+    Segment s = Segment(startPoint, endPoint);
+
+    for (i = 0; i < polygon.size() - 1; i ++) {
+        auto intersection = gU.getIntersectionBetweenSegmentAndSegment(s, polygon.vertex(i), polygon.vertex(i + 1));
+        if (intersection.type() != typeid(bool)) {
+            directPathBetweenFinalPoints = false;
+            return;
+        }
+    }
+}
+
+bool SPV::ShortestPathCalculator::directPathBetweenFinalPointsExists()
+{
+    return directPathBetweenFinalPoints;
 }

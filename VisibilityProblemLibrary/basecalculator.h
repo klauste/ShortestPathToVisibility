@@ -79,6 +79,12 @@ namespace SPV {
          */
         std::vector<std::shared_ptr<Minimum>> getAllMinima();
 
+        /**
+         * @brief hasDirectPath returns the value of directPathExists
+         * @return
+         */
+        bool hasDirectPath();
+
     protected:
         /**
          * @brief shortestPath from start point to end point
@@ -116,6 +122,11 @@ namespace SPV {
          * @brief currentMinimum the currently minimal distance to a line of sight
          */
         double currentMinimum;
+
+        /**
+         * @brief directPathExists indicates if a direct path exists between the start and end point
+         */
+        bool directPathExists;
 
         /**
          * @brief getDistanceToIntersectionPoint returns the distance to an intersection point on a line

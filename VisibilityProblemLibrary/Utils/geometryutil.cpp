@@ -74,6 +74,18 @@ boost::variant<Point, bool> SPV::GeometryUtil::getIntersectionBetweenLineAndSegm
     return false;
 }
 
+boost::variant<Point, bool> SPV::GeometryUtil::getIntersectionBetweenSegmentAndSegment(Segment s, Point p1, Point p2) {
+    Segment s1 = Segment(p1, p2);
+
+    CGAL::cpp11::result_of<Intersect(Line, Segment)>::type result = intersection(s, s1);
+    if (result) {
+        if (const Point* p = boost::get<Point>(&*result)) {
+            return Point(p->x(), p->y());
+        }
+    }
+    return false;
+}
+
 boost::variant<Point, bool> SPV::GeometryUtil::getIntersectionBetweenLineAndLine(Line l, Point p1, Point p2) {
     Line newL = Line(p1, p2);
 

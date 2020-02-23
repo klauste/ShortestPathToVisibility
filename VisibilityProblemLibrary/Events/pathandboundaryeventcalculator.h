@@ -30,19 +30,21 @@ namespace SPV {
 
         virtual ~PathAndBoundaryEventCalculator()
         {
-            EventSegment *nextSegment = firstEventSegment;
-            EventSegment *currentSegment = firstEventSegment;
+            if (!directPathExists) {
+                EventSegment *nextSegment = firstEventSegment;
+                EventSegment *currentSegment = firstEventSegment;
 
-            bool allDestroyed = false;
-            while(!allDestroyed) {
-                currentSegment = nextSegment;
-                if (!currentSegment->hasSuccessor()) {
-                    allDestroyed = true;
-                } else {
-                    nextSegment = currentSegment->getSuccessor();
+                bool allDestroyed = false;
+                while(!allDestroyed) {
+                    currentSegment = nextSegment;
+                    if (!currentSegment->hasSuccessor()) {
+                        allDestroyed = true;
+                    } else {
+                        nextSegment = currentSegment->getSuccessor();
+                    }
                 }
+                delete currentSegment;
             }
-            delete currentSegment;
         }
 
         /**

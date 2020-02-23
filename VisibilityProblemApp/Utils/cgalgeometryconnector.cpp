@@ -127,8 +127,11 @@ void CGALGeometryConnector::calculateMinima()
         QLineF *newLine = new QLineF(currentPoint.x(), currentPoint.y(), nextPoint.x(), nextPoint.y());
         shortestPathGraph.push_back(newLine);
     }
-    setEvents();
-    setMinima();
+
+    if (!minMaxCalculator->hasDirectPath()) {
+        setEvents();
+        setMinima();
+    }
 }
 
 void CGALGeometryConnector::setMinima()

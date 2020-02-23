@@ -17,6 +17,10 @@ bool SPV::PathAndBoundaryEventCalculator::isSegmentOrderFromLeftToRight(unsigned
 
 void SPV::PathAndBoundaryEventCalculator::calculatePathAndBoundaryEvents()
 {
+    if (directPathExists) {
+        return;
+    }
+
     unsigned lastPointIndex = shortestPath.size() - 2;
     std::shared_ptr<SweptSegment> previousEvent;
     EventSegmentCreationResult result;
