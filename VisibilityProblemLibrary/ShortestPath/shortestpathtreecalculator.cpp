@@ -481,9 +481,6 @@ void SPV::ShortestPathTreeCalculator::splitFunnel(
         return;
     }
 
-    int leftFunnelSize = leftFunnel.size();
-    int rightFunnelSize = rightFunnel.size();
-
     auto info = findPredecessor(
         tI->nextPoint,
         apex,
@@ -535,7 +532,6 @@ std::shared_ptr<SPV::ShortestPathTreeCalculator::predecessorInfo> SPV::ShortestP
         std::vector<std::shared_ptr<PointOnShortestPathTree>> &leftFunnel,
         std::vector<std::shared_ptr<PointOnShortestPathTree>> &rightFunnel
 ) {
-    int leftFunnelSize = leftFunnel.size();
     Point first, second;
     auto result = std::make_shared<predecessorInfo>();
 
