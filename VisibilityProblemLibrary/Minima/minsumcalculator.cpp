@@ -1,5 +1,8 @@
 #include "Minima/minsumcalculator.h"
 
+SPV::MinSumCalculator::MinSumCalculator (Polygon p, Point s, Point e) :
+    BendEventCalculator (p, s, e) {}
+
 void SPV::MinSumCalculator::calculateMinima()
 {
     if (directPathExists) {

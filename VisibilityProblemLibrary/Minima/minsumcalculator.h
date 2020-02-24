@@ -11,8 +11,8 @@
 namespace SPV {
     class MinSumCalculator : public BendEventCalculator {
     public:
-        MinSumCalculator (const Polygon &p, Point s, Point e) :
-            BendEventCalculator (p, s, e) {}
+        MinSumCalculator (Polygon p, Point s, Point e);
+        virtual ~MinSumCalculator() {}
 
         /**
          * @brief calculateMinima calculates the min-sum minima

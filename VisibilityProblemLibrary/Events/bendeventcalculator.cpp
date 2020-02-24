@@ -1,4 +1,6 @@
 #include "Events/bendeventcalculator.h"
+SPV::BendEventCalculator::BendEventCalculator (Polygon p, Point s, Point e) :
+    PathAndBoundaryEventCalculator (p, s, e) {}
 
 void SPV::BendEventCalculator::calculateBendEvents()
 {

@@ -46,12 +46,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -65,12 +65,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(15.7778, 5.6667)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -84,12 +84,12 @@ void BendEventTest::bendEventTest1()
      QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(15.8461, 5.7692)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -103,17 +103,17 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(15.9031, 5.8546)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -127,13 +127,13 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(16, 6));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -147,13 +147,13 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(16.8891, 5.8222)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -167,13 +167,13 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18.5, 5.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -187,13 +187,13 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(21, 5));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -208,13 +208,13 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(20.6667, 5.3333)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -229,13 +229,13 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(19, 7));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -250,12 +250,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(18.25, 7.75));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -270,12 +270,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(18, 8));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -290,12 +290,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(21, 10.3333)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -309,12 +309,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(21, 12));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -328,12 +328,12 @@ void BendEventTest::bendEventTest1()
     QCOMPARE(loS->getPointOnEndSide(), Point(19.75, 12));
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
     delete bendEventCalculator;
@@ -374,12 +374,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(19.75, 12));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -393,12 +393,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(21, 12));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -412,12 +412,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(21, 10.3333)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -431,12 +431,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(18, 8));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -451,12 +451,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(18.25, 7.75));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -471,13 +471,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(19, 7));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -492,13 +492,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(20.6667, 5.3333)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -513,13 +513,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(21, 5));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(18,8)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -534,13 +534,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18.5, 5.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -554,13 +554,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(16.8891, 5.8222)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -574,13 +574,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(loS->getPointOnStartSide(), Point(16, 6));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -594,13 +594,13 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(15.9031, 5.8546)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(11,9)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -614,12 +614,12 @@ void BendEventTest::bendEventTest2()
      QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(15.8461, 5.7692)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -633,12 +633,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(15.7778, 5.6667)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -653,12 +653,12 @@ void BendEventTest::bendEventTest2()
     QCOMPARE(eS->getPivotPoint()->getPoint(), Point(12,9));
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
     delete bendEventCalculator;
@@ -698,12 +698,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14,7)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
 
@@ -717,12 +717,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(13,7)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
 
@@ -736,12 +736,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.0909,6.5455)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -755,12 +755,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.3914,6.1448)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -774,12 +774,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.5,6)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -793,12 +793,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(11.8,3.4)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -812,12 +812,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -831,12 +831,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(12.4286,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -850,12 +850,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(14.3333,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -869,12 +869,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(15,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -888,12 +888,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(16,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -907,12 +907,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(16.8102,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -926,12 +926,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(17,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -945,13 +945,13 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(0), Point(12.5,6)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -965,12 +965,12 @@ void BendEventTest::bendEventTest3()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18,3.6666)), true);
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
     delete bendEventCalculator;
@@ -1010,12 +1010,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18,3.6666)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1029,13 +1029,13 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(0), Point(12.5,6)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1049,12 +1049,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(17,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1068,12 +1068,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(16.8102,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1087,12 +1087,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(16,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1106,12 +1106,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(15,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1125,12 +1125,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14.3333,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1144,12 +1144,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.4286,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1163,12 +1163,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12,3)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1182,12 +1182,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(11.8,3.4)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1201,12 +1201,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.5,6)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1220,12 +1220,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.3914,6.1448)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1239,12 +1239,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(12.0909,6.5455)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1258,12 +1258,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(13,7)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
 
@@ -1277,12 +1277,12 @@ void BendEventTest::bendEventTest4()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(14,7)), true);
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
     delete bendEventCalculator;
@@ -1333,12 +1333,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(loS->getPointOnEndSide(), Point(16, 5));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
 
@@ -1352,12 +1352,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(loS->getPointOnEndSide(), Point(17, 5));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
 
@@ -1371,13 +1371,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(18.7692, 5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11,9));
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
 
@@ -1391,14 +1391,14 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(20, 5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 2);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 2);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11,9));
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnStartSide().at(1), Point(10.9,8.3)), true);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
 
@@ -1412,12 +1412,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(21, 4.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1431,12 +1431,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(21, 4.3333)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1450,13 +1450,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(21, 4)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(17,7));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1470,13 +1470,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(20.3333, 3.6667)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(17,7));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1490,13 +1490,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(20.2727, 3.6364)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(17,7));
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1510,13 +1510,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(20, 3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(17,7));
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1531,12 +1531,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(19.9243, 3.4621)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1550,12 +1550,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(19.4, 3.2)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1570,12 +1570,12 @@ void BendEventTest::bendEventTest5()
     loS = eS->getSecondLineOfSightFromStart();
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1589,12 +1589,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(17, 2)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -1609,12 +1609,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(11.9231, 3.3846)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
@@ -1629,12 +1629,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(11.5, 3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 5);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 5);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
@@ -1649,12 +1649,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(8.5,3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(8.5,3.5));
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
@@ -1669,12 +1669,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(8.1088,3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1688,12 +1688,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(7.0,3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1707,12 +1707,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(6.6667,4.0)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1726,12 +1726,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(6.5875,4.1188)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1745,12 +1745,12 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(6.3077,4.5385)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1764,13 +1764,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(6.0,5.0)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
 
@@ -1784,13 +1784,13 @@ void BendEventTest::bendEventTest5()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(7.3333,5.6667)), true);
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
     delete bendEventCalculator;
@@ -1841,13 +1841,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(7.3333,5.6667)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1861,13 +1861,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(6.0,5.0)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1881,12 +1881,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(6.3077,4.5385)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1900,12 +1900,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(6.5875,4.1188)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1919,12 +1919,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(6.6667,4.0)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1938,12 +1938,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(7.0,3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1957,12 +1957,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(8.1088,3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -1976,12 +1976,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(8.5,3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 0);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 0);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(8.5,3.5));
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -1996,12 +1996,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(11.5, 3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
@@ -2016,12 +2016,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(11.9231, 3.3846)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
@@ -2036,12 +2036,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(17, 2)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnStartSide().at(0), Point(11.5,3.5));
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
@@ -2057,12 +2057,12 @@ void BendEventTest::bendEventTest6()
     loS = eS->getFirstLineOfSightFromStart();
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2076,12 +2076,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(19.4, 3.2)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2095,12 +2095,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(19.9243, 3.4621)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 1);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 1);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2114,13 +2114,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(20, 3.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(17,7));
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 2);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 2);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2134,13 +2134,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(20.2727, 3.6364)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(17,7));
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2154,13 +2154,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(20.3333, 3.6667)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(17,7));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2174,13 +2174,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(21, 4)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(17,7));
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2194,12 +2194,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(21, 4.3333)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2213,12 +2213,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(21, 4.5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 4);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 4);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), false);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), true);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), false);
 
@@ -2232,14 +2232,14 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(20, 5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 2);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 2);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11,9));
     QCOMPARE(gU.pointsAreEqual(eS->getExtraPointsOnEndSide().at(1), Point(10.9,8.3)), true);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
 
@@ -2253,13 +2253,13 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(18.7692, 5)), true);
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 1);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 1);
     QCOMPARE(eS->getExtraPointsOnEndSide().at(0), Point(11,9));
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
 
@@ -2273,12 +2273,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(loS->getPointOnStartSide(), Point(17, 5));
     QCOMPARE(eS->hasSuccessor(), true);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
 
@@ -2291,12 +2291,12 @@ void BendEventTest::bendEventTest6()
     QCOMPARE(loS->getPointOnStartSide(), Point(16, 5));
     QCOMPARE(eS->hasSuccessor(), false);
     QCOMPARE(eS->hasPredecessor(), true);
-    QCOMPARE(eS->getIndexOfLastSPPointOnEndSide(), 6);
-    QCOMPARE(eS->getExtraPointsOnEndSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnEndSide(), 6);
+    QCOMPARE((int) eS->getExtraPointsOnEndSide().size(), 0);
     QCOMPARE(eS->getEndSideLoSVisible(), true);
     QCOMPARE(eS->getEndSideOnPolygonEdge(), false);
-    QCOMPARE(eS->getIndexOfLastSPPointOnStartSide(), 3);
-    QCOMPARE(eS->getExtraPointsOnStartSide().size(), 0);
+    QCOMPARE((int) eS->getIndexOfLastSPPointOnStartSide(), 3);
+    QCOMPARE((int) eS->getExtraPointsOnStartSide().size(), 0);
     QCOMPARE(eS->getStartSideLoSVisible(), false);
     QCOMPARE(eS->getStartSideOnPolygonEdge(), true);
     delete bendEventCalculator;

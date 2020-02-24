@@ -10,8 +10,8 @@
 namespace SPV {
     class MinMaxCalculator : public BendEventCalculator {
         public:
-            MinMaxCalculator (const Polygon &p, Point s, Point e) :
-                BendEventCalculator (p, s, e) {}
+            MinMaxCalculator (Polygon p, Point s, Point e);
+            virtual ~MinMaxCalculator() {}
 
             /**
              * @brief calculateMinima calculates the min-max minima

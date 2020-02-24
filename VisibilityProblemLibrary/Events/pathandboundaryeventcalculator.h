@@ -25,8 +25,7 @@ namespace SPV {
     class PathAndBoundaryEventCalculator : public BaseCalculator
     {
     public:
-        PathAndBoundaryEventCalculator (const Polygon &p, Point s, Point e) :
-            BaseCalculator (p, s, e) {}
+        PathAndBoundaryEventCalculator (Polygon p, Point s, Point e);
 
         virtual ~PathAndBoundaryEventCalculator()
         {

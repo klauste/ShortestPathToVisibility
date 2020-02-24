@@ -6,8 +6,7 @@
 namespace SPV {
     class BendEventCalculator : public PathAndBoundaryEventCalculator {
     public:
-        BendEventCalculator (const Polygon &p, Point s, Point e) :
-            PathAndBoundaryEventCalculator (p, s, e) {}
+        BendEventCalculator (Polygon p, Point s, Point e);
 
         virtual ~BendEventCalculator() {}
 

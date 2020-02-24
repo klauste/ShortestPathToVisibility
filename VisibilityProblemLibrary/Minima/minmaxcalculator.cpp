@@ -1,4 +1,6 @@
 #include "Minima/minmaxcalculator.h"
+SPV::MinMaxCalculator::MinMaxCalculator (Polygon p, Point s, Point e) :
+    BendEventCalculator (p, s, e) {}
 
 void SPV::MinMaxCalculator::calculateMinima()
 {

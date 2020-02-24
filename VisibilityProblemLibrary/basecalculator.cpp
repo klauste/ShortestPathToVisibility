@@ -1,6 +1,6 @@
 #include "basecalculator.h"
 
-SPV::BaseCalculator::BaseCalculator(const Polygon &p, const Point s, Point e)
+SPV::BaseCalculator::BaseCalculator(Polygon p, const Point s, Point e)
 {
     gU = GeometryUtil();
     stepPrecision = 0.001;

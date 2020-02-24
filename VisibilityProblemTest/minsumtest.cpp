@@ -25,7 +25,7 @@ void MinSumTest::minSumTest1()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 2.1213), true);
@@ -53,7 +53,7 @@ void MinSumTest::minSumTest2()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 2.1213), true);
@@ -82,7 +82,7 @@ void MinSumTest::minSumTest3()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 1.7889), true);
@@ -119,7 +119,7 @@ void MinSumTest::minSumTest4()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 1.7889), true);
@@ -156,7 +156,7 @@ void MinSumTest::minSumTest5()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
@@ -200,7 +200,7 @@ void MinSumTest::minSumTest6()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
@@ -244,7 +244,7 @@ void MinSumTest::minSumTest7()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
@@ -288,7 +288,7 @@ void MinSumTest::minSumTest8()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     QCOMPARE(min->isMinSectorStart(), true);
     double distance = min->getDistance();
@@ -334,7 +334,7 @@ void MinSumTest::minSumTest9()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 4.8192), true);
@@ -366,7 +366,7 @@ void MinSumTest::minSumTest10()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(min->isMinSectorStart(), false);
@@ -406,8 +406,8 @@ void MinSumTest::minSumTest11()
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
     std::vector<std::shared_ptr<SPV::PointOnShortestPath>> sP = minSumCalculator->getShortestPath();
 
-    QCOMPARE(sP.size(), 7);
-    QCOMPARE(sP.at(0)->getDistanceFromStartPoint(), 0);
+    QCOMPARE((int) sP.size(), 7);
+    QCOMPARE(sP.at(0)->getDistanceFromStartPoint(), 0.0);
     QCOMPARE(gU.valuesAreEqual(sP.at(0)->getDistanceFromEndPoint(), 8.4853), true);
     QCOMPARE(gU.valuesAreEqual(sP.at(1)->getDistanceFromStartPoint(), 1.4142), true);
     QCOMPARE(gU.valuesAreEqual(sP.at(1)->getDistanceFromEndPoint(), 7.0711), true);
@@ -436,7 +436,7 @@ void MinSumTest::minSumTest11()
             allEventsChecked = true;
         }
     }
-    QCOMPARE(minima.size(), 6);
+    QCOMPARE((int) minima.size(), 6);
 
     auto min = minima.at(0);
     double distance = min->getDistance();
@@ -531,7 +531,7 @@ void MinSumTest::minSumTest12()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 6);
+    QCOMPARE((int) minima.size(), 6);
     auto min = minima.at(5);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
@@ -625,7 +625,7 @@ void MinSumTest::minSumTest13()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 8.8191), true);
@@ -675,7 +675,7 @@ void MinSumTest::minSumTest14()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 2);
+    QCOMPARE((int) minima.size(), 2);
     auto min = minima.at(1);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 8.8191), true);
@@ -725,7 +725,7 @@ void MinSumTest::minSumTest15()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
@@ -764,7 +764,7 @@ void MinSumTest::minSumTest16()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 7.0711), true);
@@ -811,7 +811,7 @@ void MinSumTest::minSumTest17()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 11.5366), true);
@@ -858,7 +858,7 @@ void MinSumTest::minSumTest18()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 11.5366), true);
@@ -910,7 +910,7 @@ void MinSumTest::minSumTest19()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 13.6530), true);
@@ -962,7 +962,7 @@ void MinSumTest::minSumTest20()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 13.6530), true);
@@ -1003,7 +1003,7 @@ void MinSumTest::minSumTest21()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.7317), true);
@@ -1044,7 +1044,7 @@ void MinSumTest::minSumTest22()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.7317), true);
@@ -1086,7 +1086,7 @@ void MinSumTest::minSumTest23()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.6645), true);
@@ -1128,7 +1128,7 @@ void MinSumTest::minSumTest24()
     minSumCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqual(distance, 6.6645), true);

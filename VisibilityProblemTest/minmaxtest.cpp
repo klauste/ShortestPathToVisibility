@@ -23,7 +23,7 @@ void MinMaxTest::minMaxTest1()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1), true);
@@ -49,7 +49,7 @@ void MinMaxTest::minMaxTest2()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1), true);
@@ -76,7 +76,7 @@ void MinMaxTest::minMaxTest3()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1.455214), true);
@@ -103,7 +103,7 @@ void MinMaxTest::minMaxTest4()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1.455213), true);
@@ -131,7 +131,7 @@ void MinMaxTest::minMaxTest5()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1.11803399), true);
@@ -160,7 +160,7 @@ void MinMaxTest::minMaxTest6()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 1.11803399), true);
@@ -190,7 +190,7 @@ void MinMaxTest::minMaxTest7()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 2.0275875), true);
@@ -219,7 +219,7 @@ void MinMaxTest::minMaxTest8()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 2.0275875), true);
@@ -248,7 +248,7 @@ void MinMaxTest::minMaxTest9()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 2.07111585), true);
@@ -277,7 +277,7 @@ void MinMaxTest::minMaxTest10()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 2.07111585), true);
@@ -306,7 +306,7 @@ void MinMaxTest::minMaxTest11()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 2.07111585), true);
@@ -335,7 +335,7 @@ void MinMaxTest::minMaxTest12()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 2.07111585), true);
@@ -375,7 +375,7 @@ void MinMaxTest::minMaxTest13()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 4.11540798), true);
@@ -415,7 +415,7 @@ void MinMaxTest::minMaxTest14()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 4.11540798), true);
@@ -454,7 +454,7 @@ void MinMaxTest::minMaxTest15()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 5.2474648), true);
@@ -493,7 +493,7 @@ void MinMaxTest::minMaxTest16()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 5.2474648), true);
@@ -543,7 +543,7 @@ void MinMaxTest::minMaxTest17()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 11.65298245), true);
@@ -594,7 +594,7 @@ void MinMaxTest::minMaxTest18()
     minMaxCalculator->calculateMinima();
     std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
 
-    QCOMPARE(minima.size(), 1);
+    QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
     QCOMPARE(gU.valuesAreEqualHighPrecision(distance, 11.65298245), true);

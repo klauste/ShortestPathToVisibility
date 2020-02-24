@@ -1,5 +1,8 @@
 #include "Events/pathandboundaryeventcalculator.h"
 
+SPV::PathAndBoundaryEventCalculator::PathAndBoundaryEventCalculator (Polygon p, Point s, Point e) :
+    BaseCalculator (p, s, e) {}
+
 void SPV::PathAndBoundaryEventCalculator::setCurrentSegmentOrderFromLeftToRight(bool c)
 {
     currentSegmentOrderFromLeftToRight = c;

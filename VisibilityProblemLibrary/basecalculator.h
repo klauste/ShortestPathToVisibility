@@ -29,7 +29,7 @@ namespace SPV {
          * @param s
          * @param e
          */
-        BaseCalculator(const Polygon &p, const Point s, Point e);
+        BaseCalculator(Polygon p, const Point s, Point e);
 
         virtual ~BaseCalculator() {}
 

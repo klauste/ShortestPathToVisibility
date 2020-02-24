@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     }
     {
         MinMaxTest mM;
-        status != QTest::qExec(&mM, argc, argv);
+        status |= QTest::qExec(&mM, argc, argv);
     }
     return status;
 }

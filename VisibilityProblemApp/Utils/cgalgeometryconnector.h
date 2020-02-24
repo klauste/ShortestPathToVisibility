@@ -10,6 +10,7 @@
 #include "Minima/minmaxcalculator.h"
 #include <QLineF>
 #include <QRectF>
+#include <boost/lexical_cast.hpp>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
