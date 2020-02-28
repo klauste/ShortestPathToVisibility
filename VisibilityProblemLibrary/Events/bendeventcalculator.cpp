@@ -365,7 +365,8 @@ void SPV::BendEventCalculator::addNewEventSegment(Point eventPoint)
     }
     boost::variant<bool, Point> result = gU.getIntersectionBetweenLineAndLine(lOS, segmentStartPoint, segmentEndPoint);
     if (result.type() == typeid(bool)) {
-        // TODO: handle this as an exception
+        // There should always be second event point. If not, throw an exception.
+        throw std::runtime_error("Second bend event point not found");
     }
     Point secondEventPoint = boost::get<Point>(result);
     if (calculateEventsOnStartSide) {

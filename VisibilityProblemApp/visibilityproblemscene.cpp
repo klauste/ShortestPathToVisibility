@@ -50,7 +50,15 @@ void VisibilityProblemScene::handleStartOrEndPoint(QPointF p)
                 QBrush(Qt::black, Qt::SolidPattern)
             );
         } else {
-            gC.handleFinalPoint(p, false);
+            // See if anything goes wrong in the minimum calculations
+            try {
+                gC.handleFinalPoint(p, false);
+            } catch (std::exception const& e ){
+                std::cout << "Exception: " << e.what() << "\n";
+                reset();
+                return;
+            }
+
             endPoint = addEllipse(
                 currentRect,
                 QPen(Qt::black, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin),

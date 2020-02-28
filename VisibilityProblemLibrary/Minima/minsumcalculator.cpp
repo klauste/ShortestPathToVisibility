@@ -95,8 +95,8 @@ void SPV::MinSumCalculator::handleLocalMinimaWithBothPathsBlocked()
         boost::variant<Point, bool> result = gU.getIntersectionBetweenLineAndLine(currentLine, firstIntersectionPointOnEndSide, secondIntersectionPointOnEndSide);
 
         if (result.type() == typeid(bool)) {
-            // TODO throw an error
-            std::cout << "No intersection found on the other side";
+            // There should always be an intersection point on the other side. If not, throw an exception.
+            throw std::runtime_error("Intersection point on end side not found");
         } else {
             Point intersectionPointOnEndSide = boost::get<Point>(result);
             double currentDistance = getDistanceToIntersectionPoint(intersectionPointOnStartSide, true) +
@@ -185,7 +185,8 @@ void SPV::MinSumCalculator::handleLocalMinimaWithOnePathBlocked()
                 gU.getIntersectionBetweenLineAndLine(currentLine, freeEdgePoint1, freeEdgePoint2);
 
         if (result.type() == typeid(bool)) {
-            std::cout << "No intersection found on the other side";
+            // There should always be an intersection point on the free side. If not, throw an exception.
+            throw std::runtime_error("Intersection point on free edge not found");
         } else {
             Point pointOnFreeEdge = boost::get<Point>(result);
             intersectionOnLos = getIntersectionPointOnLoS(pointOnFreeEdge, startSideFree);

@@ -248,10 +248,12 @@ void MainWindow::pathEventLabelButtonClicked()
 {
     scene.togglePathEventLabels(pathEventButton->isChecked() && pathEventLabelButton->isChecked());
 }
+
 void MainWindow::boundaryEventLabelButtonClicked()
 {
     scene.toggleBoundaryEventLabels(boundaryEventButton->isChecked() && boundaryEventLabelButton->isChecked());
 }
+
 void MainWindow::bendEventLabelButtonClicked()
 {
     scene.toggleBendEventLabels(bendEventButton->isChecked() && bendEventLabelButton->isChecked());

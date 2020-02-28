@@ -112,8 +112,8 @@ void SPV::MinMaxCalculator::findInnerMinimum(
     );
 
     if (result.type() == typeid(bool)) {
-        // TODO throw an error
-        std::cout << "No intersection found on the other side";
+        // There should always be an intersection point on the other side. If not, throw an exception.
+        throw std::runtime_error("Intersection point on end side not found");
     } else {
         Point middlePointOnEndSide = boost::get<Point>(result);
         Point middleIntersectionOnStartSide = getIntersectionPointOnLoS(middlePointOnStartSide, true);

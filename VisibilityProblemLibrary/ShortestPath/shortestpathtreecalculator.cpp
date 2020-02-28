@@ -94,7 +94,8 @@ void SPV::ShortestPathTreeCalculator::calculateAndAddSegment(
                     rightTriangleEdgePoint
         );
         if (result.type() == typeid(bool)) {
-            std::cout << "No intersection found on triangle edge";
+            // This should never happen, throw an exception
+            throw std::runtime_error("Left intersection point not found on triangle edge");
         } else {
             leftIntersectionPoint = boost::get<Point>(result);
             if (!gU.pointsAreEqual(leftIntersectionPoint, leftTriangleEdgePoint)) {
@@ -117,7 +118,8 @@ void SPV::ShortestPathTreeCalculator::calculateAndAddSegment(
                     rightTriangleEdgePoint
         );
         if (result.type() == typeid(bool)) {
-            std::cout << "No intersection found on triangle edge";
+            // This should never happen, throw an exception
+            throw std::runtime_error("Right intersection point not found on triangle edge");
         } else {
             rightIntersectionPoint = boost::get<Point>(result);
             if (!gU.pointsAreEqual(rightIntersectionPoint, rightTriangleEdgePoint)) {
