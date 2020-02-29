@@ -20,9 +20,6 @@ class MinSumTest : public QObject
 {
     Q_OBJECT
 
-public:
-    MinSumTest();
-    ~MinSumTest();
 private:
     Polygon polygon;
     SPV::MinSumCalculator *minSumCalculator;
@@ -53,5 +50,7 @@ private slots:
     void minSumTest22();
     void minSumTest23();
     void minSumTest24();
+    void minSumTest25();
+    void minSumTest26();
 };
 #endif // MINSUMTEST_H

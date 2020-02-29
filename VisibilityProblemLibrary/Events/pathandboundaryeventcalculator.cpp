@@ -464,7 +464,8 @@ std::vector<std::shared_ptr<SPV::SweptSegment>> SPV::PathAndBoundaryEventCalcula
                     std::shared_ptr<SweptSegment> newSegment;
 
                     if (gU.pointsAreEqual(newLeftPoint, rightPoint)) {
-                        newSegment = currentSegment->getClone();
+                        foundIntersection = true;
+                        continue;
                     } else {
                         newSegment = std::make_shared<SweptSegment>(
                             newLeftPoint, false, rightPoint, currentSegment->rightPointIsPolygonVertex()

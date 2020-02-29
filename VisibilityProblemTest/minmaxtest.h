@@ -20,9 +20,6 @@ class MinMaxTest : public QObject
 {
     Q_OBJECT
 
-public:
-    MinMaxTest();
-    ~MinMaxTest();
 private:
     Polygon polygon;
     SPV::MinMaxCalculator *minMaxCalculator;
@@ -47,5 +44,7 @@ private slots:
     void minMaxTest16();
     void minMaxTest17();
     void minMaxTest18();
+    void minMaxTest19();
+    void minMaxTest20();
 };
 #endif // MINMAXTEST_H

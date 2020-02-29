@@ -21,9 +21,6 @@ class BendEventTest : public QObject
 {
     Q_OBJECT
 
-public:
-    BendEventTest();
-    ~BendEventTest();
 private:
     Polygon polygon;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
@@ -36,5 +33,7 @@ private slots:
     void bendEventTest4();
     void bendEventTest5();
     void bendEventTest6();
+    void bendEventTest7();
+    void bendEventTest8();
 };
 #endif // BENDEVENTTEST_H

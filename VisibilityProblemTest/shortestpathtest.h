@@ -23,9 +23,6 @@ class ShortestPathTest : public QObject
 {
     Q_OBJECT
 
-public:
-    ShortestPathTest();
-    ~ShortestPathTest();
 private:
     Polygon polygon;
     SPV::GeometryUtil gU = SPV::GeometryUtil();
@@ -47,5 +44,7 @@ private slots:
     void shortestPathTest11();
     void shortestPathTest12();
     void shortestPathTest13();
+    void shortestPathTest14();
+    void shortestPathTest15();
 };
 #endif // SHORTESTPATHTEST_H

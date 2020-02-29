@@ -195,7 +195,7 @@ void SPV::ShortestPathCalculator::setFacesFromStartToEndPoint() {
             currentFace = fit;
             Triangle t = triangulation.triangle(fit);
 
-            if (t.has_on_bounded_side(startPoint)) {
+            if (t.has_on_bounded_side(startPoint) || t.has_on_boundary(startPoint)) {
                 break;
             }
         }
@@ -214,7 +214,7 @@ bool SPV::ShortestPathCalculator::recursivelyfindEndPoint(TDS::Face_handle &curr
     Triangle t = triangulation.triangle(currentFaceHandle);
 
     // If the end point is found, end the recursion by returning true
-    if (t.has_on_bounded_side(endPoint)) {
+    if (t.has_on_bounded_side(endPoint) || t.has_on_boundary(endPoint)) {
         return true;
     }
 

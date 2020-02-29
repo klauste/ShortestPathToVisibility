@@ -1,15 +1,5 @@
 #include "shortestpathtest.h"
 
-ShortestPathTest::ShortestPathTest()
-{
-
-}
-
-ShortestPathTest::~ShortestPathTest()
-{
-
-}
-
 void ShortestPathTest::shortestPathTest1()
 {
     polygon = Polygon();
@@ -1368,3 +1358,129 @@ void ShortestPathTest::shortestPathTest13()
     delete pathAndBoundaryCalculator;
 }
 
+void ShortestPathTest::shortestPathTest14()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(4.0, 6.0));
+    polygon.push_back(Point(6.0, 6.0));
+    polygon.push_back(Point(6.0, 4.0));
+    polygon.push_back(Point(8.0, 4.0));
+    polygon.push_back(Point(8.0, 6.0));
+    polygon.push_back(Point(10.0, 6.0));
+    polygon.push_back(Point(11.0, 3.0));
+    polygon.push_back(Point(3.0, 3.0));
+
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(5.0, 5.0), Point(9.0, 5.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+
+    SPV::EventSegment *eS = pathAndBoundaryCalculator->getFirstEventSegment();
+
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(6,4));
+    auto loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnStartSide(), Point(4,6));
+    QCOMPARE(loS->getPointOnEndSide(), Point(7, 3));
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(3.5, 4.5)), true);
+    QCOMPARE(loS->getPointOnEndSide(), Point(11, 3));
+    QCOMPARE(eS->hasSuccessor(), true);
+    QCOMPARE(eS->hasPredecessor(), false);
+
+    eS = eS->getSuccessor();
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(6,4));
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(3.5, 4.5)), true);
+    QCOMPARE(loS->getPointOnEndSide(), Point(11, 3));
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(3.3333, 4)), true);
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(10.6667, 4)), true);
+    QCOMPARE(eS->hasSuccessor(), true);
+    QCOMPARE(eS->hasPredecessor(), true);
+
+    eS = eS->getSuccessor();
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(8,4));
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(3.3333, 4)), true);
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(10.6667, 4)), true);
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnStartSide(), Point(3,3));
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(10.5, 4.5)), true);
+    QCOMPARE(eS->hasSuccessor(), true);
+    QCOMPARE(eS->hasPredecessor(), true);
+
+    eS = eS->getSuccessor();
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(8,4));
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnStartSide(), Point(3,3));
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(10.5, 4.5)), true);
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnStartSide(), Point(7,3));
+    QCOMPARE(loS->getPointOnEndSide(), Point(10, 6));
+    QCOMPARE(eS->hasSuccessor(), false);
+    QCOMPARE(eS->hasPredecessor(), true);
+
+    delete pathAndBoundaryCalculator;
+}
+
+void ShortestPathTest::shortestPathTest15()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(4.0, 6.0));
+    polygon.push_back(Point(6.0, 6.0));
+    polygon.push_back(Point(6.0, 4.0));
+    polygon.push_back(Point(8.0, 4.0));
+    polygon.push_back(Point(8.0, 6.0));
+    polygon.push_back(Point(10.0, 6.0));
+    polygon.push_back(Point(11.0, 3.0));
+    polygon.push_back(Point(3.0, 3.0));
+
+    pathAndBoundaryCalculator = new SPV::MinSumCalculator(polygon, Point(9.0, 5.0), Point(5.0, 5.0));
+    pathAndBoundaryCalculator->calculatePathAndBoundaryEvents();
+
+    SPV::EventSegment *eS = pathAndBoundaryCalculator->getFirstEventSegment();
+
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(8,4));
+    auto loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnEndSide(), Point(3,3));
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(10.5, 4.5)), true);
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnEndSide(), Point(7,3));
+    QCOMPARE(loS->getPointOnStartSide(), Point(10, 6));
+    QCOMPARE(eS->hasSuccessor(), true);
+    QCOMPARE(eS->hasPredecessor(), false);
+
+
+    eS = eS->getSuccessor();
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(8,4));
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(3.3333, 4)), true);
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(10.6667, 4)), true);
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnEndSide(), Point(3,3));
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(10.5, 4.5)), true);
+    QCOMPARE(eS->hasSuccessor(), true);
+    QCOMPARE(eS->hasPredecessor(), true);
+
+    eS = eS->getSuccessor();
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(6,4));
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(3.5, 4.5)), true);
+    QCOMPARE(loS->getPointOnStartSide(), Point(11, 3));
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(3.3333, 4)), true);
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnStartSide(), Point(10.6667, 4)), true);
+    QCOMPARE(eS->hasSuccessor(), true);
+    QCOMPARE(eS->hasPredecessor(), true);
+
+    eS = eS->getSuccessor();
+    QCOMPARE(eS->getPivotPoint()->getPoint(), Point(6,4));
+    loS = eS->getSecondLineOfSightFromStart();
+    QCOMPARE(loS->getPointOnEndSide(), Point(4,6));
+    QCOMPARE(loS->getPointOnStartSide(), Point(7, 3));
+    loS = eS->getFirstLineOfSightFromStart();
+    QCOMPARE(gU.pointsAreEqual(loS->getPointOnEndSide(), Point(3.5, 4.5)), true);
+    QCOMPARE(loS->getPointOnStartSide(), Point(11, 3));
+    QCOMPARE(eS->hasSuccessor(), false);
+    QCOMPARE(eS->hasPredecessor(), true);
+
+    delete pathAndBoundaryCalculator;
+}
