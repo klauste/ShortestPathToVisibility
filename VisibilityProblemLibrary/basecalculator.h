@@ -111,7 +111,7 @@ namespace SPV {
          * @brief stepPrecision the precision used to calculate minima if at least one line of sight is
          * obstructed by a polygon edge
          */
-        double stepPrecision = 0.001;
+        double stepPrecision;
 
         /**
          * @brief allMinima contains the minima
