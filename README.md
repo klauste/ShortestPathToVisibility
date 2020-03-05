@@ -1,14 +1,14 @@
 # ShortestPathToVisibility
 This project implements an algorithm to solve the quickes-pair visibility problem presented in the article 'On Romeo and Juliet Problems: Minimizing Distance-to-Sight' (https://ui.adsabs.harvard.edu/abs/2019arXiv190601114A). It has a library implementing the algorithm, a Qt project to visualize the problem and its solution and a Qt test project to test the algorithm. I wrote this as my Master of Science thesis.
 
-I've compiled and run the programme on macOS Catalina and Ubuntu 18.04. If you want to run it on your machine I recommend using Ubuntu 18.04 as the installation of required third party libraries is much simpler. If you con't have Ubuntu 18.04, you can run it by installing the Ubuntu Image (http://releases.ubuntu.com/18.04/) on VirtualBox (https://www.virtualbox.org/)
+I've compiled and run the programme on macOS Catalina and Ubuntu 18.04. If you want to run it on your machine I recommend using Ubuntu 18.04 as the installation of required third party libraries is much simpler. If you don't have Ubuntu 18.04, you can run it by installing the [Ubuntu Image](http://releases.ubuntu.com/18.04/) on [VirtualBox](https://www.virtualbox.org/)
 
 In Ubuntu, install the following:
 
-sudo apt-get install build-essential
-sudo apt-get install qtcreator
-sudo apt-get install qt5-default
-sudo apt-get install libcgal-dev
+`sudo apt-get install build-essential`
+`sudo apt-get install qtcreator`
+`sudo apt-get install qt5-default`
+`sudo apt-get install libcgal-dev`
 
 Then clone this repository and open it in the QtCreator. You should be able to compile it via clang.
 
