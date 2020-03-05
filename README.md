@@ -9,7 +9,7 @@ The project has three sub-projects:
 
 * a [Qt](https://www.qt.io/) test project to test the algorithm
 
-If you find any errors in this project, you can write to me. Not sure if I will respond though. I need a 6-month holiday from the world after finishing this.
+If you find any errors in this project, you can write to me. Not sure if I will respond though. I need a 3-year holiday from the world after finishing this after which I will hopefully have forgotten that I was ever involved in writing this.
 
 If you don't understand the code, it might be, because the algorithm is pretty complicated. I will upload my thesis to this repository once it's finished. It's probably best to read it before trying to understand the code. The only problem is that it's written in German. If you don't speak German, this might be a great motivator to learn it.
 
