@@ -31,23 +31,23 @@ Then clone this repository and open it in the QtCreator. You should be able to c
 
 #### Installation on macOS Catalina
 
-In macOS Catalina you need to install Qt (free version can be found (here)[https://www.qt.io/download-qt-installer]) and the following libraries:
+In macOS Catalina you need to install Qt (free version can be found [here](https://www.qt.io/download-qt-installer)) and the following libraries:
 
-CGAL
+* CGAL
 
-CGAL\_Core
+* CGAL_Core
 
-CGAL\_ImageIO
+* CGAL_ImageIO
 
-boost\_thread-mt
+* boost_thread-mt
 
-boost\_system-mt
+* boost_system-mt
 
-gmp
+* gmp
 
-mpfr
+* mpfr
 
-After cloning this repository and modifying the .pro files to adjust for different libary paths (e.g. (here)[ https://github.com/klauste/ShortestPathToVisibility/blob/master/VisibilityProblemLibrary/VisibilityProblemLibrary.pro#L35]) you should be able to compile and run the programme.
+After cloning this repository and modifying the .pro files to adjust for different libary paths (e.g. [here]( https://github.com/klauste/ShortestPathToVisibility/blob/master/VisibilityProblemLibrary/VisibilityProblemLibrary.pro#L35)) you should be able to compile and run the programme.
 
 #### Installation on other operating systems
 
