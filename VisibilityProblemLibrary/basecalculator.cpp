@@ -10,6 +10,27 @@ SPV::BaseCalculator::BaseCalculator(Polygon p, const Point s, Point e)
     directPathExists = spt->directPathBetweenFinalPointsExists();
 }
 
+SPV::BaseCalculator::~BaseCalculator()
+{
+    if (!directPathExists) {
+        if (firstEventSegment->hasSuccessor()) {
+            EventSegment *currentSegment = firstEventSegment->getSuccessor();
+            bool allDeleted = false;
+            while(!allDeleted) {
+                if (currentSegment->hasSuccessor()) {
+                    EventSegment *toBeDeleted = currentSegment;
+                    currentSegment = currentSegment->getSuccessor();
+                    delete toBeDeleted;
+                } else {
+                    delete currentSegment;
+                    allDeleted = true;
+                }
+            }
+        }
+        delete firstEventSegment;
+    }
+}
+
 bool SPV::BaseCalculator::hasDirectPath()
 {
     return directPathExists;

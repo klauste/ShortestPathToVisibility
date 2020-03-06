@@ -643,6 +643,14 @@ std::shared_ptr<SPV::ShortestPathTreeCalculator::triangulationIndexInformation> 
     // Find the index of the left point, the right point and the index of the point not on the current funnel
     // i.e. Point v in https://graphics.stanford.edu/courses/cs268-09-winter/notes/handout7.pdf, page 6.
     for (unsigned i = 0; i < 3; i++) {
+        // If the current vertex is the infinite vertex, just set the next point, but not the point
+        // itself. The code calling this function needs to make sure not to acces the next point here
+        // (which it does)
+        if (triangulation.is_infinite(faceHandle->vertex(i))) {
+            tI->nextPointIndex = i;
+            continue;
+        }
+
         Point p = faceHandle->vertex(i)->point();
 
         if (p == leftPoint) {

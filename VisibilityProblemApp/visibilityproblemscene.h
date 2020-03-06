@@ -270,7 +270,7 @@ private:
      * @param lines
      * @param isShortestPath
      */
-    void toggleEvents(bool display, const std::vector<QLineF*> &events, std::vector<QGraphicsLineItem*> &lines, bool isShortestPath = false);
+    void toggleEvents(bool display, const std::vector<std::shared_ptr<QLineF>> events, std::vector<QGraphicsLineItem*> &lines, bool isShortestPath = false);
 
     /**
      * @brief toggleMinima helper function to hide/display minima
@@ -278,7 +278,7 @@ private:
      * @param minima
      * @param lines
      */
-    void toggleMinima(bool display, const std::vector<CGALGeometryConnector::MinData*> &minima, std::vector<QGraphicsLineItem*> &lines);
+    void toggleMinima(bool display, const std::vector<std::shared_ptr<CGALGeometryConnector::MinData>> minima, std::vector<QGraphicsLineItem*> &lines);
 
     /**
      * @brief toggleLabels helper function to hide/display event labels
@@ -289,12 +289,12 @@ private:
     void toggleLabels(bool display, const std::vector<QGraphicsLineItem*> &lines, std::vector<QGraphicsProxyWidget*> &labels);
 
     /**
-     * @brief toggleMinLabels helper function to hide/displaye minimum labels
+     * @brief toggleMinLabels helper function to hide/display minimum labels
      * @param display
      * @param minima
      * @param labels
      */
-    void toggleMinLabels(bool display, const std::vector<CGALGeometryConnector::MinData*> &minima, std::vector<QGraphicsProxyWidget*> &labels);
+    void toggleMinLabels(bool display, const std::vector<std::shared_ptr<CGALGeometryConnector::MinData>> minima, std::vector<QGraphicsProxyWidget*> &labels);
 
     /**
      * @brief roundToDecimalPlaces helper function to create a string from value with the number of

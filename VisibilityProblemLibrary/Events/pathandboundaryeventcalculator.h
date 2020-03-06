@@ -27,24 +27,7 @@ namespace SPV {
     public:
         PathAndBoundaryEventCalculator (Polygon p, Point s, Point e);
 
-        virtual ~PathAndBoundaryEventCalculator()
-        {
-            if (!directPathExists) {
-                EventSegment *nextSegment = firstEventSegment;
-                EventSegment *currentSegment = firstEventSegment;
-
-                bool allDestroyed = false;
-                while(!allDestroyed) {
-                    currentSegment = nextSegment;
-                    if (!currentSegment->hasSuccessor()) {
-                        allDestroyed = true;
-                    } else {
-                        nextSegment = currentSegment->getSuccessor();
-                    }
-                }
-                delete currentSegment;
-            }
-        }
+        virtual ~PathAndBoundaryEventCalculator() {}
 
         /**
          * @brief getSegmentsForFinalPoint returns the segments which are swept when the second or
