@@ -4,6 +4,7 @@ void SPV::LineOfSight::setEventType(EventType t)
 {
     type = t;
 }
+
 EventType SPV::LineOfSight::getEventType()
 {
     return type;

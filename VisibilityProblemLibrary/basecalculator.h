@@ -31,7 +31,7 @@ namespace SPV {
          */
         BaseCalculator(Polygon p, const Point s, Point e);
 
-        virtual ~BaseCalculator() {}
+        virtual ~BaseCalculator();
 
         /**
          * @brief calculatePathAndBoundaryEvents calculates the path and boundary events
