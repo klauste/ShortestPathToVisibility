@@ -33,18 +33,17 @@ public:
      * lines of sight.
      */
     struct MinData {
-        MinData(QLineF *l, double mV, Point pS, Point pE) :
+        MinData(std::shared_ptr<QLineF> l, double mV, Point pS, Point pE) :
             loS(l), minValue(mV), pointOnStartSide(pS), pointOnEndSide(pE)
         {}
         ~MinData() {
-            delete loS;
             linesToMin.clear();
         }
 
         /**
          * @brief loS is the line of sight where the minimum is located
          */
-        QLineF *loS;
+        std::shared_ptr<QLineF> loS;
 
         /**
          * @brief minValue contains either the minimized maximal distance (for the min-max version
@@ -68,7 +67,7 @@ public:
          * @brief linesToMin contains all the lines which make up the path from the start/end point
          * to the last point on the polygon before the line of sight is reached.
          */
-        std::vector<QLineF*> linesToMin;
+        std::vector<std::shared_ptr<QLineF>> linesToMin;
 
         /**
          * @brief hasRadius flag to determine if this is a min-max minimum with a disc as solution
@@ -129,37 +128,37 @@ public:
      * path from the start point to the endpoint within the polygon
      * @return
      */
-    std::vector<QLineF*> getShortestPathGraph();
+    std::vector<std::shared_ptr<QLineF>> getShortestPathGraph();
 
     /**
      * @brief getPathEvents returns the vector containing the lines making up the path events
      * @return
      */
-    std::vector<QLineF*> getPathEvents();
+    std::vector<std::shared_ptr<QLineF>> getPathEvents();
 
     /**
      * @brief getBoundaryEvents returns the vector containing the lines making up the boundary events
      * @return
      */
-    std::vector<QLineF*> getBoundaryEvents();
+    std::vector<std::shared_ptr<QLineF>> getBoundaryEvents();
 
     /**
      * @brief getBendEvents returns the vector containing the lines making up the bend events
      * @return
      */
-    std::vector<QLineF*> getBendEvents();
+    std::vector<std::shared_ptr<QLineF>> getBendEvents();
 
     /**
      * @brief getMinMaxMinima returns the vector containing the min max minima
      * @return
      */
-    std::vector<MinData*> getMinMaxMinima();
+    std::vector<std::shared_ptr<MinData>> getMinMaxMinima();
 
     /**
      * @brief getMinSumMinima returns the vector containint the min sum minima
      * @return
      */
-    std::vector<MinData*> getMinSumMinima();
+    std::vector<std::shared_ptr<MinData>> getMinSumMinima();
 
     /**
      * @brief reset resets all the vectors and destroys the calculators so that new
@@ -194,12 +193,12 @@ private:
      */
     double minSquaredDistanceToStartPoint;
 
-    std::vector<QLineF*> shortestPathGraph;
-    std::vector<QLineF*> pathEvents;
-    std::vector<QLineF*> boundaryEvents;
-    std::vector<QLineF*> bendEvents;
-    std::vector<MinData*> minMaxMinima;
-    std::vector<MinData*> minSumMinima;
+    std::vector<std::shared_ptr<QLineF>> shortestPathGraph;
+    std::vector<std::shared_ptr<QLineF>> pathEvents;
+    std::vector<std::shared_ptr<QLineF>> boundaryEvents;
+    std::vector<std::shared_ptr<QLineF>> bendEvents;
+    std::vector<std::shared_ptr<MinData>> minMaxMinima;
+    std::vector<std::shared_ptr<MinData>> minSumMinima;
     SPV::MinSumCalculator *minSumCalculator = nullptr;
     SPV::MinMaxCalculator *minMaxCalculator = nullptr;
 
@@ -228,7 +227,7 @@ private:
      * @param min
      * @param data
      */
-    void setLinesToMin(std::shared_ptr<SPV::Minimum> min, MinData* data);
+    void setLinesToMin(std::shared_ptr<SPV::Minimum> min, std::shared_ptr<MinData> data);
 };
 
 #endif // CGALGEOMETRYCONNECTOR_H

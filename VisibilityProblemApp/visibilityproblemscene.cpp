@@ -151,14 +151,14 @@ void VisibilityProblemScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent
     }
 }
 
-void VisibilityProblemScene::toggleEvents(bool display, const std::vector<QLineF*>& events, std::vector<QGraphicsLineItem*> &lines, bool isShortestPath)
+void VisibilityProblemScene::toggleEvents(bool display, const std::vector<std::shared_ptr<QLineF>> events, std::vector<QGraphicsLineItem*> &lines, bool isShortestPath)
 {
     QPen linesPen = QPen(Qt::black, 1, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
     if (isShortestPath) {
         linesPen = QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     }
     unsigned i;
-    QLineF *currentLine;
+    std::shared_ptr<QLineF> currentLine;
     if (display) {
         for (i = 0; i < events.size(); i++) {
             currentLine = events.at(i);
@@ -178,7 +178,7 @@ void VisibilityProblemScene::toggleEvents(bool display, const std::vector<QLineF
     }
 }
 
-void VisibilityProblemScene::toggleMinima(bool display, const std::vector<CGALGeometryConnector::MinData*> &minima, std::vector<QGraphicsLineItem*> &lines)
+void VisibilityProblemScene::toggleMinima(bool display, const std::vector<std::shared_ptr<CGALGeometryConnector::MinData>> minima, std::vector<QGraphicsLineItem*> &lines)
 {
     QPen linesPen = QPen(Qt::red, 1, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
     QPen linesPenLos = QPen(Qt::black, 1, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
@@ -204,6 +204,7 @@ void VisibilityProblemScene::toggleMinima(bool display, const std::vector<CGALGe
     } else {
         for (i = 0; i < lines.size(); i++) {
             removeItem(lines.at(i));
+            delete lines.at(i);
         }
         lines.clear();
     }
@@ -433,7 +434,7 @@ std::string VisibilityProblemScene::roundToDecimalPlaces(double value)
     return returnValue;
 }
 
-void VisibilityProblemScene::toggleMinLabels(bool display, const std::vector<CGALGeometryConnector::MinData*> &minima, std::vector<QGraphicsProxyWidget*> &labels)
+void VisibilityProblemScene::toggleMinLabels(bool display, const std::vector<std::shared_ptr<CGALGeometryConnector::MinData>> minima, std::vector<QGraphicsProxyWidget*> &labels)
 {
     unsigned i;
     int labelBuffer = 5;
