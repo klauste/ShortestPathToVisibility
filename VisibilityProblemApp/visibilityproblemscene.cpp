@@ -173,6 +173,7 @@ void VisibilityProblemScene::toggleEvents(bool display, const std::vector<std::s
     else {
         for (i = 0; i < lines.size(); i++) {
             removeItem(lines.at(i));
+            delete lines.at(i);
         }
         lines.clear();
     }
@@ -230,6 +231,7 @@ void VisibilityProblemScene::reset()
     togglePolygonLabels(false);
     for (i = 0; i < polygonLines.size(); i++) {
         removeItem(polygonLines.at(i));
+        delete polygonLines.at(i);
     }
     polygonLines.clear();
     if (startPoint) {
@@ -355,6 +357,7 @@ void VisibilityProblemScene::toggleLabels(bool display, const std::vector<QGraph
     } else {
         for (i = 0; i < labels.size(); i++) {
             removeItem(labels.at(i));
+            delete labels.at(i);
         }
         labels.clear();
     }
@@ -400,6 +403,7 @@ void VisibilityProblemScene::togglePolygonLabels(bool display)
     } else {
         for (i = 0; i < polygonLabels.size(); i++) {
             removeItem(polygonLabels.at(i));
+            delete polygonLabels.at(i);
         }
         polygonLabels.clear();
     }
@@ -460,6 +464,7 @@ void VisibilityProblemScene::toggleMinLabels(bool display, const std::vector<std
     } else {
         for (i = 0; i < labels.size(); i++) {
             removeItem(labels.at(i));
+            delete labels.at(i);
         }
         labels.clear();
     }
