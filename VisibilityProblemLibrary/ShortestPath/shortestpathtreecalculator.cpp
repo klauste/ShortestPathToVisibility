@@ -645,7 +645,7 @@ std::shared_ptr<SPV::ShortestPathTreeCalculator::triangulationIndexInformation> 
     for (unsigned i = 0; i < 3; i++) {
         // If the current vertex is the infinite vertex, just set the next point, but not the point
         // itself. The code calling this function needs to make sure not to acces the next point here
-        // (which it does)
+        // (which it does by checking that the face is in the domain)
         if (triangulation.is_infinite(faceHandle->vertex(i))) {
             tI->nextPointIndex = i;
             continue;
