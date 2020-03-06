@@ -1,6 +1,9 @@
 QT += testlib
 QT -= gui
 
+QMAKE_CXXFLAGS += -frounding-math
+DEFINES+=CGAL_DISABLE_ROUNDING_MATH_CHECK=ON
+
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG -= app_bundle
 

@@ -4,6 +4,9 @@ CONFIG += link_prl
 
 greaterThan(QT_MAJOR_VERSION, 4) : QT += widgets
 
+QMAKE_CXXFLAGS += -frounding-math
+DEFINES+=CGAL_DISABLE_ROUNDING_MATH_CHECK=ON
+
 LIBS += -L$$OUT_PWD/../VisibilityProblemLibrary/ -lVisibilityProblemLibrary
 
 INCLUDEPATH += $$PWD/../VisibilityProblemLibrary
