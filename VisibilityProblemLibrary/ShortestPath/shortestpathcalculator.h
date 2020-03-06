@@ -100,16 +100,17 @@ namespace SPV {
          * @brief gU instance of the utility class
          */
         GeometryUtil gU;
-    private:
-        /**
-         * @brief polygon stores the polygon for the calculations
-         */
-        Polygon polygon;
 
         /**
          * @brief triangulation the triangulation of the polygon
          */
         CDT triangulation;
+
+    private:
+        /**
+         * @brief polygon stores the polygon for the calculations
+         */
+        Polygon polygon;
 
         /**
          * @brief triangulationCalculator instance of the Triangulation helper class
