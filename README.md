@@ -1,5 +1,5 @@
-# ShortestPathToVisibility
-This project was written as part of my Master of Science thesis. It implements an algorithm in C++ to solve the quickest-pair visibility problem presented in the article [On Romeo and Juliet Problems: Minimizing Distance-to-Sight](https://ui.adsabs.harvard.edu/abs/2019arXiv190601114A).
+# Pairwise Visibility Problem
+This project was written as part of my Master of Science thesis. It implements an algorithm in C++ to solve the pair-wise visibility problem presented in the article [On Romeo and Juliet Problems: Minimizing Distance-to-Sight](https://ui.adsabs.harvard.edu/abs/2019arXiv190601114A).
 
 The project has three sub-projects:
 
