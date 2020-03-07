@@ -1,5 +1,5 @@
 # Pairwise Visibility Problem
-This project was written as part of my Master's thesis in Computer Science. It implements an algorithm in C++ to solve the pair-wise visibility problem presented in the article [On Romeo and Juliet Problems: Minimizing Distance-to-Sight](https://ui.adsabs.harvard.edu/abs/2019arXiv190601114A).
+This project was written as part of my Master's thesis in Computer Science. It implements an algorithm in C++ to solve the pair-wise visibility problem in simple polygons presented in the article [On Romeo and Juliet Problems: Minimizing Distance-to-Sight](https://ui.adsabs.harvard.edu/abs/2019arXiv190601114A).
 
 The project has three sub-projects:
 
@@ -11,7 +11,7 @@ The project has three sub-projects:
 
 If you find any errors or have any questions about this project, you can write to me. Not sure if I will respond though. I need a 3-year holiday from C++ after finishing this. Hopefully by then I will have forgotten everything about this project.
 
-If you don't understand the code, it might be because my programming skills are lacking or because the algorithm is pretty complicated. It's probably best to read my thesis [Paarweise Sichtbarkeit in Polygonen](https://github.com/klauste/ShortestPathToVisibility/blob/master/PaarweiseSichtbarkeit.pdf) which I've uploaded to this repo before trying to understand the code. The only problem is that it's written in German. If you don't speak German, this might be a great motivator to learn it.
+If you don't understand the code, it might be because my programming skills are lacking or because the algorithm is pretty complicated. It's probably best to read my thesis [Paarweise Sichtbarkeit in Polygonen](https://github.com/klauste/ShortestPathToVisibility/blob/master/PaarweiseSichtbarkeit.pdf) before trying to understand the code. The only problem is that the thesis is written in German. If you don't speak German, this might be a great motivator to learn it.
 
 I've compiled and run the programme on macOS Catalina and Ubuntu 18.04. If you want to run it on your machine I recommend using Ubuntu 18.04 as the installation of required third party libraries is much simpler. If you don't have Ubuntu 18.04, you can run it by installing the [Ubuntu Image](http://releases.ubuntu.com/18.04/) on [VirtualBox](https://www.virtualbox.org/)
 
