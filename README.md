@@ -27,7 +27,7 @@ In Ubuntu, install the following:
 
 `sudo apt-get install libcgal-dev`
 
-Then clone this repository and open it in the QtCreator. You should be able to compile and run it with gcc or clang.
+Then clone this repository and open it in QtCreator. You should be able to compile and run it with gcc or clang.
 
 #### Installation on macOS Catalina
 
@@ -47,7 +47,7 @@ In macOS Catalina you need to install Qt (free version can be found [here](https
 
 * mpfr
 
-After cloning this repository and modifying the .pro files to adjust for different libary paths (e.g. [here]( https://github.com/klauste/ShortestPathToVisibility/blob/master/VisibilityProblemLibrary/VisibilityProblemLibrary.pro#L35)) you should be able to compile and run the programme with clang.
+After cloning this repository and modifying the .pro files to adjust for different libary paths (e.g. [here]( https://github.com/klauste/ShortestPathToVisibility/blob/master/VisibilityProblemLibrary/VisibilityProblemLibrary.pro#L35)) you should be able to compile and run the programme with clang in QtCreator.
 
 #### Installation on other operating systems
 
