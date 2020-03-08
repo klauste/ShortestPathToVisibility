@@ -16,6 +16,7 @@
 #include <boost/format.hpp>
 #include <math.h>
 #include <QRectF>
+#include <QTimeLine>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
@@ -152,6 +153,17 @@ public:
      */
     void reset();
 
+    /**
+     * @brief startAnimation starts the animation of the line of sight rotation
+     */
+    void startAnimation();
+
+private slots:
+    /**
+     * @brief setAnimationValues moves the line of sight one step forward in the animation
+     */
+    void setAnimationValues();
+
 signals:
     /**
      * @brief polygonReady emitted when the polygon and min calculations are ready
@@ -244,6 +256,34 @@ private:
     std::vector<QGraphicsProxyWidget *> minMaxLabels;
     std::vector<QGraphicsProxyWidget *> minSumLabels;
     std::vector<QGraphicsProxyWidget *> polygonLabels;
+
+    /**
+     * @brief interpolatedLineOfSight the current interpolated line of sight
+     */
+    QGraphicsLineItem *interpolatedLineOfSight;
+
+    /**
+     * @brief interpolatedLineOnStartSide the current line from the last point on the start path
+     * to the current line of sight
+     */
+    QGraphicsLineItem *interpolatedLineOnStartSide;
+
+    /**
+     * @brief interpolatedLineOnEndSide the current line from the last point on the end path
+     * to the current line of sight
+     */
+    QGraphicsLineItem *interpolatedLineOnEndSide;
+
+    /**
+     * @brief pathSoFar contains the path so far which doesn't change during the interpolation within an
+     * event segment
+     */
+    std::vector<QGraphicsLineItem*> pathSoFar;
+
+    /**
+     * @brief animationTimeLine used for the animation
+     */
+    QTimeLine *animationTimeLine;
 
     /**
      * @brief closePolyline turns the polyline the user entered into a closed polygon

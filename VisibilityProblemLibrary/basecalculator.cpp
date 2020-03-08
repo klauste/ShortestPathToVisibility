@@ -3,11 +3,11 @@
 SPV::BaseCalculator::BaseCalculator(Polygon p, const Point s, Point e)
 {
     gU = GeometryUtil();
-    stepPrecision = 0.001;
     currentMinimum = -1;
     std::unique_ptr<ShortestPathTreeCalculator> spt = std::unique_ptr<ShortestPathTreeCalculator>(new ShortestPathTreeCalculator(p, s, e));
     shortestPath = spt->getShortestPath();
     directPathExists = spt->directPathBetweenFinalPointsExists();
+    stepPrecision = 0.001;
 }
 
 SPV::BaseCalculator::~BaseCalculator()
@@ -29,6 +29,11 @@ SPV::BaseCalculator::~BaseCalculator()
         }
         delete firstEventSegment;
     }
+}
+
+SPV::GeometryUtil SPV::BaseCalculator::getGeometryUtil()
+{
+    return gU;
 }
 
 bool SPV::BaseCalculator::hasDirectPath()

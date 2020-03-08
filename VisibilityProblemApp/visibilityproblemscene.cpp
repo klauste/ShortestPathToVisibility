@@ -13,6 +13,76 @@ VisibilityProblemScene::VisibilityProblemScene()
     gC = CGALGeometryConnector();
     circle = nullptr;
     minMaxCircleCenter = nullptr;
+
+    // Set a long time for the timeline, so that the rotation can reach the end. The animation
+    // is stopped when the end point is reached and it's hard to calculate how long that takes,
+    // so 5 minutes should be good for all practical purposes.
+    animationTimeLine = new QTimeLine(300000);
+    animationTimeLine->setFrameRange(0, 30000);
+    animationTimeLine->setCurveShape(QTimeLine::LinearCurve);
+    connect(animationTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setAnimationValues()));
+}
+
+void VisibilityProblemScene::startAnimation()
+{
+    CGALGeometryConnector::InterpolationResult iR = gC.getStartOfInterpolation();
+    if (iR.canStartInterpolation) {
+        interpolatedLineOfSight = addLine(
+            iR.lineOfSight,
+            QPen(Qt::black, 2, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin)
+        );
+        interpolatedLineOnStartSide = addLine(
+            iR.startSideToLoS,
+            QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+        );
+        interpolatedLineOnEndSide = addLine(
+            iR.endSideToLoS,
+            QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+        );
+        for (unsigned i = 0; i < iR.pathSoFar.size(); i++) {
+            pathSoFar.push_back(addLine(
+                iR.pathSoFar.at(i),
+                QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+            ));
+        }
+        animationTimeLine->start();
+    }
+}
+
+void VisibilityProblemScene::setAnimationValues()
+{
+    CGALGeometryConnector::InterpolationResult iR = gC.getNextInterpolationResult();
+    if (iR.hasReachedEndPoint) {
+        animationTimeLine->stop();
+        removeItem(interpolatedLineOfSight);
+        delete interpolatedLineOfSight;
+        removeItem(interpolatedLineOnStartSide);
+        delete interpolatedLineOnStartSide;
+        removeItem(interpolatedLineOnEndSide);
+        delete interpolatedLineOnEndSide;
+        for (unsigned i = 0; i < pathSoFar.size(); i++) {
+            removeItem(pathSoFar.at(i));
+            delete pathSoFar.at(i);
+        }
+        pathSoFar.clear();
+        return;
+    }
+    interpolatedLineOfSight->setLine(iR.lineOfSight);
+    interpolatedLineOnStartSide->setLine(iR.startSideToLoS);
+    interpolatedLineOnEndSide->setLine(iR.endSideToLoS);
+    if (iR.pathSoFarHasChanged) {
+        for (unsigned i = 0; i < pathSoFar.size(); i++) {
+            removeItem(pathSoFar.at(i));
+            delete pathSoFar.at(i);
+        }
+        pathSoFar.clear();
+        for (unsigned i = 0; i < iR.pathSoFar.size(); i++) {
+            pathSoFar.push_back(addLine(
+                iR.pathSoFar.at(i),
+                QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+            ));
+        }
+    }
 }
 
 void VisibilityProblemScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)

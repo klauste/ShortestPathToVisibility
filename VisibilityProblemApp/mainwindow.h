@@ -60,6 +60,7 @@ private slots:
     void fourDecimalPlacesClicked();
 
     void resetButtonClicked();
+    void animateButtonClicked();
 
 private:
     QGraphicsView *centralView;
@@ -79,6 +80,7 @@ private:
     QAction *polygonLabelButton;
 
     QAction *resetButton;
+    QAction *animateButton;
     QAction *noDecimalPlace;
     QAction *oneDecimalPlace;
     QAction *twoDecimalPlaces;

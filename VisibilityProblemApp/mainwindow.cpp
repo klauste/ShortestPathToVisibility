@@ -52,6 +52,11 @@ void MainWindow::addToolButtons()
     connect(resetButton, SIGNAL(triggered()), this, SLOT(resetButtonClicked()));
     toolsMenu->addAction(resetButton);
 
+    animateButton = new QAction("Animate", this);
+    animateButton->setEnabled(false);
+    connect(animateButton, SIGNAL(triggered()), this, SLOT(animateButtonClicked()));
+    toolsMenu->addAction(animateButton);
+
     QMenu *precisionMenu = toolsMenu->addMenu("Decimal Places");
     noDecimalPlace = new QAction("0", this);
     connect(noDecimalPlace, SIGNAL(triggered()), this, SLOT(noDecimalPlaceClicked()));
@@ -335,11 +340,17 @@ void MainWindow::resetButtonClicked()
     minMaxCircleButton->setEnabled(false);
     minSumButton->setEnabled(false);
     resetButton->setEnabled(false);
+    animateButton->setEnabled(false);
     shortestPathButton->setEnabled(false);
     pathEventButton->setEnabled(false);
     boundaryEventButton->setEnabled(false);
     bendEventButton->setEnabled(false);
 }
+
+void MainWindow::animateButtonClicked()
+{
+    scene.startAnimation();
+};
 
 void MainWindow::onPolygonReady()
 {
@@ -348,6 +359,7 @@ void MainWindow::onPolygonReady()
     minMaxLabelButton->setEnabled(true);
     minSumButton->setEnabled(true);
     resetButton->setEnabled(true);
+    animateButton->setEnabled(true);
     shortestPathButton->setEnabled(true);
     pathEventButton->setEnabled(true);
     boundaryEventButton->setEnabled(true);

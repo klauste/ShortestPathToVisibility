@@ -85,6 +85,7 @@ namespace SPV {
          */
         bool hasDirectPath();
 
+        GeometryUtil getGeometryUtil();
     protected:
         /**
          * @brief shortestPath from start point to end point

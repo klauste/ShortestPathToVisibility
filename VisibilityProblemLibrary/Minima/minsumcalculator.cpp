@@ -85,8 +85,20 @@ void SPV::MinSumCalculator::handleLocalMinimaWithBothPathsBlocked()
     std::vector<std::pair<Point, Point>> minimumEdgeIntersections;
     minimumEdgeIntersections.push_back(std::make_pair(getFurthestPointOnBoundary(true, true), getFurthestPointOnBoundary(false, true)));
     double currentParameter = stepPrecision;
+    bool hasIncreased = false;
+    bool hasDecreased = false;
 
     while (currentParameter < 1) {
+        // It's most likely to find the minimum near one of the lines of sight. Keep the precision
+        // high there, but not so high further away
+        if (!hasIncreased && currentParameter > 0.1) {
+            hasIncreased = true;
+            stepPrecision = stepPrecision * 10;
+        }
+        if (!hasDecreased && currentParameter > 0.9) {
+            hasDecreased = true;
+            stepPrecision = stepPrecision / 10;
+        }
         double currentX = (1 - currentParameter) * firstIntersectionPointOnStartSide.x() + currentParameter * secondIntersectionPointOnStartSide.x();
         double currentY = (1 - currentParameter) * firstIntersectionPointOnStartSide.y() + currentParameter * secondIntersectionPointOnStartSide.y();
         Point intersectionPointOnStartSide = Point(currentX, currentY);
@@ -174,9 +186,22 @@ void SPV::MinSumCalculator::handleLocalMinimaWithOnePathBlocked()
                 getDistanceToIntersectionPoint(intersectionOnLos, false);
         minimumIntersectionsOnLos.push_back(std::make_pair(firstIntersectionPointOnStartSide, intersectionOnLos));
     }
+
     double currentParameter = stepPrecision;
+    bool hasIncreased = false;
+    bool hasDecreased = false;
 
     while (currentParameter < 1) {
+        // It's most likely to find the minimum near one of the lines of sight. Keep the precision
+        // high there, but not so high further away
+        if (!hasIncreased && currentParameter > 0.1) {
+            hasIncreased = true;
+            stepPrecision = stepPrecision * 10;
+        }
+        if (!hasDecreased && currentParameter > 0.9) {
+            hasDecreased = true;
+            stepPrecision = stepPrecision / 10;
+        }
         double currentX = currentParameter * obstructedEdgePoint1.x() + (1 - currentParameter) * obstructedEdgePoint2.x();
         double currentY = currentParameter * obstructedEdgePoint1.y() + (1 - currentParameter) * obstructedEdgePoint2.y();
         Point intersectionPoint = Point(currentX, currentY);

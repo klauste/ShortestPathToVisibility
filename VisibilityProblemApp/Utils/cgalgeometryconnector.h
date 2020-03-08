@@ -8,9 +8,12 @@
 #include <CGAL/Polygon_2.h>
 #include "Minima/minsumcalculator.h"
 #include "Minima/minmaxcalculator.h"
+#include "Models/eventsegment.h"
+#include "Models/lineofsight.h"
 #include <QLineF>
 #include <QRectF>
 #include <boost/lexical_cast.hpp>
+#include <math.h>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef K::Point_2 Point;
@@ -84,6 +87,34 @@ public:
          */
         double radius;
     };
+
+    /**
+     * @brief The InterpolationResult struct contains information about the current state of an interpolation
+     */
+    struct InterpolationResult {
+        QLineF lineOfSight;
+        QLineF startSideToLoS;
+        QLineF endSideToLoS;
+        std::vector<QLineF> pathSoFar;
+        bool hasStartSideToLos;
+        bool hasEndSideToLos;
+        bool pathSoFarHasChanged;
+        bool hasReachedEndPoint;
+        bool canStartInterpolation;
+    };
+
+    /**
+     * @brief getStartOfInterpolation is used for animation. Resets an interpolation and
+     * returns the interpolation state at the first line of sight
+     * @return
+     */
+    InterpolationResult getStartOfInterpolation();
+
+    /**
+     * @brief getNextInterpolationResult is used in animation. Gets the next interpolation state
+     * @return
+     */
+    InterpolationResult getNextInterpolationResult();
 
     /**
      * @brief shouldClosePolyline given the current moust position at p, determines if the
@@ -203,6 +234,52 @@ private:
     SPV::MinMaxCalculator *minMaxCalculator = nullptr;
 
     /**
+     * @brief currentSegmentInInterpolation the current segment for which an interpolation is done
+     */
+    SPV::EventSegment *currentSegmentInInterpolation;
+
+    /**
+     * @brief currentInterpolationValue the value of the current interpolation (between 0 and 1)
+     */
+    double currentInterpolationValue;
+
+    /**
+     * @brief currentStepPrecision stores the current step precision
+     */
+    double currentStepPrecision;
+
+    /**
+     * @brief currentInterpolationState the state of the current interpolation
+     */
+    InterpolationResult currentInterpolationState;
+
+    /**
+     * @brief interpolationRunning indicates if an interpolation is currently running
+     */
+    bool interpolationRunning;
+
+    /**
+     * @brief setCurrentStepPrecision sets the precision of the interpolation, depending
+     * on the rotation angle between the current two lines of sight
+     */
+    void setCurrentStepPrecision();
+
+    /**
+     * @brief setLineToLos is used in animation. Sets the line from the last
+     * point to the line of sight in the interpolation result
+     * @param onStart
+     * @param currentLoS
+     * @param pointOnEdge
+     * @return
+     */
+    bool setLineToLos(bool onStart, Line currentLoS, Point pointOnEdge);
+
+    /**
+     * @brief setPathSoFar sets the path to the last points before the line of sight
+     */
+    void setPathSoFar();
+
+    /**
      * @brief calculateMinima calculates the min-sum and min max solution of the problem
      * Expects that the polygon as well as the start and end point have been set
      */
@@ -228,6 +305,15 @@ private:
      * @param data
      */
     void setLinesToMin(std::shared_ptr<SPV::Minimum> min, std::shared_ptr<MinData> data);
+
+    /**
+     * @brief getDegreeAngleBetweenLoS gets the angle between two lines of sight
+     * @param pivotPoint
+     * @param pOnFirstLoS
+     * @param pOnSecondLoS
+     * @return
+     */
+    double getDegreeAngleBetweenLoS(Point pivotPoint, Point pOnFirstLoS, Point pOnSecondLoS);
 };
 
 #endif // CGALGEOMETRYCONNECTOR_H
