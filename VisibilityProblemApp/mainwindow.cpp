@@ -13,6 +13,11 @@ MainWindow::MainWindow()
     connect(&scene, &VisibilityProblemScene::polygonReady, this, &MainWindow::onPolygonReady);
 }
 
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+    scene.reset();
+}
+
 void MainWindow::addMenuItems()
 {
     minMaxButton = new QAction("Min Max", this);

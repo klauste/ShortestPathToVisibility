@@ -14,6 +14,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
 
+    /**
+     * @brief closeEvent listens to the close event and does some clean up
+     * @param event
+     */
+    void closeEvent (QCloseEvent *event);
+
 public slots:
     /**
      * @brief onPolygonReady listens to the polygonReady signal from VisibilityProblemScene
