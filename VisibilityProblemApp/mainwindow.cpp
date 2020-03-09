@@ -11,6 +11,7 @@ MainWindow::MainWindow()
     centralView->show();
     setCentralWidget(centralView);
     connect(&scene, &VisibilityProblemScene::polygonReady, this, &MainWindow::onPolygonReady);
+    connect(&scene, &VisibilityProblemScene::animationFinished, this, &MainWindow::onAnimationFinished);
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
@@ -354,6 +355,7 @@ void MainWindow::resetButtonClicked()
 
 void MainWindow::animateButtonClicked()
 {
+    toggleButtonsForAnimation(false);
     scene.startAnimation();
 };
 
@@ -481,4 +483,21 @@ void MainWindow::scaleFactorFiftyClicked()
 void MainWindow::scaleFactorSixtyClicked()
 {
     scene.setTestDataScaleFactor(60);
+}
+
+void MainWindow::toggleButtonsForAnimation(bool enabled)
+{
+    testData1Button->setEnabled(enabled);
+    testData2Button->setEnabled(enabled);
+    testData3Button->setEnabled(enabled);
+    testData4Button->setEnabled(enabled);
+    testData5Button->setEnabled(enabled);
+    testData6Button->setEnabled(enabled);
+    resetButton->setEnabled(enabled);
+    animateButton->setEnabled(enabled);
+}
+
+void MainWindow::onAnimationFinished()
+{
+    toggleButtonsForAnimation(true);
 }

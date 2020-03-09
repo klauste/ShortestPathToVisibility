@@ -170,6 +170,11 @@ signals:
      */
     void polygonReady();
 
+    /**
+     * @brief animationFinished emitted when the animation has ended
+     */
+    void animationFinished();
+
 private:
     /**
      * @brief decimalPlaces how many decimal places to display in labels
