@@ -13,7 +13,10 @@ VisibilityProblemScene::VisibilityProblemScene()
     gC = CGALGeometryConnector();
     circle = nullptr;
     minMaxCircleCenter = nullptr;
+}
 
+void VisibilityProblemScene::startAnimation()
+{
     // Set a long time for the timeline, so that the rotation can reach the end. The animation
     // is stopped when the end point is reached and it's hard to calculate how long that takes,
     // so 5 minutes should be good for all practical purposes.
@@ -21,10 +24,6 @@ VisibilityProblemScene::VisibilityProblemScene()
     animationTimeLine->setFrameRange(0, 30000);
     animationTimeLine->setCurveShape(QTimeLine::LinearCurve);
     connect(animationTimeLine, SIGNAL(frameChanged(int)), this, SLOT(setAnimationValues()));
-}
-
-void VisibilityProblemScene::startAnimation()
-{
     CGALGeometryConnector::InterpolationResult iR = gC.getStartOfInterpolation();
     if (iR.canStartInterpolation) {
         interpolatedLineOfSight = addLine(
@@ -54,6 +53,7 @@ void VisibilityProblemScene::setAnimationValues()
     CGALGeometryConnector::InterpolationResult iR = gC.getNextInterpolationResult();
     if (iR.hasReachedEndPoint) {
         animationTimeLine->stop();
+        delete animationTimeLine;
         removeItem(interpolatedLineOfSight);
         delete interpolatedLineOfSight;
         removeItem(interpolatedLineOnStartSide);
