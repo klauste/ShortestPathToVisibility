@@ -65,6 +65,7 @@ void VisibilityProblemScene::setAnimationValues()
             delete pathSoFar.at(i);
         }
         pathSoFar.clear();
+        emit animationFinished();
         return;
     }
     interpolatedLineOfSight->setLine(iR.lineOfSight);

@@ -28,6 +28,12 @@ public slots:
      */
     void onPolygonReady();
 
+    /**
+     * @brief onAnimationFinished listens to the animationFinished event and sets disabled
+     * buttons back to enabled
+     */
+    void onAnimationFinished();
+
 // Listeners for button clicks
 private slots:
     void pathEventLabelButtonClicked();
@@ -112,6 +118,7 @@ private:
     void addTestDataButtons();
     void addToolButtons();
     void drawAll();
+    void toggleButtonsForAnimation(bool enabled);
 };
 
 #endif // MAINWINDOW_H
