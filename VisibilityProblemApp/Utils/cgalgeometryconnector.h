@@ -8,7 +8,6 @@
 #include <CGAL/Polygon_2.h>
 #include "Minima/minsumcalculator.h"
 #include "Minima/minmaxcalculator.h"
-#include "basecalculator.h"
 #include "Models/eventsegment.h"
 #include "Models/lineofsight.h"
 #include <QLineF>
