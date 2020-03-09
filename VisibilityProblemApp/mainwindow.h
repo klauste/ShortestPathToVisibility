@@ -14,6 +14,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
 
+    /**
+     * @brief closeEvent listens to the close event and does some clean up
+     * @param event
+     */
+    void closeEvent (QCloseEvent *event);
+
 public slots:
     /**
      * @brief onPolygonReady listens to the polygonReady signal from VisibilityProblemScene
@@ -60,6 +66,7 @@ private slots:
     void fourDecimalPlacesClicked();
 
     void resetButtonClicked();
+    void animateButtonClicked();
 
 private:
     QGraphicsView *centralView;
@@ -79,6 +86,7 @@ private:
     QAction *polygonLabelButton;
 
     QAction *resetButton;
+    QAction *animateButton;
     QAction *noDecimalPlace;
     QAction *oneDecimalPlace;
     QAction *twoDecimalPlaces;

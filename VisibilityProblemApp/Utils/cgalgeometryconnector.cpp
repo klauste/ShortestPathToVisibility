@@ -3,6 +3,11 @@ CGALGeometryConnector::CGALGeometryConnector()
 {
     polygon = Polygon();
     minSquaredDistanceToStartPoint = 400;
+    interpolationRunning = false;
+    currentInterpolationState = InterpolationResult();
+    currentInterpolationState.lineOfSight = QLineF();
+    currentInterpolationState.startSideToLoS = QLineF();
+    currentInterpolationState.endSideToLoS = QLineF();
 }
 
 std::vector<std::shared_ptr<QLineF>> CGALGeometryConnector::getShortestPathGraph()
@@ -298,4 +303,237 @@ void CGALGeometryConnector::setEvents()
         lastLos->getPointOnEndSide().x(),
         lastLos->getPointOnEndSide().y()
     ));
+}
+
+CGALGeometryConnector::InterpolationResult CGALGeometryConnector::getStartOfInterpolation()
+{
+    if (!minMaxCalculator || interpolationRunning == true) {
+        currentInterpolationState.canStartInterpolation = false;
+        currentInterpolationState.hasReachedEndPoint = false;
+        return currentInterpolationState;
+    }
+    currentSegmentInInterpolation = minMaxCalculator->getFirstEventSegment();
+
+    auto fL = currentSegmentInInterpolation->getFirstLineOfSightFromStart();
+    QPointF p = QPointF(fL->getPointOnStartSide().x(), fL->getPointOnStartSide().y());
+    currentInterpolationState.lineOfSight.setP1(p);
+    p = QPointF(fL->getPointOnEndSide().x(), fL->getPointOnEndSide().y());
+    currentInterpolationState.lineOfSight.setP2(p);
+    currentInterpolationState.canStartInterpolation = true;
+    currentInterpolationState.hasReachedEndPoint = false;
+    currentInterpolationValue = 0.0;
+    interpolationRunning = true;
+    setCurrentStepPrecision();
+    setPathSoFar();
+    Line startToPivot = Line(fL->getPointOnStartSide(), currentSegmentInInterpolation->getPivotPoint()->getPoint());
+    if (!setLineToLos(true, startToPivot, fL->getPointOnStartSide())) {
+        // If this happens, something went wrong. Simply stop the interpolation.
+        currentInterpolationState.hasReachedEndPoint = true;
+        interpolationRunning = false;
+        return currentInterpolationState;
+    }
+    if (!setLineToLos(false, startToPivot, fL->getPointOnEndSide())) {
+        // If this happens, something went wrong. Simply stop the interpolation.
+        currentInterpolationState.hasReachedEndPoint = true;
+        interpolationRunning = false;
+        return currentInterpolationState;
+    }
+    return currentInterpolationState;
+}
+
+CGALGeometryConnector::InterpolationResult CGALGeometryConnector::getNextInterpolationResult()
+{
+    currentInterpolationValue += currentStepPrecision;
+    if (currentInterpolationValue > 1) {
+        if (currentSegmentInInterpolation->hasSuccessor()) {
+            currentSegmentInInterpolation = currentSegmentInInterpolation->getSuccessor();
+            setCurrentStepPrecision();
+            setPathSoFar();
+            currentInterpolationValue = currentInterpolationValue - 1;
+        } else {
+            currentInterpolationState.hasReachedEndPoint = true;
+            interpolationRunning = false;
+            return currentInterpolationState;
+        }
+    } else {
+        currentInterpolationState.pathSoFarHasChanged = false;
+    }
+    auto fL = currentSegmentInInterpolation->getFirstLineOfSightFromStart();
+    auto sL = currentSegmentInInterpolation->getSecondLineOfSightFromStart();
+
+    Point pointOnStartSide = Point(
+        (1 - currentInterpolationValue) * fL->getPointOnStartSide().x() + currentInterpolationValue * sL->getPointOnStartSide().x(),
+        (1 - currentInterpolationValue) * fL->getPointOnStartSide().y() + currentInterpolationValue * sL->getPointOnStartSide().y()
+    );
+    Line startToPivot =  Line(pointOnStartSide, currentSegmentInInterpolation->getPivotPoint()->getPoint());
+    Point pointOnEndSide;
+
+    auto result = minMaxCalculator->getGeometryUtil().getIntersectionBetweenLineAndLine(startToPivot, fL->getPointOnEndSide(), sL->getPointOnEndSide());
+    if (result.type() == typeid(bool)) {
+        // If this happens, something went wrong. Simply stop the interpolation.
+        currentInterpolationState.hasReachedEndPoint = true;
+        interpolationRunning = false;
+        return currentInterpolationState;
+    } else {
+        pointOnEndSide = boost::get<Point>(result);
+    }
+
+    QPointF p = QPointF(pointOnStartSide.x(), pointOnStartSide.y());
+    currentInterpolationState.lineOfSight.setP1(p);
+    p = QPointF(pointOnEndSide.x(), pointOnEndSide.y());
+    currentInterpolationState.lineOfSight.setP2(p);
+
+    if (!setLineToLos(true, startToPivot, pointOnStartSide)) {
+        // If this happens, something went wrong. Simply stop the interpolation.
+        currentInterpolationState.hasReachedEndPoint = true;
+        interpolationRunning = false;
+        return currentInterpolationState;
+    }
+    if (!setLineToLos(false, startToPivot, pointOnEndSide)) {
+        // If this happens, something went wrong. Simply stop the interpolation.
+        currentInterpolationState.hasReachedEndPoint = true;
+        interpolationRunning = false;
+        return currentInterpolationState;
+    }
+    return currentInterpolationState;
+}
+
+void CGALGeometryConnector::setPathSoFar()
+{
+    unsigned index = currentSegmentInInterpolation->getIndexOfLastSPPointOnStartSide();
+    unsigned i;
+    Point p1;
+    Point p2;
+    QLineF line;
+    std::vector<Point> extraPoints;
+    currentInterpolationState.pathSoFar.clear();
+    if (index > 0) {
+        for (i = 0; i < index; i++) {
+            p1 = shortestPath.at(i)->getPoint();
+            p2 = shortestPath.at(i + 1)->getPoint();
+            line = QLineF();
+            line.setP1(QPointF(p1.x(), p1.y()));
+            line.setP2(QPointF(p2.x(), p2.y()));
+            currentInterpolationState.pathSoFar.push_back(line);
+        }
+    }
+    extraPoints = currentSegmentInInterpolation->getExtraPointsOnStartSide();
+    if (extraPoints.size() > 0) {
+        for (i = 0; i < extraPoints.size(); i++) {
+            if (i == 0) {
+                p1 = shortestPath.at(index)->getPoint();
+                p2 = extraPoints.at(i);
+                line = QLineF();
+                line.setP1(QPointF(p1.x(), p1.y()));
+                line.setP2(QPointF(p2.x(), p2.y()));
+                currentInterpolationState.pathSoFar.push_back(line);
+            } else {
+                p1 = extraPoints.at(i - 1);
+            }
+            p2 = extraPoints.at(i);
+            line = QLineF();
+            line.setP1(QPointF(p1.x(), p1.y()));
+            line.setP2(QPointF(p2.x(), p2.y()));
+            currentInterpolationState.pathSoFar.push_back(line);
+        }
+    }
+    index = currentSegmentInInterpolation->getIndexOfLastSPPointOnEndSide();
+    if (index != shortestPath.size() - 1) {
+        for (i = index; i < shortestPath.size() - 1; i++) {
+            p1 = shortestPath.at(i)->getPoint();
+            p2 = shortestPath.at(i + 1)->getPoint();
+            line = QLineF();
+            line.setP1(QPointF(p1.x(), p1.y()));
+            line.setP2(QPointF(p2.x(), p2.y()));
+            currentInterpolationState.pathSoFar.push_back(line);
+        }
+    }
+    extraPoints = currentSegmentInInterpolation->getExtraPointsOnEndSide();
+    if (extraPoints.size() > 0) {
+        for (i = 0; i < extraPoints.size(); i++) {
+            if (i == 0) {
+                p1 = shortestPath.at(index)->getPoint();
+                p2 = extraPoints.at(i);
+                line = QLineF();
+                line.setP1(QPointF(p1.x(), p1.y()));
+                line.setP2(QPointF(p2.x(), p2.y()));
+                currentInterpolationState.pathSoFar.push_back(line);
+            } else {
+                p1 = extraPoints.at(i - 1);
+            }
+            p2 = extraPoints.at(i);
+            line = QLineF();
+            line.setP1(QPointF(p1.x(), p1.y()));
+            line.setP2(QPointF(p2.x(), p2.y()));
+            currentInterpolationState.pathSoFar.push_back(line);
+        }
+    }
+    currentInterpolationState.pathSoFarHasChanged = true;
+}
+
+bool CGALGeometryConnector::setLineToLos(bool onStart, Line currentLoS, Point pointOnEdge)
+{
+    QPointF p;
+    Point pointOnLos;
+    boost::variant<Point, bool> result;
+    Point lastPointBeforeLos = minMaxCalculator->getLastPointBeforeLoS(currentSegmentInInterpolation, onStart);
+
+    if (onStart) {
+        if (currentSegmentInInterpolation->getStartSideLoSVisible()) {
+            result = minMaxCalculator->getGeometryUtil().getPerpendicularIntersectionPoint(currentLoS, lastPointBeforeLos);
+            if (result.type() == typeid(bool)) {
+                return false;
+            } else {
+                pointOnLos = boost::get<Point>(result);
+            }
+        } else {
+            pointOnLos = pointOnEdge;
+        }
+        p = QPointF(lastPointBeforeLos.x(), lastPointBeforeLos.y());
+        currentInterpolationState.startSideToLoS.setP1(p);
+        p = QPointF(pointOnLos.x(), pointOnLos.y());
+        currentInterpolationState.startSideToLoS.setP2(p);
+    } else {
+        if (currentSegmentInInterpolation->getEndSideLoSVisible()) {
+            result = minMaxCalculator->getGeometryUtil().getPerpendicularIntersectionPoint(currentLoS, lastPointBeforeLos);
+            if (result.type() == typeid(bool)) {
+                return false;
+            } else {
+                pointOnLos = boost::get<Point>(result);
+            }
+        } else {
+            pointOnLos = pointOnEdge;
+        }
+        p = QPointF(lastPointBeforeLos.x(), lastPointBeforeLos.y());
+        currentInterpolationState.endSideToLoS.setP1(p);
+        p = QPointF(pointOnLos.x(), pointOnLos.y());
+        currentInterpolationState.endSideToLoS.setP2(p);
+    }
+    return true;
+}
+
+void CGALGeometryConnector::setCurrentStepPrecision()
+{
+    auto fL = currentSegmentInInterpolation->getFirstLineOfSightFromStart();
+    auto sL = currentSegmentInInterpolation->getSecondLineOfSightFromStart();
+    double currentAngle = getDegreeAngleBetweenLoS(
+        currentSegmentInInterpolation->getPivotPoint()->getPoint(),
+        fL->getPointOnStartSide(),
+        sL->getPointOnStartSide()
+    );
+    currentStepPrecision = 1 / (2 * currentAngle);
+}
+
+double CGALGeometryConnector::getDegreeAngleBetweenLoS(Point pivotPoint, Point pOnFirstLoS, Point pOnSecondLoS)
+{
+    Line firstToPivot = Line(pOnFirstLoS, pivotPoint);
+    boost::variant<Point, bool> result = minMaxCalculator->getGeometryUtil().
+            getPerpendicularIntersectionPoint(firstToPivot, pOnSecondLoS);
+    if (result.type() == typeid(bool)) {
+        return 0;
+    }
+    double d1 = sqrt(CGAL::squared_distance(pivotPoint, boost::get<Point>(result)));
+    double d2 = sqrt(CGAL::squared_distance(pivotPoint, pOnSecondLoS));
+    double cosValue = d1 / d2;
+    return acos(cosValue) * 180 / M_PI;
 }
