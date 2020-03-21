@@ -1,7 +1,6 @@
 QT += testlib
 QT -= gui
 
-QMAKE_CXXFLAGS += -frounding-math
 DEFINES+=CGAL_DISABLE_ROUNDING_MATH_CHECK=ON
 
 CONFIG += qt console warn_on depend_includepath testcase
@@ -18,6 +17,7 @@ DEPENDPATH += $$PWD/../VisibilityProblemLibrary
 PRE_TARGETDEPS += $$OUT_PWD/../VisibilityProblemLibrary/libVisibilityProblemLibrary.a
 
 unix:!macx {
+    QMAKE_CXXFLAGS += -frounding-math
     LIBS += -lboost_system
     LIBS += -lboost_thread
     LIBS += -lmpfr
