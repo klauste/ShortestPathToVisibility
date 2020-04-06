@@ -159,7 +159,7 @@ namespace SPV {
         /**
          * @brief handleTriangleBeyondLastEdge is a function to handle an edge case which is not described in
          * https://graphics.stanford.edu/courses/cs268-09-winter/notes/handout7.pdf. The edge case occurs if
-         * the next point to be handled does not split the funnel, but is located such, that is has to be
+         * the next point to be handled does not split the funnel, but is located such, that it has to be
          * added to either the left or the right funnel
          *
          * @param nextFace
