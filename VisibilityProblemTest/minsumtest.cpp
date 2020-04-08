@@ -1190,3 +1190,79 @@ void MinSumTest::minSumTest26()
 
     delete minSumCalculator;
 }
+
+void MinSumTest::minSumTest27()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(3.0, 7.0));
+    polygon.push_back(Point(6.0, 7.0));
+    polygon.push_back(Point(7.0, 5.0));
+    polygon.push_back(Point(9.0, 4.0));
+    polygon.push_back(Point(11.0, 5.0));
+    polygon.push_back(Point(12.0, 7.0));
+    polygon.push_back(Point(15.0, 7.0));
+    polygon.push_back(Point(15.0, 2.0));
+    polygon.push_back(Point(3.0, 2.0));
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(6.0, 6.0), Point(12.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
+    QCOMPARE((int) minima.size(), 2);
+    auto min = minima.at(0);
+    double distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 3.57771), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(5.8, 5.6)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(10.6, 3.2)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(3, 7)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(13, 2)), true);
+    QCOMPARE(min->getIsInDiscArea(), false);
+
+    min = minima.at(1);
+    distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 3.57771), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(7.4, 3.2)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(12.2, 5.6)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(5, 2)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(15, 7)), true);
+    QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
+}
+
+void MinSumTest::minSumTest28()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(3.0, 7.0));
+    polygon.push_back(Point(6.0, 7.0));
+    polygon.push_back(Point(7.0, 5.0));
+    polygon.push_back(Point(9.0, 4.0));
+    polygon.push_back(Point(11.0, 5.0));
+    polygon.push_back(Point(12.0, 7.0));
+    polygon.push_back(Point(15.0, 7.0));
+    polygon.push_back(Point(15.0, 2.0));
+    polygon.push_back(Point(3.0, 2.0));
+    minSumCalculator = new SPV::MinSumCalculator(polygon, Point(12.0, 6.0), Point(6.0, 6.0));
+    minSumCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minSumCalculator->getAllMinima();
+
+    QCOMPARE((int) minima.size(), 2);
+    auto min = minima.at(0);
+    double distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 3.57771), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(7.4, 3.2)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(12.2, 5.6)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(5, 2)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(15, 7)), true);
+    QCOMPARE(min->getIsInDiscArea(), false);
+
+    min = minima.at(1);
+    distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 3.57771), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(5.8, 5.6)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(10.6, 3.2)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(3, 7)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(13, 2)), true);
+    QCOMPARE(min->getIsInDiscArea(), false);
+
+    delete minSumCalculator;
+}

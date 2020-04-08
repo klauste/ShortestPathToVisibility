@@ -46,5 +46,7 @@ private slots:
     void minMaxTest18();
     void minMaxTest19();
     void minMaxTest20();
+    void minMaxTest21();
+    void minMaxTest22();
 };
 #endif // MINMAXTEST_H
