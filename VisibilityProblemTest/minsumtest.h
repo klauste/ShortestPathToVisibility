@@ -54,5 +54,7 @@ private slots:
     void minSumTest26();
     void minSumTest27();
     void minSumTest28();
+    void minSumTest29();
+    void minSumTest30();
 };
 #endif // MINSUMTEST_H
