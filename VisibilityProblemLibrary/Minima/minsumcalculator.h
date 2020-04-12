@@ -43,15 +43,6 @@ namespace SPV {
          * @return
          */
         bool handleLocalMinimumAtPivotPoint();
-
-        /**
-         * @brief getFurthestPointOnBoundary finds intersection of the line of sight with the polygon
-         * boundary which is furthest away from the pivot point
-         * @param onStartSide
-         * @param firstLoS
-         * @return
-         */
-        Point getFurthestPointOnBoundary(bool onStartSide, bool firstLoS);
     };
 }
 #endif // MINSUMCALCULATOR_H

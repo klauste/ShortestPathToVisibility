@@ -190,3 +190,44 @@ void SPV::BaseCalculator::handleNewGlobalMinimum (
 std::vector<std::shared_ptr<SPV::Minimum>> SPV::BaseCalculator::getAllMinima() {
     return allMinima;
 }
+
+Point SPV::BaseCalculator::getFurthestPointOnBoundary(bool onStartSide, bool firstLoS)
+{
+    bool hasNeighbor = false;
+    Point pivotPoint = currentEventSegment->getPivotPoint()->getPoint();
+    Point currentPoint, otherPotentialPoint;
+    std::shared_ptr<LineOfSight> loS, neighborLoS;
+
+    if (firstLoS) {
+        loS = currentEventSegment->getFirstLineOfSightFromStart();
+        if (currentEventSegment->hasPredecessor()) {
+            hasNeighbor = true;
+            neighborLoS = currentEventSegment->getPredecessor()->getSecondLineOfSightFromStart();
+        }
+    } else {
+        loS = currentEventSegment->getSecondLineOfSightFromStart();
+        if (currentEventSegment->hasSuccessor()) {
+            hasNeighbor = true;
+            neighborLoS = currentEventSegment->getSuccessor()->getFirstLineOfSightFromStart();
+        }
+    }
+    if (onStartSide) {
+        currentPoint = loS->getPointOnStartSide();
+        // If this is not a vertex, it is already furthest on the boundary
+        if (!loS->isStartPointVertex() || !hasNeighbor) {
+            return currentPoint;
+        }
+        otherPotentialPoint = neighborLoS->getPointOnStartSide();
+    } else {
+        currentPoint = loS->getPointOnEndSide();
+        // If this is not a vertex, it is already furthest on the boundary
+        if (!loS->isEndPointVertex() || !hasNeighbor) {
+            return currentPoint;
+        }
+        otherPotentialPoint = neighborLoS->getPointOnEndSide();
+    }
+    if (CGAL::squared_distance(pivotPoint, otherPotentialPoint) > CGAL::squared_distance(pivotPoint, currentPoint)) {
+        return otherPotentialPoint;
+    }
+    return currentPoint;
+}

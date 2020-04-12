@@ -162,7 +162,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
                 finalSegmentFound = true;
             }
         }
-        oppositePointOnBoundary = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide();
+        oppositePointOnBoundary = getFurthestPointOnBoundary(false, false);
         oppositePointOnLoS = getIntersectionPointOnLoS(oppositePointOnBoundary, false);
         totalDistance = currentEventSegment->getDistanceToLastVertex(true);
         distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(false) +
@@ -172,7 +172,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
             totalDistance,
             pivotPoint,
             oppositePointOnLoS,
-            currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide(),
+            getFurthestPointOnBoundary(true, false),
             oppositePointOnBoundary
         );
         auto min = allMinima.at(0);
@@ -200,7 +200,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
                 finalSegmentFound = true;
             }
         }
-        oppositePointOnBoundary = currentEventSegment->getFirstLineOfSightFromStart()->getPointOnStartSide();
+        oppositePointOnBoundary = getFurthestPointOnBoundary(true, true);
         oppositePointOnLoS = getIntersectionPointOnLoS(oppositePointOnBoundary, true);
         totalDistance = currentEventSegment->getDistanceToLastVertex(false);
         distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(true) +
@@ -211,7 +211,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
             oppositePointOnLoS,
             pivotPoint,
             oppositePointOnBoundary,
-            currentEventSegment->getFirstLineOfSightFromStart()->getPointOnEndSide()
+            getFurthestPointOnBoundary(false, true)
         );
         auto min = allMinima.at(0);
         min->setIsInDiscArea(true);

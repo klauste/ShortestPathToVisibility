@@ -167,6 +167,14 @@ namespace SPV {
             bool calculateMinimumSector = false
         );
 
+        /**
+         * @brief getFurthestPointOnBoundary finds intersection of the line of sight with the polygon
+         * boundary which is furthest away from the pivot point
+         * @param onStartSide
+         * @param firstLoS
+         * @return
+         */
+        Point getFurthestPointOnBoundary(bool onStartSide, bool firstLoS);
     private:
         /**
          * @brief setMinimumDetails sets the details of a minimum

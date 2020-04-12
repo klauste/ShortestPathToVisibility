@@ -218,6 +218,10 @@ void MainWindow::addTestDataButtons()
     testData6Button->setEnabled(true);
     connect(testData6Button, SIGNAL(triggered()), this, SLOT(testData6ButtonClicked()));
 
+    testData7Button = new QAction("Test data 7", this);
+    testData7Button->setEnabled(true);
+    connect(testData7Button, SIGNAL(triggered()), this, SLOT(testData7ButtonClicked()));
+
     QMenu *testDataMenu = menuBar()->addMenu("Load test data");
     testDataMenu->addAction(testData1Button);
     testDataMenu->addAction(testData2Button);
@@ -225,6 +229,7 @@ void MainWindow::addTestDataButtons()
     testDataMenu->addAction(testData4Button);
     testDataMenu->addAction(testData5Button);
     testDataMenu->addAction(testData6Button);
+    testDataMenu->addAction(testData7Button);
 }
 
 void MainWindow::pathEventsButtonClicked()
@@ -318,6 +323,11 @@ void MainWindow::testData5ButtonClicked()
 void MainWindow::testData6ButtonClicked()
 {
     scene.setTestData(6);
+}
+
+void MainWindow::testData7ButtonClicked()
+{
+    scene.setTestData(7);
 }
 
 void MainWindow::minMaxButtonClicked()
@@ -493,6 +503,7 @@ void MainWindow::toggleButtonsForAnimation(bool enabled)
     testData4Button->setEnabled(enabled);
     testData5Button->setEnabled(enabled);
     testData6Button->setEnabled(enabled);
+    testData7Button->setEnabled(enabled);
     resetButton->setEnabled(enabled);
     animateButton->setEnabled(enabled);
 }
