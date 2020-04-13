@@ -823,3 +823,121 @@ void MinMaxTest::minMaxTest26()
     QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.82186), true);
     delete minMaxCalculator;
 }
+
+void MinMaxTest::minMaxTest27()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(2.0, 9.0));
+    polygon.push_back(Point(6.0, 9.0));
+    polygon.push_back(Point(6.0, 7.0));
+    polygon.push_back(Point(4.0, 6.0));
+    polygon.push_back(Point(7.0, 6.0));
+    polygon.push_back(Point(7.0, 1.0));
+    polygon.push_back(Point(3.0, 1.0));
+    polygon.push_back(Point(3.0, 3.0));
+    polygon.push_back(Point(6.0, 4.0));
+    polygon.push_back(Point(2.0, 4.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(5.1, 8.0), Point(4.0, 3.0));
+    minMaxCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
+
+    QCOMPARE((int) minima.size(), 1);
+    auto min = minima.at(0);
+    double distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 2.23607), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(3.55, 6.45)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(6.0, 4.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(7.0, 3.0)), true);
+    QCOMPARE(min->getIsInDiscArea(), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.04404), true);
+    delete minMaxCalculator;
+}
+
+void MinMaxTest::minMaxTest28()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(2.0, 9.0));
+    polygon.push_back(Point(6.0, 9.0));
+    polygon.push_back(Point(6.0, 7.0));
+    polygon.push_back(Point(4.0, 6.0));
+    polygon.push_back(Point(7.0, 6.0));
+    polygon.push_back(Point(7.0, 1.0));
+    polygon.push_back(Point(3.0, 1.0));
+    polygon.push_back(Point(3.0, 3.0));
+    polygon.push_back(Point(6.0, 4.0));
+    polygon.push_back(Point(2.0, 4.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(4.0, 3.0), Point(5.1, 8.0));
+    minMaxCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
+
+    QCOMPARE((int) minima.size(), 1);
+    auto min = minima.at(0);
+    double distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 2.23607), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(3.55, 6.45)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(6.0, 4.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(7.0, 3.0)), true);
+    QCOMPARE(min->getIsInDiscArea(), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.04404), true);
+    delete minMaxCalculator;
+}
+
+void MinMaxTest::minMaxTest29()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(1.0, 8.0));
+    polygon.push_back(Point(5.0, 8.0));
+    polygon.push_back(Point(6.0, 4.0));
+    polygon.push_back(Point(7.0, 8.0));
+    polygon.push_back(Point(11.0, 8.0));
+    polygon.push_back(Point(11.0, 2.0));
+    polygon.push_back(Point(4.0, 2.0));
+    polygon.push_back(Point(4.0, 6.0));
+    polygon.push_back(Point(1.0, 6.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(3.5, 7.0), Point(6.7, 4.6));
+    minMaxCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
+
+    QCOMPARE((int) minima.size(), 1);
+    auto min = minima.at(0);
+    double distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 0.89377), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(3.52,6.52)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(6.0, 4.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(8.0, 2.0)), true);
+    QCOMPARE(min->getIsInDiscArea(), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.56569), true);
+    delete minMaxCalculator;
+}
+
+void MinMaxTest::minMaxTest30()
+{
+    polygon = Polygon();
+    polygon.push_back(Point(1.0, 8.0));
+    polygon.push_back(Point(5.0, 8.0));
+    polygon.push_back(Point(6.0, 4.0));
+    polygon.push_back(Point(7.0, 8.0));
+    polygon.push_back(Point(11.0, 8.0));
+    polygon.push_back(Point(11.0, 2.0));
+    polygon.push_back(Point(4.0, 2.0));
+    polygon.push_back(Point(4.0, 6.0));
+    polygon.push_back(Point(1.0, 6.0));
+    minMaxCalculator = new SPV::MinMaxCalculator(polygon, Point(6.7, 4.6), Point(3.5, 7.0));
+    minMaxCalculator->calculateMinima();
+    std::vector<std::shared_ptr<SPV::Minimum>> minima = minMaxCalculator->getAllMinima();
+
+    QCOMPARE((int) minima.size(), 1);
+    auto min = minima.at(0);
+    double distance = min->getDistance();
+    QCOMPARE(gU.valuesAreEqual(distance, 0.89377), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(3.52,6.52)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(6.0, 4.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(8.0, 2.0)), true);
+    QCOMPARE(min->getIsInDiscArea(), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.56569), true);
+    delete minMaxCalculator;
+}

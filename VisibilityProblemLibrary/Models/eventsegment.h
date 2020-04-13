@@ -303,7 +303,7 @@ namespace SPV {
         /**
          * @brief getDistanceToLastVertex returns the distance of the shortest path from
          * either the start or end point to the last vertex of the polygon before the lines
-         * of sight in this segement are reached
+         * of sight in this segment are reached
          * @param onStartSide
          * @return
          */
