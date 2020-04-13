@@ -17,12 +17,81 @@ void SPV::MinMaxCalculator::calculateMinima()
             minimumFound = true;
             handleMinimum();
         }
+        // Check if there is a sudden change in distance between events, and if
+        // the solution occurs there
+        if (handleMinimumWithSuddenDistanceChange()) {
+            minimumFound = true;
+        }
         if (currentEventSegment->hasSuccessor()) {
             currentEventSegment = currentEventSegment->getSuccessor();
         } else {
             break;
         }
     }
+}
+
+bool SPV::MinMaxCalculator::handleMinimumWithSuddenDistanceChange()
+{
+    if (currentEventSegment->hasSuccessor()) {
+        Point pointOnStartSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnStartSide();
+        Point pointOnEndSide = currentEventSegment->getSecondLineOfSightFromStart()->getPointOnEndSide();
+        double distanceFromStart = currentEventSegment->getDistanceToLastVertex(true);
+        double distanceFromEnd = currentEventSegment->getDistanceToLastVertex(false);
+
+        Point intersectionOnStartSide = getIntersectionPointOnLoS(pointOnStartSide, true);
+        double extraDistanceOnStartSide = getDistanceToIntersectionPoint(intersectionOnStartSide, true);
+
+        Point intersectionOnEndSide = getIntersectionPointOnLoS(pointOnEndSide, false);
+        double extraDistanceOnEndSide = getDistanceToIntersectionPoint(intersectionOnEndSide, false);
+
+        EventSegment *successor = currentEventSegment->getSuccessor();
+        EventSegment *current = currentEventSegment;
+
+        double nextDistanceFromStart = successor->getDistanceToLastVertex(true);
+        double nextDistanceFromEnd = successor->getDistanceToLastVertex(false);
+
+        // Need to get the intersection on the next event segment. The easiest way to do that
+        // is to set this->currentEventSegment to the successor and then reset it later on
+        currentEventSegment = successor;
+        Point nextPointOnStartSide = successor->getFirstLineOfSightFromStart()->getPointOnStartSide();
+        Point nextIntersectionOnStartSide = getIntersectionPointOnLoS(nextPointOnStartSide, true);
+        double nextExtraDistanceOnStartSide = getDistanceToIntersectionPoint(nextIntersectionOnStartSide, true);
+
+        Point nextPointOnEndSide = successor->getFirstLineOfSightFromStart()->getPointOnEndSide();
+        Point nextIntersectionOnEndSide = getIntersectionPointOnLoS(nextPointOnEndSide, false);
+        double nextExtraDistanceOnEndSide = getDistanceToIntersectionPoint(nextIntersectionOnEndSide, false);
+
+        // Important: reset this->currentEventSegment!!
+        currentEventSegment = current;
+
+        // If there is a sudden change of distance between the events, is the solution there?
+        if (distanceFromStart + extraDistanceOnStartSide < distanceFromEnd + extraDistanceOnEndSide &&
+                nextDistanceFromStart + nextExtraDistanceOnStartSide > nextDistanceFromEnd + nextExtraDistanceOnEndSide) {
+            double minFromStart = distanceFromStart + extraDistanceOnStartSide;
+            double minFromEnd = nextDistanceFromEnd + nextExtraDistanceOnEndSide;
+            double globalMinMax = minFromStart;
+            double radius = minFromStart - minFromEnd;
+            bool discOnStartSide = false;
+            if (minFromEnd > minFromStart) {
+                globalMinMax = minFromEnd;
+                radius = minFromEnd - minFromStart;
+                discOnStartSide = true;
+            }
+            handleNewGlobalMinimum(
+                globalMinMax,
+                intersectionOnStartSide,
+                nextIntersectionOnEndSide,
+                pointOnStartSide,
+                nextPointOnEndSide
+            );
+            auto min = allMinima.at(0);
+            min->setIsInDiscArea(true);
+            min->setDiscRadius(radius);
+            min->setDiscOnStartSide(discOnStartSide);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool SPV::MinMaxCalculator::isMinimumInCurrentSegment()

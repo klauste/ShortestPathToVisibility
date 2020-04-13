@@ -903,9 +903,9 @@ void MinMaxTest::minMaxTest29()
     QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
-    QCOMPARE(gU.valuesAreEqual(distance, 0.89377), true);
-    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(3.52,6.52)), true);
-    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(6.0, 4.0)), true);
+    QCOMPARE(gU.valuesAreEqual(distance, 0.91924), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(3.25, 6.75)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(6.05, 3.95)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(8.0, 2.0)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
@@ -932,9 +932,9 @@ void MinMaxTest::minMaxTest30()
     QCOMPARE((int) minima.size(), 1);
     auto min = minima.at(0);
     double distance = min->getDistance();
-    QCOMPARE(gU.valuesAreEqual(distance, 0.89377), true);
-    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(3.52,6.52)), true);
-    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(6.0, 4.0)), true);
+    QCOMPARE(gU.valuesAreEqual(distance, 0.91924), true);
+    QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnLoS(), Point(3.25,6.75)), true);
+    QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnLoS(), Point(6.05, 3.95)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(8.0, 2.0)), true);
     QCOMPARE(min->getIsInDiscArea(), true);

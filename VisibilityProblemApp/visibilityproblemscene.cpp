@@ -693,5 +693,20 @@ void VisibilityProblemScene::setTestData(int numberOfTest)
             handleStartOrEndPoint(QPointF(testDataScaleFactor * 5.0, testDataScaleFactor * 7.0));
             handleStartOrEndPoint(QPointF(testDataScaleFactor * 4.0, testDataScaleFactor * 3.0));
             break;
+
+        case 8 :
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 1.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 5.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 6.0,  testDataScaleFactor * 4.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 7.0,  testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 11.0, testDataScaleFactor * 8.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 11.0, testDataScaleFactor * 2.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 4.0,  testDataScaleFactor * 2.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 4.0,  testDataScaleFactor * 6.0));
+            handleNewPointForPolygon(QPointF(testDataScaleFactor * 1.0,  testDataScaleFactor * 6.0));
+            closePolyline();
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 3.5, testDataScaleFactor * 7.0));
+            handleStartOrEndPoint(QPointF(testDataScaleFactor * 6.7, testDataScaleFactor * 4.6));
+            break;
     }
 }

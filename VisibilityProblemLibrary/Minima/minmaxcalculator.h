@@ -31,6 +31,15 @@ namespace SPV {
             void handleMinimum();
 
             /**
+             * Checks if the there is a sudden change in the distance, when moving from
+             * one event segment to the other. If there is and the minimum is within that
+             * distance change, handle the minimum and return true. Otherwise return false.
+             * @brief handleMinimumWithSuddenDistanceChange
+             * @return
+             */
+            bool handleMinimumWithSuddenDistanceChange();
+
+            /**
              * @brief handleMinimumAtPivotPoint handles a minimum at a pivot point
              * @return
              */

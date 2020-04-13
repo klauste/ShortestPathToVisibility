@@ -56,6 +56,7 @@ private slots:
     void testData5ButtonClicked();
     void testData6ButtonClicked();
     void testData7ButtonClicked();
+    void testData8ButtonClicked();
 
     void scaleFactorThirtyClicked();
     void scaleFactorFortyClicked();
@@ -113,6 +114,7 @@ private:
     QAction *testData5Button;
     QAction *testData6Button;
     QAction *testData7Button;
+    QAction *testData8Button;
 
     void addMenuItems();
     void addEventButtons();
