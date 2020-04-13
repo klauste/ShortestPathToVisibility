@@ -543,7 +543,7 @@ void MinMaxTest::minMaxTest17()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(21, 5.2)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(11.9231, 3.3846)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
-    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 7.2507), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 7.68926), true);
 
     delete minMaxCalculator;
 }
@@ -594,7 +594,7 @@ void MinMaxTest::minMaxTest18()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(21, 5.2)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(11.9231, 3.3846)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
-    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 7.2507), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 7.68926), true);
 
     delete minMaxCalculator;
 }
@@ -850,7 +850,7 @@ void MinMaxTest::minMaxTest27()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(7.0, 3.0)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
-    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.04404), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 2.23607), true);
     delete minMaxCalculator;
 }
 
@@ -880,7 +880,7 @@ void MinMaxTest::minMaxTest28()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(7.0, 3.0)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
-    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.04404), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 2.23607), true);
     delete minMaxCalculator;
 }
 
@@ -909,7 +909,7 @@ void MinMaxTest::minMaxTest29()
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(8.0, 2.0)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
-    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.56569), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.91924), true);
     delete minMaxCalculator;
 }
 
@@ -938,6 +938,6 @@ void MinMaxTest::minMaxTest30()
     QCOMPARE(gU.pointsAreEqual(min->getEndSideIntersectionOnEdge(), Point(2.0, 8.0)), true);
     QCOMPARE(gU.pointsAreEqual(min->getStartSideIntersectionOnEdge(), Point(8.0, 2.0)), true);
     QCOMPARE(min->getIsInDiscArea(), true);
-    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.56569), true);
+    QCOMPARE(gU.valuesAreEqual(min->getDiscRadius(), 0.91924), true);
     delete minMaxCalculator;
 }

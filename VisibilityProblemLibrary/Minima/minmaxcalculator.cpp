@@ -70,11 +70,11 @@ bool SPV::MinMaxCalculator::handleMinimumWithSuddenDistanceChange()
             double minFromStart = distanceFromStart + extraDistanceOnStartSide;
             double minFromEnd = nextDistanceFromEnd + nextExtraDistanceOnEndSide;
             double globalMinMax = minFromStart;
-            double radius = minFromStart - minFromEnd;
+            double radius = minFromStart - nextDistanceFromEnd;
             bool discOnStartSide = false;
             if (minFromEnd > minFromStart) {
                 globalMinMax = minFromEnd;
-                radius = minFromEnd - minFromStart;
+                radius = minFromEnd - distanceFromStart;
                 discOnStartSide = true;
             }
             handleNewGlobalMinimum(
@@ -234,8 +234,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
         oppositePointOnBoundary = getFurthestPointOnBoundary(false, false);
         oppositePointOnLoS = getIntersectionPointOnLoS(oppositePointOnBoundary, false);
         totalDistance = currentEventSegment->getDistanceToLastVertex(true);
-        distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(false) +
-                getDistanceToIntersectionPoint(oppositePointOnLoS, false);
+        distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(false);
 
         handleNewGlobalMinimum(
             totalDistance,
@@ -272,8 +271,7 @@ bool SPV::MinMaxCalculator::handleMinimumAtPivotPoint()
         oppositePointOnBoundary = getFurthestPointOnBoundary(true, true);
         oppositePointOnLoS = getIntersectionPointOnLoS(oppositePointOnBoundary, true);
         totalDistance = currentEventSegment->getDistanceToLastVertex(false);
-        distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(true) +
-                getDistanceToIntersectionPoint(oppositePointOnLoS, true);
+        distanceOnOppositeSide = currentEventSegment->getDistanceToLastVertex(true);
 
         handleNewGlobalMinimum(
             totalDistance,

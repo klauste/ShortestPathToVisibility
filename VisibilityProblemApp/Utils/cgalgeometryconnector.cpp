@@ -157,9 +157,9 @@ void CGALGeometryConnector::setMinima()
             newMin->radius = min->getDiscRadius();
             Point cP;
             if (min->isDiscOnStartSide()) {
-                cP = min->getStartSideIntersectionOnLoS();
+                cP = minMaxCalculator->getLastPointBeforeLoS(min->getEventSegment(), true);
             } else {
-                cP = min->getEndSideIntersectionOnLoS();
+                cP = minMaxCalculator->getLastPointBeforeLoS(min->getEventSegment(), false);
             }
             newMin->centerPoint = QPointF(cP.x(), cP.y());
         }
