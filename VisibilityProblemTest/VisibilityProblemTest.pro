@@ -22,7 +22,7 @@ unix:!macx {
     LIBS += -lboost_thread
     LIBS += -lmpfr
     LIBS += -lgmp
-    LIBS += -lCGAL -lCGAL_Core -lCGAL_ImageIO
+    LIBS += -lCGAL -lCGAL_Core
 }
 
 macx {

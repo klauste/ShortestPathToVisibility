@@ -29,15 +29,14 @@ DEFINES+=CGAL_DISABLE_ROUNDING_MATH_CHECK=ON
 unix:!macx {
     QMAKE_CXXFLAGS += -frounding-math
     LIBS += -lboost_system -lboost_thread -lgmp
-    LIBS += -lCGAL -lCGAL_Core -lCGAL_ImageIO
+    LIBS += -lCGAL -lCGAL_Core
     target.path = /usr/lib
     INSTALLS += target
 }
 
 macx {
-    LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL
-    LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL_Core
-    LIBS += -L$$PWD/../../../../../../usr/local/lib/ -lCGAL_ImageIO
+    LIBS += -L$$PWD/../../../../../../usr/local/opt/cgal/lib/ -lCGAL
+    LIBS += -L$$PWD/../../../../../../usr/local/opt/cgal/lib/ -lCGAL_Core
 
     INCLUDEPATH += /usr/local/include
 
