@@ -55,7 +55,7 @@ In the macBuild folder, I've added a dmg file which can be run on macOS Catalina
 
 `cd <pathToYourBuildFolder>/VisibilityProblemApp/`
 
-`<pathToQt>/bin/macdeployqt VisibilityProblemApp.app -always-overwrite-appstore-compliant -dmg`
+`<pathToQt>/bin/macdeployqt VisibilityProblemApp.app -always-overwrite -appstore-compliant -dmg`
 
 #### Installation on other operating systems
 
