@@ -45,7 +45,7 @@ In macOS Catalina you need to install Qt (free version can be found [here](https
 
 * mpfr
 
-After cloning this repository and modifying the .pro files to adjust for different libary paths (e.g. [here]( https://github.com/klauste/ShortestPathToVisibility/blob/master/VisibilityProblemLibrary/VisibilityProblemLibrary.pro#L35)) you should be able to compile and run the programme with clang in QtCreator.
+After cloning this repository and modifying the .pro files to adjust for different libary paths (e.g. [here]( https://github.com/klauste/ShortestPathToVisibility/blob/master/VisibilityProblemLibrary/VisibilityProblemLibrary.pro#L38)) you should be able to compile and run the programme with clang in QtCreator.
 
 In the macBuild folder, I've added a dmg file which can be run on macOS Catalina and macOS Mojave (and possibly other versions of macOS). In order to build a dmg file from the source code you need to do the following:
 
