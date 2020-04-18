@@ -13,7 +13,7 @@ If you find any errors or have any questions about this project, you can write t
 
 If you don't understand the code, it might be because my programming skills are lacking or because the algorithm is pretty complicated. It's probably best to read my thesis [Paarweise Sichtbarkeit in Polygonen](https://github.com/klauste/ShortestPathToVisibility/blob/master/MasterArbeitFinal.pdf) before trying to understand the code. The only problem is that the thesis is written in German. If you don't speak German, this might be a great motivator to learn it.
 
-I've compiled and run the programme on macOS Catalina and Ubuntu 18.04. If you want to run it on your machine I recommend using Ubuntu 18.04 as the installation of required third party libraries is much simpler. If you don't have Ubuntu 18.04, you can run it by installing the [Ubuntu Image](http://releases.ubuntu.com/18.04/) on [VirtualBox](https://www.virtualbox.org/)
+I've compiled and run the program on macOS Catalina and Ubuntu 18.04. If you want to run it on your machine I recommend using Ubuntu 18.04 as the installation of required third party libraries is much simpler. If you don't have Ubuntu 18.04, you can run it by installing the [Ubuntu Image](http://releases.ubuntu.com/18.04/) on [VirtualBox](https://www.virtualbox.org/)
 
 #### Installation on Ubuntu
 
